@@ -21,7 +21,7 @@ export const useSizeStore = defineStore('size', () => {
 
   const getSizeDatas = ref( async () => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/size`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/size`
     try {
       let response = await axios.get(apiURL)
       if (response) {
@@ -37,7 +37,7 @@ export const useSizeStore = defineStore('size', () => {
   const editSize = ref( async (size, type, target) => {
     isLoading.value = true
     
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/size/${type}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/size/${type}`
     const token = getToken.value()
     if (typeof size.active == String) { 
       size.active = size.active == 'true'

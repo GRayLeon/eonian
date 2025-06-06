@@ -45,7 +45,7 @@ export const useProjectStore = defineStore('project', () => {
     order = order? `&sortOrder=${order}` : ''
 
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/project?${status}${category}${sort}${order}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/project?${status}${category}${sort}${order}`
     try {
       let response = await axios.get(apiURL)
       if (response) {
@@ -125,7 +125,7 @@ export const useProjectStore = defineStore('project', () => {
       formData.append("updateProjectImages", JSON.stringify(updateArray))
     }
     
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/project/${type}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/project/${type}`
     const token = getToken.value()
     try {
       let response = await axios.post(apiURL, formData, {
@@ -146,7 +146,7 @@ export const useProjectStore = defineStore('project', () => {
 
   const deleteProject = ref( async id => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/project/${id}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/project/${id}`
     const token = getToken.value()
     try {
       let response = await axios.delete(apiURL, {

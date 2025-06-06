@@ -21,7 +21,7 @@ export const useCategoryStore = defineStore('category', () => {
 
   const getCategorys = ref( async () => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/category`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/category`
     try {
       let response = await axios.get(apiURL)
       if (response) {
@@ -37,7 +37,7 @@ export const useCategoryStore = defineStore('category', () => {
   const editCategory = ref( async (category, type, target) => {
     isLoading.value = true
     
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/category/${type}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/category/${type}`
     const token = getToken.value()
     if (typeof category.active == String) { 
       category.active = category.active == 'true'

@@ -63,7 +63,7 @@ export const usePagesStore = defineStore('pages', () => {
 
   const getPages = ref( async () => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/pages`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/pages`
     try {
       let response = await axios.get(apiURL)
       if (response) {
@@ -116,7 +116,7 @@ export const usePagesStore = defineStore('pages', () => {
       formData.append("updatePartnerImages", JSON.stringify(updatePartnerImageFile.value))
     }
     
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/pages/edit`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/pages/edit`
     const token = getToken.value()
     try {
       let response = await axios.post(apiURL, formData, {

@@ -21,7 +21,7 @@ export const useRegionStore = defineStore('region', () => {
 
   const getRegions = ref( async () => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/region`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/region`
     try {
       let response = await axios.get(apiURL)
       if (response) {
@@ -48,7 +48,7 @@ export const useRegionStore = defineStore('region', () => {
       formData.append("image", selectedFile)
     }
     
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/region/${type}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/region/${type}`
     const token = getToken.value()
     if (typeof region.active == String) { 
       region.active = region.active == 'true'
@@ -72,7 +72,7 @@ export const useRegionStore = defineStore('region', () => {
 
   const deleteRegion = ref( async id => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/region/${id}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/region/${id}`
     const token = getToken.value()
     try {
       let response = await axios.delete(apiURL, {

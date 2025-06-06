@@ -35,11 +35,14 @@ app.options('*', cors())
 // 提供前台（根目錄）
 app.use(express.static(path.join(__dirname, '../client/dist')))
 
-// 提供後台管理（/admin）
+// 提供 /admin 靜態資源
 app.use('/admin', express.static(path.join(__dirname, '../admin/dist')))
+
+// 提供 /admin SPA fallback（支援 Vue Router History 模式）
 app.get('/admin/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../admin/dist/index.html'))
 })
+
 
 // API 路由
 const productRouter = require('./routes/product')

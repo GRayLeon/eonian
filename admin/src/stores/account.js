@@ -23,7 +23,7 @@ export const useAccountStore = defineStore('account', () => {
 
   const getAccounts = ref( async () => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/auth`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/auth`
     const token = getToken.value()
     try {
       let response = await axios.get(apiURL, {
@@ -44,7 +44,7 @@ export const useAccountStore = defineStore('account', () => {
 
   const addAccount = ref( async account => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/auth/register`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/auth/register`
     const token = getToken.value()
     try {
       let response = await axios.post(apiURL, account, {
@@ -65,7 +65,7 @@ export const useAccountStore = defineStore('account', () => {
   const editAccount = ref( async (account, target) => {
     isLoading.value = true
     
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/auth/edit`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/auth/edit`
     const token = getToken.value()
     try {
       let response = await axios.post(apiURL, account, {
@@ -85,7 +85,7 @@ export const useAccountStore = defineStore('account', () => {
 
   const deleteAccount = ref( async account_id => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/auth/${account_id}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/auth/${account_id}`
     const token = getToken.value()
     try {
       let response = await axios.delete(apiURL, {

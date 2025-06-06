@@ -43,7 +43,7 @@ export const useInquiryStore = defineStore('inquiry', () => {
 
   const getInquiryDatas = ref( async () => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/inquiry`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/inquiry`
     try {
       let response = await axios.get(apiURL)
       if (response) {
@@ -58,7 +58,7 @@ export const useInquiryStore = defineStore('inquiry', () => {
 
   const editInquiry = ref( async inquiryInfo => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/inquiry/edit`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/inquiry/edit`
     const token = getToken.value()
     try {
       let response = await axios.post(apiURL, inquiryInfo, {
@@ -78,7 +78,7 @@ export const useInquiryStore = defineStore('inquiry', () => {
   })
 
   const downloadInquiry = ref( id => {
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/inquiry/download/${id}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/inquiry/download/${id}`
     window.open(apiURL, '_blank')
   })
 

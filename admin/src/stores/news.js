@@ -45,7 +45,7 @@ export const useNewsStore = defineStore('news', () => {
     order = order? `&sortOrder=${order}` : ''
 
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/news?${status}${category}${sort}${order}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/news?${status}${category}${sort}${order}`
     try {
       let response = await axios.get(apiURL)
       if (response) {
@@ -133,7 +133,7 @@ export const useNewsStore = defineStore('news', () => {
       formData.append("updateNewsImages", JSON.stringify(updateArray))
     }
     
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/news/${type}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/news/${type}`
     const token = getToken.value()
     try {
       let response = await axios.post(apiURL, formData, {
@@ -154,7 +154,7 @@ export const useNewsStore = defineStore('news', () => {
 
   const deleteNews = ref( async id => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/news/${id}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/news/${id}`
     const token = getToken.value()
     try {
       let response = await axios.delete(apiURL, {

@@ -48,7 +48,7 @@ export const useProductStore = defineStore('product', () => {
     order = order? `&sortOrder=${order}` : ''
 
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/product?${status}${category}${sort}${order}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/product?${status}${category}${sort}${order}`
     try {
       let response = await axios.get(apiURL)
       if (response) {
@@ -154,7 +154,7 @@ export const useProductStore = defineStore('product', () => {
       formData.append("updateColorImages", JSON.stringify(updateColorImageFile.value))
     }
     
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/product/${type}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/product/${type}`
     const token = getToken.value()
     try {
       let response = await axios.post(apiURL, formData, {
@@ -175,7 +175,7 @@ export const useProductStore = defineStore('product', () => {
 
   const deleteProduct = ref( async id => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/product/${id}`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/product/${id}`
     const token = getToken.value()
     try {
       let response = await axios.delete(apiURL, {

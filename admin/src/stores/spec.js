@@ -71,7 +71,7 @@ export const useSpecStore = defineStore('spec', () => {
 
   const getSpecDatas = ref( async () => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/spec`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/spec`
     try {
       let response = await axios.get(apiURL)
       if (response) {
@@ -100,7 +100,7 @@ export const useSpecStore = defineStore('spec', () => {
       formData.append("updateBrands", JSON.stringify(updateBrandFile))
     }
     
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/spec`
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/spec`
     const token = getToken.value()
     try {
       let response = await axios.post(apiURL, formData, {
