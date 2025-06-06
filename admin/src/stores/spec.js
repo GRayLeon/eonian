@@ -87,7 +87,6 @@ export const useSpecStore = defineStore('spec', () => {
 
   const editSpec = ref( async (spec, selectBrandFiles, updateBrandFile) => {
     isLoading.value = true
-    console.log(spec)
     const formData = new FormData()
     formData.append("origin", JSON.stringify(spec.origin))
     formData.append("appearance", JSON.stringify(spec.appearance))
