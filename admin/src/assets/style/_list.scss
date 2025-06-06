@@ -1,0 +1,120 @@
+.cardList {
+  display: table;
+  padding: 16px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 900;
+  background-color: #222;
+  li {
+    &:nth-child(n + 2) {
+      > div {
+        border-top: #555 1px solid;
+      }
+    }
+    a {
+      display: block;
+      color: white;
+      text-decoration: none;
+    }
+  }
+}
+
+.cardList li {
+  display: table-row;
+  width: 100%;
+  font-size: 14px;
+  cursor: pointer;
+  &:hover {
+    background-color: #333;
+  }
+  > div {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 16px;
+  }
+  &.head {
+    > div {
+      padding: 16px 16px 8px;
+      font-size: 12px;
+      color: #aaa;
+    }
+    &:hover {
+      background-color: transparent;
+    }
+  }
+  img {
+    width: 64px;
+    height: 32px;
+    object-fit: cover;
+    object-position: center;
+  }
+  .status {
+    span {
+      display: block;
+      width: 50px;
+      line-height: 25px;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      border: #666 1px solid;
+      border-radius: 24px;
+      &.draft {
+        border-style: dashed;
+      }
+      &.active {
+        color: white;
+        border-color: white;
+      }
+      &.archived {
+        text-decoration: line-through;
+      }
+    }
+  }
+  .description {
+    line-height: 20px;
+    color: #aaa;
+  }
+  .price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    span {
+      font-size: 12px;
+    }
+  }
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+}
+
+.pageList {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    font-size: 16px;
+    border: #444 1px solid;
+    color: #444;
+    cursor: pointer;
+    &:hover, &.active {
+      color: white;
+      background-color: #333;
+    }
+  }
+}

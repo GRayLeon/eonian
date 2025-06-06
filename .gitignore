@@ -1,0 +1,11 @@
+# Node modules
+**/node_modules
+# Vite / Vue
+dist
+# Env files
+*.env
+# Logs
+logs
+*.log
+# OS files
+.DS_Store

@@ -1,0 +1,60 @@
+{
+  "title": {
+    "product": "產品一覽",
+    "project": "案例分享",
+    "brand": "代理品牌",
+    "news": "最新消息",
+    "about": "關於 Eonian",
+    "vision": "關於我們",
+    "partners": "合作夥伴",
+    "contact": "聯絡我們"
+  },
+  "spec": {
+    "shapes": "面狀",
+    "colors": "顏色",
+    "dimension": "尺寸",
+    "origin": "產地",
+    "colour": "顏色",
+    "slipResistance": "防滑係數",
+    "application": "應用",
+    "unit": "單位",
+    "amount": "數量",
+    "total": "合計"
+  },
+  "inquiry": {
+    "userType": "產業與職稱",
+    "topic": "洽詢主旨",
+    "question": "洽詢內容",
+    "firstName": "姓",
+    "lastName": "名",
+    "email": "聯絡信箱",
+    "number": "聯絡電話",
+    "subscribe": "我想收到來自 Eonian 的最新消息",
+    "send": "傳送",
+    "placeholder": {
+      "job": "請輸入職業別",
+      "topic": "請輸入主旨",
+      "message": "請輸入內容",
+      "firstName": "請輸入姓",
+      "lastName": "請輸入名",
+      "email": "請輸入信箱",
+      "number": "請輸入電話"
+    }
+  },
+  "link": {
+    "policy": "隱私權政策",
+    "notice": "法律聲明",
+    "terms": "使用條款"
+  },
+  "news": {
+    "all": "全部分類",
+    "coverage": "媒體報導",
+    "article": "期刊文章"
+  },
+  "button": {
+    "clear": "清除條件",
+    "more": "閱讀更多",
+    "download": "下載諮詢PDF",
+    "send": "傳送諮詢內容給業務"
+  }
+}

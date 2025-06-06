@@ -1,0 +1,146 @@
+.brandContent {
+    width: 100%;
+    max-width: 1200px;
+    padding: 72px 32px;
+    &__list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 24px;
+        li {
+            flex: 0 0 calc( 100%/3 - 24px*2/3 );
+            a {
+                display: block;
+            }
+            img {
+                width: 100%;
+                min-height: 200px;
+            }
+        }
+    }
+}
+
+.brandInsideContent {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    width: 100%;
+    padding: 72px 32px;
+    &__info {
+        width: 240px;
+        h2 {
+            font-size: 24px;
+        }
+    }
+    &__detail {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: calc( 100% - 240px - 360px - 40px*2 );
+        .section {
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            width: 100%;
+            img {
+                flex: 1;
+                min-width: 0;
+                min-height: 250px;
+            }
+            .articleLayout {
+                flex: 1;
+                display: flex;
+                gap: 16px;
+                min-width: 0;
+                &.image-top {
+                    flex-direction: column;
+                }
+                &.image-bottom {
+                    flex-direction: column-reverse;
+                }
+                &.image-left {
+                    flex-direction: row;
+                }
+                &.image-right {
+                    flex-direction: row-reverse;
+                }
+                img, .article {
+                    flex: 1;
+                    min-width: 0;
+                }
+                img {
+                    width: 100%;
+                    min-height: 250px;
+                    object-fit: cover;
+                    object-position: center;
+                }
+                .article {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    .title {
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+    &__description {
+        width: 360px;
+        .stickyCard {
+            position: sticky;
+            top: 85px;
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .brandContent {
+        gap: 16px;
+        padding: 16px 16px 32px;
+        &__list {
+            gap: 16px;
+            li {
+                flex: 0 0 calc( 50% - 16px/2 );
+                a {
+                    display: block;
+                }
+                img {
+                    width: 100%;
+                    min-height: 0;
+                }
+            }
+        }
+    }
+    .brandInsideContent {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 16px 32px;
+        &__info {
+            width: 100%;
+        }
+        &__detail {
+            gap: 16px;
+            width: 100%;
+            .section {
+                flex-direction: column;
+                gap: 16px;
+                .articleLayout {
+                    &.image-top, &.image-bottom, &.image-left, &.image-right {
+                        flex-direction: column;
+                        .text, img {
+                            width: 100%;
+                        }
+                        img {
+                            width: 100%;
+                            height: auto;
+                        }
+                    }
+                }
+            }
+        }
+        &__description {
+            width: 100%;
+        }
+    }
+}

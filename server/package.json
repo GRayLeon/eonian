@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "axios": "^1.9.0",
+    "bcrypt": "^5.1.1",
+    "cloudconvert": "^3.0.0",
+    "cloudinary": "^1.41.3",
+    "cors": "^2.8.5",
+    "docx-templates": "^4.14.1",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemon": "^3.1.7",
+    "rotating-file-stream": "^3.2.5"
+  },
+  "name": "memegaga",
+  "version": "1.0.0",
+  "description": "memegaga's backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon app.js"
+  },
+  "author": "G Ray Leon",
+  "license": "ISC"
+}

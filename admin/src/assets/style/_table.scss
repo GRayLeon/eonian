@@ -1,0 +1,79 @@
+.dataTable {
+  thead tr { 
+    border-bottom: #555 1px solid;
+    th {
+      font-size: 12px;
+      color: #aaa;
+    }
+  }
+  tr {
+    td {
+      color: white;
+    }
+    &.inactive {
+      td {
+        color: #666
+      }
+    }
+    &:nth-child(2n) {
+      td {
+        background-color: rgba(255,255,255, .05);
+      }
+    }
+  }
+  td, th {
+    padding: 16px;
+    text-align: left;
+  }
+  td {
+    font-size: 15px;
+    vertical-align: middle;
+    &.lastLogin {
+      font-size: 12px;
+    }
+    .tableButtonArea {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+    button {
+      padding: 4px 16px;
+      font-size: 12px;
+    }
+    .switchButton {
+      position: relative;
+      width: 30px;
+      height: 15px;
+      border-radius: 30px;
+      background-color: black;
+      cursor: pointer;
+      .button {
+        position: absolute;
+        top: 0;
+        left: 15px;
+        width: 15px;
+        height: 15px;
+        border-radius: 30px;
+        font-size: 12px;
+        line-height: 25px;
+        color: #aaa;
+        background-color: #333;
+      }
+      &.active {
+        justify-content: flex-start;
+        .button {
+          left: 0px;
+          color: #222;
+          background-color: #aaa;
+        }
+      }
+    }
+    &.image img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      object-position: center;
+    }
+  }
+}

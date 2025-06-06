@@ -1,0 +1,635 @@
+.filterArea {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  > * {
+    flex: 1;
+  }
+}
+.infoArea {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  .info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    .head {
+      font-size: 12px;
+      line-height: 20px;
+      color: #aaa;
+    }
+    span {
+      line-height: 36px;
+    }
+  }
+}
+.editArea {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    object-position: center;
+    border: #666 1px solid;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+}
+.inputItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
+  min-width: 275px;
+  border-radius: 8px;
+  border: #666 1px solid;
+  font-size: 18px;
+  color: white;
+  background-color: black;
+  &--column {
+    flex-direction: column;
+    padding: 16px;
+  }
+  .head {
+    width: 75px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #aaa;
+  }
+  input, select, textarea {
+    width: calc( 100% - 75px );
+    padding: 8px 0;
+    line-height: 20px;
+    border-radius: 0;
+    border: 0;
+    background-color: transparent;
+    outline: none;
+    &:disabled {
+      opacity: .5;
+    }
+  }
+  textarea {
+    height: 200px;
+    min-height: 200px;
+    color: white;
+  }
+  option {
+    text-align: left;
+  }
+  span {
+    display: block;
+    font-size: 16px;
+    line-height: 36px;
+    color: #aaa;
+  }
+  .sizeList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: calc( 100% - 75px );
+    padding: 8px 0;
+    .sizeinputItem {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding-bottom: 8px;
+      border-bottom: #222 1px solid;
+      &.inactive {
+        display: none;
+      }
+      &:last-child {
+        padding: 0;
+        border: 0;
+      }
+      input[type="checkbox"] {
+        display: none;
+        & + label {
+          padding: 0 32px;
+          color: #666;
+          border: #666 1px solid;
+          border-radius: 8px;
+          cursor: pointer;
+        }
+        &:checked + label {
+          color: white;
+          border: white 1px solid;
+        }
+      }
+      input[type="number"] {
+        min-width: 100px;
+      }
+      .countArea {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        height: 30px;
+      }
+      .subHead {
+        width: 48px;
+        text-align: right;
+        line-height: 20px;
+        font-size: 12px;
+        color: #aaa;
+      }
+    }
+    input[type="number"] {
+      width: 125px;
+      min-width: 125px;
+      padding: 0;
+      line-height: 20px;
+      border-bottom: #666 1px solid;
+    }
+  }
+  &:has(*:disabled) {
+    background-color: #111;
+    border-color: #444;
+    .sizeList {
+      opacity: .5;
+    }
+  }
+}
+.noImage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 250px;
+  padding: 24px;
+  border-radius: 8px;
+  border: #666 1px solid;
+  font-size: 20px;
+  font-weight: 900;
+}
+.imageSelect {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 8px 8px 16px;
+  min-width: 275px;
+  border-radius: 8px;
+  border: #666 1px solid;
+  font-size: 18px;
+  color: white;
+  background-color: black;
+  input[type="file"] {
+    display: none;
+  }
+  label {
+    padding: 4px 8px;
+    border-radius: 24px;
+    font-weight: 900;
+    border: #444 1px solid;
+    color: white;
+    font-size: 12px;
+    background-color: #333;
+    cursor: pointer;
+  }
+}
+.buttonArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
+  &--flex-start {
+    justify-content: flex-start;
+  }
+  button {
+    width: 125px;
+  }
+}
+
+.shapeList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc( 100% - 75px );
+  .shapeInputArea {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    padding: 8px 0;
+    border-bottom: #222 1px solid;
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+  .shapeInputItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    .subHead {
+      text-align: right;
+      line-height: 20px;
+      font-size: 12px;
+      color: #aaa;
+    }
+    .imgArea {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      .noImage, img {
+        width: 75px;
+        height: 75px;
+        object-fit: contain;
+        object-position: center;
+        font-size: 12px;
+        padding: 0;
+      }
+      button {
+        padding: 4px 8px;
+        border-radius: 24px;
+        font-weight: 900;
+        border: #444 1px solid;
+        color: white;
+        font-size: 12px;
+        background-color: #333;
+        cursor: pointer;
+      }
+    }
+    input {
+      width: 125px;
+      min-width: 125px;
+      &[type="text"], &[type="number"] {
+        padding: 0;
+        line-height: 20px;
+        border-bottom: #666 1px solid;
+      }
+    }
+  }
+  .shapeInputOption {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-right: 16px;
+    .shapeButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 24px;
+      font-weight: 900;
+      border: #444 1px solid;
+      color: #ccc;
+      background-color: #333;
+      cursor: pointer;
+    }
+  }
+}
+
+.partnerList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc( 100% - 75px );
+  .partnerInputArea {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    padding: 8px 0;
+    border-bottom: #222 1px solid;
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+  .partnerInputItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    .subHead {
+      text-align: right;
+      line-height: 20px;
+      font-size: 12px;
+      color: #aaa;
+    }
+    .imgArea {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      .noImage, img {
+        width: 200px;
+        height: 75px;
+        object-fit: contain;
+        object-position: center;
+        font-size: 12px;
+        padding: 0;
+      }
+      button {
+        padding: 4px 8px;
+        border-radius: 24px;
+        font-weight: 900;
+        border: #444 1px solid;
+        color: white;
+        font-size: 12px;
+        background-color: #333;
+        cursor: pointer;
+      }
+    }
+    input {
+      width: 125px;
+      min-width: 125px;
+      border: 0;
+      border-bottom: #555 1px solid;
+      border-radius: 0;
+      background-color: transparent;
+      outline: 0;
+      &[type="text"], &[type="number"] {
+        padding: 0;
+        line-height: 20px;
+        border-bottom: #666 1px solid;
+      }
+    }
+  }
+  .partnerInputOption {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-right: 16px;
+    .partnerButton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 24px;
+      font-weight: 900;
+      border: #444 1px solid;
+      color: #ccc;
+      background-color: #333;
+      cursor: pointer;
+    }
+  }
+}
+
+.tagListArea {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 75px);
+  .tagList {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: #333 1px solid;
+    .tagItem {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px 8px 16px;
+      border-radius: 24px;
+      font-weight: 900;
+      font-size: 14px;
+      border: #444 1px solid;
+      .tagButton {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+
+.inputImgArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 360px;
+  .noImage, img {
+    width: 75px !important;
+    height: 75px !important;
+    object-fit: contain;
+    object-position: center;
+    font-size: 12px;
+    padding: 0;
+  }
+  img {
+    background-color: white;
+  }
+  button {
+    padding: 4px 8px;
+    border-radius: 24px;
+    font-weight: 900;
+    border: #444 1px solid;
+    color: white;
+    font-size: 12px;
+    background-color: #333;
+    cursor: pointer;
+  }
+}
+
+.specList {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  li {
+    flex: 1;
+    a {
+      display: flex;
+      justify-content: center;
+      padding: 8px 0;
+      border: #444 1px solid;
+      border-radius: 8px;
+      color: #454545;
+      background-color: #1a1a1a;
+      text-decoration: none;
+      &.router-link-exact-active {
+        color: #aaa;
+        background-color: #111;
+      }
+    }
+  }
+}
+
+.subImages {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+    padding: 6px 0 16px;
+    margin-bottom: 16px;
+    border-bottom: #555 1px solid;
+    li {
+      flex: 0 0 calc(100%/3 - 16px*2/3);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      .deleteImage {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 24px;
+        font-weight: 900;
+        border: #444 1px solid;
+        color: white;
+        font-size: 12px;
+        background-color: #333;
+        cursor: pointer;
+        span {
+          line-height: 1;
+        }
+      }
+    }
+}
+
+.borderBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 24px;
+  border-radius: 16px;
+  border: #555 1px solid;
+}
+
+.addButtonArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 0;
+  .addInput {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    input {
+      width: 125px;
+      min-width: 125px;
+      padding: 0;
+      line-height: 20px;
+      font-size: 14px;
+      border-bottom: #666 1px solid;
+    }
+  }
+  button {
+    min-width: 75px;
+    padding: 8px 16px;
+  }
+}
+
+.bottomButtonArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 16px;
+  border-top: #555 1px solid;
+}
+
+.projectImages {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding-bottom: 16px;
+  li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-bottom: #555 1px solid;
+  }
+  .selectItemArea {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    width: 100%;
+  }
+  .selectItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    select {
+      border-bottom: #555 1px solid;
+      width: 120px;
+      padding: 0;
+      line-height: 24px;
+    }
+    .switchButton {
+      padding: 4px 16px;
+      font-size: 12px;
+      border-radius: 24px;
+      color: #454545;
+      border: #666 1px solid;
+      background-color: transparent;
+      cursor: pointer;
+      &.active {
+        color: #111;
+        background-color: #aaa;
+      }
+    }
+  }
+  .imageList {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 16px;
+    &__image {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: calc( 50% - 16px/2 );
+    }
+    input {
+      width: 100%;
+      padding: 16px;
+      border: #555 1px solid;
+      border-radius: 8px;;
+    }
+    textArea {
+      width: 100%;
+      padding: 16px;
+      border: #555 1px solid;
+      border-radius: 8px;;
+    }
+  }
+  .deleteImage {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 24px;
+    font-weight: 900;
+    border: #444 1px solid;
+    color: white;
+    font-size: 12px;
+    background-color: #333;
+    cursor: pointer;
+  }
+}

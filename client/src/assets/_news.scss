@@ -1,0 +1,245 @@
+.newsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    padding: 72px 32px;
+    &__categoryList {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 16px;
+        li {
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            color: #999a98;
+            cursor: pointer;
+            &.active, &:hover {
+                color: #1a1311;
+            }
+            .amount {
+                color: #999a98;
+            }
+        }
+    }
+    &__list {
+        display: flex;
+        flex-direction: column;
+        li {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 40px;
+            padding: 32px 0;
+            color: #1a1311;
+            text-decoration: none;
+            border-bottom: #1a1311 1px solid;
+            .info {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 320px;
+                padding-right: 40px;
+                border-right: #1a1311 1px solid;
+                .title {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    h2 {
+                        font-size: 20px;
+                        line-height: 24px;
+                    }
+                    .category {
+                        color: #999a98;
+                    }
+                }
+            }
+            .image {
+                width: 320px;
+                img {
+                    width: 100%;
+                    min-height: 150px;
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
+            .description {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: calc( 100% - 320px - 320px - 40px*2 );
+                .linkButton {
+                    align-self: flex-end;
+                    color: #1a1311;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
+
+.newsInsideContent {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    padding: 72px 32px;
+    &__mainInfo {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+        .info {
+            display: flex;
+            flex-direction: column;
+            width: 240px;
+            > * {
+                flex: 1;
+            }
+            .title {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                h2 {
+                    font-size: 20px;
+                    line-height: 24px;
+                }
+                .category {
+                    color: #999a98;
+                }
+            }
+        }
+        .image {
+            width: calc( 100% - 280px );
+            img {
+                width: 100%;
+                min-height: 500px;
+            }
+        }
+    }
+    &__detail {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        .section {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            .card {
+                flex: 1;
+                display: flex;
+                gap: 40px;
+                .text {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                    h3 {
+                        font-size: 16px;;
+                    }
+                }
+                img {
+                    width: 100%;
+                }
+                &.image-top {
+                    flex-direction: column;
+                }
+                &.image-bottom {
+                    flex-direction: column-reverse;
+                }
+                &.image-top, &.image-bottom {
+                    img {
+                        height: 250px;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+                }
+                &.image-left {
+                    flex-direction: row;
+                }
+                &.image-right {
+                    flex-direction: row-reverse;
+                }
+                &.image-left, &.image-right {
+                    flex-direction: row;
+                    .text {
+                        width: 360px;
+                    }
+                    img {
+                        width: calc( 100% - 400px );
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .newsContent {
+        gap: 16px;
+        padding: 16px 16px 32px;
+        &__categoryList {
+            justify-content: center;
+        }
+        &__list {
+            li {
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px 0;
+                .info {
+                    width: 100%;
+                    padding-right: 0;
+                    border-right: 0;
+                }
+                .image {
+                    width: 100%;
+                }
+                .description {
+                    gap: 16px;
+                    width: 100%;
+                }
+            }
+        }
+    }
+    .newsInsideContent {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 16px 32px;
+        &__mainInfo {
+            flex-direction: column-reverse;
+            gap: 16px;
+            .info {
+                width: 100%;
+            }
+            .image {
+                width: 100%;
+                img {
+                    min-height: 0;
+                }
+            }
+        }
+        &__detail {
+            gap: 16px;
+            .section {
+                flex-direction: column;
+                gap: 16px;
+                .card {
+                    gap: 16px;
+                    .text {
+                        gap: 16px;
+                    }
+                    &.image-top, &.image-bottom, &.image-left, &.image-right {
+                        flex-direction: column;
+                        .text, img {
+                            width: 100%;
+                        }
+                        img {
+                            width: 100%;
+                            height: auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

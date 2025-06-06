@@ -1,0 +1,1385 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;400;500;700&family=Open+Sans:wght@300;400;500;900&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --vt-c-white: #ffffff;
+  --vt-c-white-soft: #f8f8f8;
+  --vt-c-white-mute: #f2f2f2;
+  --vt-c-black: #181818;
+  --vt-c-black-soft: #222222;
+  --vt-c-black-mute: #282828;
+  --vt-c-indigo: #2c3e50;
+  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+  --vt-c-text-light-1: var(--vt-c-indigo);
+  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+  --vt-c-text-dark-1: var(--vt-c-white);
+  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+}
+
+/* semantic color variables for this project */
+:root {
+  --color-background: var(--vt-c-white);
+  --color-background-soft: var(--vt-c-white-soft);
+  --color-background-mute: var(--vt-c-white-mute);
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+  --color-heading: var(--vt-c-text-light-1);
+  --color-text: var(--vt-c-text-light-1);
+  --section-gap: 160px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+  }
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  background-color: #111;
+}
+
+body {
+  font-family: "Open Sans", "Noto Sans TC", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+option {
+  color: #ccc !important;
+}
+
+.building {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.material-icons {
+  font-size: inherit;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
+}
+
+.adminView {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-width: 1024px;
+  min-height: 100vh;
+  padding-top: 57px;
+  color: #ccc;
+  background-color: #111;
+}
+.adminView .accountBox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px 32px;
+  line-height: 25px;
+  background-color: #222;
+  z-index: 999;
+}
+.adminView .accountBox .webTitle span {
+  font-size: 18px;
+  font-weight: 700;
+}
+.adminView .accountBox nav {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+.adminView .accountBox nav a {
+  color: white;
+}
+.adminView .accountBox b {
+  font-weight: 700;
+}
+.adminView .mainNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 240px;
+  padding: 24px;
+  border-right: #444 1px solid;
+}
+.adminView .mainNav nav {
+  position: sticky;
+  top: 81px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.adminView .mainNav nav a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 16px;
+  line-height: 16px;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #aaa;
+  cursor: pointer;
+}
+.adminView .mainNav nav a:hover, .adminView .mainNav nav a:nth-child(n+2).router-link-active {
+  color: white;
+  background-color: #222;
+}
+.adminView .mainNav nav:first-child a.router-link-exact-active {
+  color: white;
+  background-color: #222;
+}
+.adminView .homeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px;
+  color: #aaa;
+  border: #444 1px solid;
+  border-radius: 8px;
+}
+.adminView .homeContent h2 {
+  font-size: 18px;
+  font-weight: 700;
+}
+.adminView .homeContent b {
+  font-weight: 700;
+}
+.adminView .homeContent ul {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style-type: dot;
+  padding-left: 24px;
+}
+.adminView .homeContent hr {
+  border-color: #111;
+  margin: 16px 0;
+}
+.adminView h1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.adminView h1 span {
+  font-size: 28px;
+}
+.adminView input {
+  padding: 16px;
+  min-width: 275px;
+  border-radius: 8px;
+  border: #666 1px solid;
+  font-size: 16px;
+  color: white;
+  background-color: black;
+}
+.adminView button {
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: #ccc;
+  background-color: #333;
+  cursor: pointer;
+}
+.adminView button:disabled, .adminView button:disabled:hover {
+  color: #555;
+  border-color: #333;
+  background-color: #222;
+  cursor: default;
+}
+.adminView button:hover {
+  color: white;
+  border-color: #555;
+  background-color: #444;
+}
+.adminView select {
+  padding: 16px;
+  border-radius: 8px;
+  border: #666 1px solid;
+  font-size: 16px;
+  color: white;
+  background-color: black;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+.adminView .title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 45px;
+}
+.adminView .title .buttonTitle {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+.adminView .title .buttonTitle--add {
+  justify-content: space-between;
+}
+.adminView .title .buttonTitle--add h1 {
+  font-size: 16px;
+}
+.adminView .title .buttonTitle--add button {
+  padding: 4px 16px;
+  font-size: 12px;
+}
+.adminView .title .buttonTitle .backButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 16px;
+  font-size: 24px;
+  border-radius: 40px;
+  border: #444 1px solid;
+  background-color: #333;
+  cursor: pointer;
+}
+
+.adminContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: calc(100% - 240px);
+  padding: 32px 48px 72px;
+}
+
+.adminLoading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  z-index: 9999;
+}
+.adminLoading span {
+  font-size: 12px;
+}
+.adminLoading span:nth-child(1) {
+  animation-name: loadingLetter;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+.adminLoading span:nth-child(2) {
+  animation-name: loadingLetter;
+  animation-duration: 2s;
+  animation-delay: 0.05s;
+  animation-iteration-count: infinite;
+}
+.adminLoading span:nth-child(3) {
+  animation-name: loadingLetter;
+  animation-duration: 2s;
+  animation-delay: 0.1s;
+  animation-iteration-count: infinite;
+}
+.adminLoading span:nth-child(4) {
+  animation-name: loadingLetter;
+  animation-duration: 2s;
+  animation-delay: 0.15s;
+  animation-iteration-count: infinite;
+}
+.adminLoading span:nth-child(5) {
+  animation-name: loadingLetter;
+  animation-duration: 2s;
+  animation-delay: 0.2s;
+  animation-iteration-count: infinite;
+}
+.adminLoading span:nth-child(6) {
+  animation-name: loadingLetter;
+  animation-duration: 2s;
+  animation-delay: 0.25s;
+  animation-iteration-count: infinite;
+}
+.adminLoading span:nth-child(7) {
+  animation-name: loadingLetter;
+  animation-duration: 2s;
+  animation-delay: 0.3s;
+  animation-iteration-count: infinite;
+}
+
+.loginArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  margin-top: -57px;
+  background-color: #111;
+}
+.loginArea .loginBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.loginArea .loginBox .titleArea {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: #666 1px solid;
+}
+.loginArea .loginBox .titleArea h1 {
+  font-size: 32px;
+  line-height: 28px;
+}
+.loginArea .loginBox .titleArea h2 {
+  font-size: 20px;
+  line-height: 18px;
+}
+.loginArea .loginBox > * {
+  width: 350px;
+}
+.loginArea .redirectArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.loginArea .redirectArea a {
+  font-size: 20px;
+  color: white;
+}
+
+@keyframes loadingLetter {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  15% {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.cardList {
+  display: table;
+  padding: 16px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 900;
+  background-color: #222;
+}
+.cardList li:nth-child(n+2) > div {
+  border-top: #555 1px solid;
+}
+.cardList li a {
+  display: block;
+  color: white;
+  text-decoration: none;
+}
+
+.cardList li {
+  display: table-row;
+  width: 100%;
+  font-size: 14px;
+  cursor: pointer;
+}
+.cardList li:hover {
+  background-color: #333;
+}
+.cardList li > div {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 16px;
+}
+.cardList li.head > div {
+  padding: 16px 16px 8px;
+  font-size: 12px;
+  color: #aaa;
+}
+.cardList li.head:hover {
+  background-color: transparent;
+}
+.cardList li img {
+  width: 64px;
+  height: 32px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.cardList li .status span {
+  display: block;
+  width: 50px;
+  line-height: 25px;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  border: #666 1px solid;
+  border-radius: 24px;
+}
+.cardList li .status span.draft {
+  border-style: dashed;
+}
+.cardList li .status span.active {
+  color: white;
+  border-color: white;
+}
+.cardList li .status span.archived {
+  text-decoration: line-through;
+}
+.cardList li .description {
+  line-height: 20px;
+  color: #aaa;
+}
+.cardList li .price {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.cardList li .price span {
+  font-size: 12px;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+}
+
+.pageList {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.pageList li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  font-size: 16px;
+  border: #444 1px solid;
+  color: #444;
+  cursor: pointer;
+}
+.pageList li:hover, .pageList li.active {
+  color: white;
+  background-color: #333;
+}
+
+.dataTable thead tr {
+  border-bottom: #555 1px solid;
+}
+.dataTable thead tr th {
+  font-size: 12px;
+  color: #aaa;
+}
+.dataTable tr td {
+  color: white;
+}
+.dataTable tr.inactive td {
+  color: #666;
+}
+.dataTable tr:nth-child(2n) td {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.dataTable td, .dataTable th {
+  padding: 16px;
+  text-align: left;
+}
+.dataTable td {
+  font-size: 15px;
+  vertical-align: middle;
+}
+.dataTable td.lastLogin {
+  font-size: 12px;
+}
+.dataTable td .tableButtonArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.dataTable td button {
+  padding: 4px 16px;
+  font-size: 12px;
+}
+.dataTable td .switchButton {
+  position: relative;
+  width: 30px;
+  height: 15px;
+  border-radius: 30px;
+  background-color: black;
+  cursor: pointer;
+}
+.dataTable td .switchButton .button {
+  position: absolute;
+  top: 0;
+  left: 15px;
+  width: 15px;
+  height: 15px;
+  border-radius: 30px;
+  font-size: 12px;
+  line-height: 25px;
+  color: #aaa;
+  background-color: #333;
+}
+.dataTable td .switchButton.active {
+  justify-content: flex-start;
+}
+.dataTable td .switchButton.active .button {
+  left: 0px;
+  color: #222;
+  background-color: #aaa;
+}
+.dataTable td.image img {
+  width: 24px;
+  height: 24px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+}
+
+.filterArea {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+.filterArea > * {
+  flex: 1;
+}
+
+.infoArea {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+.infoArea .info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.infoArea .info .head {
+  font-size: 12px;
+  line-height: 20px;
+  color: #aaa;
+}
+.infoArea .info span {
+  line-height: 36px;
+}
+
+.editArea {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.editArea img {
+  width: 100%;
+  height: 250px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+  border: #666 1px solid;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.inputItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
+  min-width: 275px;
+  border-radius: 8px;
+  border: #666 1px solid;
+  font-size: 18px;
+  color: white;
+  background-color: black;
+}
+.inputItem--column {
+  flex-direction: column;
+  padding: 16px;
+}
+.inputItem .head {
+  width: 75px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #aaa;
+}
+.inputItem input, .inputItem select, .inputItem textarea {
+  width: calc(100% - 75px);
+  padding: 8px 0;
+  line-height: 20px;
+  border-radius: 0;
+  border: 0;
+  background-color: transparent;
+  outline: none;
+}
+.inputItem input:disabled, .inputItem select:disabled, .inputItem textarea:disabled {
+  opacity: 0.5;
+}
+.inputItem textarea {
+  height: 200px;
+  min-height: 200px;
+  color: white;
+}
+.inputItem option {
+  text-align: left;
+}
+.inputItem span {
+  display: block;
+  font-size: 16px;
+  line-height: 36px;
+  color: #aaa;
+}
+.inputItem .sizeList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: calc(100% - 75px);
+  padding: 8px 0;
+}
+.inputItem .sizeList .sizeinputItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding-bottom: 8px;
+  border-bottom: #222 1px solid;
+}
+.inputItem .sizeList .sizeinputItem.inactive {
+  display: none;
+}
+.inputItem .sizeList .sizeinputItem:last-child {
+  padding: 0;
+  border: 0;
+}
+.inputItem .sizeList .sizeinputItem input[type=checkbox] {
+  display: none;
+}
+.inputItem .sizeList .sizeinputItem input[type=checkbox] + label {
+  padding: 0 32px;
+  color: #666;
+  border: #666 1px solid;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.inputItem .sizeList .sizeinputItem input[type=checkbox]:checked + label {
+  color: white;
+  border: white 1px solid;
+}
+.inputItem .sizeList .sizeinputItem input[type=number] {
+  min-width: 100px;
+}
+.inputItem .sizeList .sizeinputItem .countArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+}
+.inputItem .sizeList .sizeinputItem .subHead {
+  width: 48px;
+  text-align: right;
+  line-height: 20px;
+  font-size: 12px;
+  color: #aaa;
+}
+.inputItem .sizeList input[type=number] {
+  width: 125px;
+  min-width: 125px;
+  padding: 0;
+  line-height: 20px;
+  border-bottom: #666 1px solid;
+}
+.inputItem:has(*:disabled) {
+  background-color: #111;
+  border-color: #444;
+}
+.inputItem:has(*:disabled) .sizeList {
+  opacity: 0.5;
+}
+
+.noImage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 250px;
+  padding: 24px;
+  border-radius: 8px;
+  border: #666 1px solid;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.imageSelect {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 8px 8px 16px;
+  min-width: 275px;
+  border-radius: 8px;
+  border: #666 1px solid;
+  font-size: 18px;
+  color: white;
+  background-color: black;
+}
+.imageSelect input[type=file] {
+  display: none;
+}
+.imageSelect label {
+  padding: 4px 8px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: white;
+  font-size: 12px;
+  background-color: #333;
+  cursor: pointer;
+}
+
+.buttonArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.buttonArea--flex-start {
+  justify-content: flex-start;
+}
+.buttonArea button {
+  width: 125px;
+}
+
+.shapeList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% - 75px);
+}
+.shapeList .shapeInputArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: #222 1px solid;
+}
+.shapeList .shapeInputArea:last-child {
+  border-bottom: 0;
+}
+.shapeList .shapeInputItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.shapeList .shapeInputItem .subHead {
+  text-align: right;
+  line-height: 20px;
+  font-size: 12px;
+  color: #aaa;
+}
+.shapeList .shapeInputItem .imgArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.shapeList .shapeInputItem .imgArea .noImage, .shapeList .shapeInputItem .imgArea img {
+  width: 75px;
+  height: 75px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+  font-size: 12px;
+  padding: 0;
+}
+.shapeList .shapeInputItem .imgArea button {
+  padding: 4px 8px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: white;
+  font-size: 12px;
+  background-color: #333;
+  cursor: pointer;
+}
+.shapeList .shapeInputItem input {
+  width: 125px;
+  min-width: 125px;
+}
+.shapeList .shapeInputItem input[type=text], .shapeList .shapeInputItem input[type=number] {
+  padding: 0;
+  line-height: 20px;
+  border-bottom: #666 1px solid;
+}
+.shapeList .shapeInputOption {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 16px;
+}
+.shapeList .shapeInputOption .shapeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: #ccc;
+  background-color: #333;
+  cursor: pointer;
+}
+
+.partnerList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% - 75px);
+}
+.partnerList .partnerInputArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  padding: 8px 0;
+  border-bottom: #222 1px solid;
+}
+.partnerList .partnerInputArea:last-child {
+  border-bottom: 0;
+}
+.partnerList .partnerInputItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.partnerList .partnerInputItem .subHead {
+  text-align: right;
+  line-height: 20px;
+  font-size: 12px;
+  color: #aaa;
+}
+.partnerList .partnerInputItem .imgArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.partnerList .partnerInputItem .imgArea .noImage, .partnerList .partnerInputItem .imgArea img {
+  width: 200px;
+  height: 75px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+  font-size: 12px;
+  padding: 0;
+}
+.partnerList .partnerInputItem .imgArea button {
+  padding: 4px 8px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: white;
+  font-size: 12px;
+  background-color: #333;
+  cursor: pointer;
+}
+.partnerList .partnerInputItem input {
+  width: 125px;
+  min-width: 125px;
+  border: 0;
+  border-bottom: #555 1px solid;
+  border-radius: 0;
+  background-color: transparent;
+  outline: 0;
+}
+.partnerList .partnerInputItem input[type=text], .partnerList .partnerInputItem input[type=number] {
+  padding: 0;
+  line-height: 20px;
+  border-bottom: #666 1px solid;
+}
+.partnerList .partnerInputOption {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 16px;
+}
+.partnerList .partnerInputOption .partnerButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: #ccc;
+  background-color: #333;
+  cursor: pointer;
+}
+
+.tagListArea {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 75px);
+}
+.tagListArea .tagList {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: #333 1px solid;
+}
+.tagListArea .tagList .tagItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 8px 16px;
+  border-radius: 24px;
+  font-weight: 900;
+  font-size: 14px;
+  border: #444 1px solid;
+}
+.tagListArea .tagList .tagItem .tagButton {
+  cursor: pointer;
+}
+
+.inputImgArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  min-width: 360px;
+}
+.inputImgArea .noImage, .inputImgArea img {
+  width: 75px !important;
+  height: 75px !important;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+  font-size: 12px;
+  padding: 0;
+}
+.inputImgArea img {
+  background-color: white;
+}
+.inputImgArea button {
+  padding: 4px 8px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: white;
+  font-size: 12px;
+  background-color: #333;
+  cursor: pointer;
+}
+
+.specList {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.specList li {
+  flex: 1;
+}
+.specList li a {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+  border: #444 1px solid;
+  border-radius: 8px;
+  color: #454545;
+  background-color: #1a1a1a;
+  text-decoration: none;
+}
+.specList li a.router-link-exact-active {
+  color: #aaa;
+  background-color: #111;
+}
+
+.subImages {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+  padding: 6px 0 16px;
+  margin-bottom: 16px;
+  border-bottom: #555 1px solid;
+}
+.subImages li {
+  flex: 0 0 calc(33.3333333333% - 10.6666666667px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.subImages li .deleteImage {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: white;
+  font-size: 12px;
+  background-color: #333;
+  cursor: pointer;
+}
+.subImages li .deleteImage span {
+  line-height: 1;
+}
+
+.borderBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 24px;
+  border-radius: 16px;
+  border: #555 1px solid;
+}
+
+.addButtonArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 0;
+}
+.addButtonArea .addInput {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+.addButtonArea .addInput input {
+  width: 125px;
+  min-width: 125px;
+  padding: 0;
+  line-height: 20px;
+  font-size: 14px;
+  border-bottom: #666 1px solid;
+}
+.addButtonArea button {
+  min-width: 75px;
+  padding: 8px 16px;
+}
+
+.bottomButtonArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 16px;
+  border-top: #555 1px solid;
+}
+
+.projectImages {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding-bottom: 16px;
+}
+.projectImages li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-bottom: #555 1px solid;
+}
+.projectImages .selectItemArea {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  width: 100%;
+}
+.projectImages .selectItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.projectImages .selectItem select {
+  border-bottom: #555 1px solid;
+  width: 120px;
+  padding: 0;
+  line-height: 24px;
+}
+.projectImages .selectItem .switchButton {
+  padding: 4px 16px;
+  font-size: 12px;
+  border-radius: 24px;
+  color: #454545;
+  border: #666 1px solid;
+  background-color: transparent;
+  cursor: pointer;
+}
+.projectImages .selectItem .switchButton.active {
+  color: #111;
+  background-color: #aaa;
+}
+.projectImages .imageList {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+}
+.projectImages .imageList__image {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: calc(50% - 8px);
+}
+.projectImages .imageList input {
+  width: 100%;
+  padding: 16px;
+  border: #555 1px solid;
+  border-radius: 8px;
+}
+.projectImages .imageList textArea {
+  width: 100%;
+  padding: 16px;
+  border: #555 1px solid;
+  border-radius: 8px;
+}
+.projectImages .deleteImage {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: white;
+  font-size: 12px;
+  background-color: #333;
+  cursor: pointer;
+}
+
+.adminDialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  z-index: 9999;
+}
+.adminDialog__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 480px;
+  padding: 32px 48px;
+  border-radius: 8px;
+  border-color: #444 1px solid;
+  background-color: #222;
+}
+.adminDialog__icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 16px;
+  border-radius: 50px;
+  border: 2px solid;
+  font-size: 24px;
+}
+.adminDialog__icon.success {
+  color: #aaa;
+  border-color: #aaa;
+}
+.adminDialog__icon.failed {
+  color: #b63030;
+  border-color: #b63030;
+}
+.adminDialog__title {
+  width: 100%;
+  padding: 0 0 16px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  border-bottom: #444 1px solid;
+}
+.adminDialog__info {
+  width: 100%;
+  padding: 32px 0;
+  text-align: center;
+  font-size: 16px;
+}
+.adminDialog button {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: 900;
+  border: #444 1px solid;
+  color: white;
+  background-color: #333;
+  cursor: pointer;
+}/*# sourceMappingURL=style.css.map */

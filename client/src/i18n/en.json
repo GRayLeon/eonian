@@ -1,0 +1,60 @@
+{
+  "title": {
+    "product": "Product",
+    "project": "Project",
+    "brand": "Brand",
+    "news": "News",
+    "about": "About",
+    "vision": "Vision",
+    "partners": "Partners",
+    "contact": "Contact"
+  },
+  "spec": {
+    "shapes": "Shapes",
+    "colors": "Colors",
+    "dimension": "Dimension",
+    "origin": "Origin",
+    "colour": "Colour",
+    "slipResistance": "Slip Resistance",
+    "application": "Application",
+    "unit": "Unit",
+    "amount": "Amount",
+    "total": "Total"
+  },
+  "inquiry": {
+    "userType": "I'm A",
+    "topic": "I need help with?",
+    "question": "Question",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "number": "Phone Number",
+    "subscribe": "I would like to receive information and inspiration from Eonian.",
+    "send": "send",
+    "placeholder": {
+      "job": "Your Job",
+      "topic": "Your Topic",
+      "message": "Your Message",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Your Email",
+      "number": "Your Number"
+    }
+  },
+  "link": {
+    "policy": "Privacy Policy",
+    "notice": "Legal Notice",
+    "terms": "Terms of Use"
+  },
+  "news": {
+    "all": "all",
+    "coverage": "Press Coverage",
+    "article": "Journal Article"
+  },
+  "button": {
+    "more": "more",
+    "clear": "clear",
+    "download": "Download Inquiry PDF",
+    "send": "Send Inquiry to Eonian Sales TeamTotal"
+  }
+}

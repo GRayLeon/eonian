@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "client": "cd client && npm run dev",
+    "admin": "cd admin && npm run dev",
+    "server": "node server/app.js",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "dev:admin": "concurrently \"npm run admin\" \"npm run server\"",
+    
+    "build": "npm run build:client && npm run build:admin",
+    "build:client": "cd client && npm run build",
+    "build:admin": "cd admin && npm run build",
+    
+    "start": "npm run build && npm run server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

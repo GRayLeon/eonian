@@ -1,0 +1,28 @@
+{
+  "title": {
+    "home": "HOME",
+    "product": "PRODUCT MANAGE",
+    "account": "ACCOUNT MANAGE",
+    "login": "LOGIN"
+  },
+  "link": {
+    "home": "Home",
+    "product": "Product",
+    "account": "Account",
+    "frontSide": "Front Side",
+    "logout": "Logout"
+  },
+  "button": {
+    "add": "ADD NEW",
+    "edit": "EDIT",
+    "delete": "DELETE",
+    "login": "LOGIN",
+    "change": "CHANGE"
+  },
+  "description": {
+    "loginSuccess": "Login successed.",
+    "noImage": "No image.",
+    "selectImage": "SELECT IMAGE",
+    "notSelectImage": "please select a image."
+  }
+}
