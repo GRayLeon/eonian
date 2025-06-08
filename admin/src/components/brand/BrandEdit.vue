@@ -84,7 +84,8 @@
   const onFileChange = event => {
     const file = event.target.files[0]
     if (file) {
-      selectFile.value = file
+      const newFile = new File([file], `${Date.now()}_brandImage`, { type: file.type })
+      selectFile.value = newFile
       previewUrl.value = URL.createObjectURL(file)
       previewName.value = file.name
     } else {
@@ -115,40 +116,55 @@
   const onImageFileChange = (event, listIdx, idx) => {
     const file = event.target.files[0]
     if (file) {
-      const newFile = new File([file], `${Date.now() + listIdx + idx}_${file.name}`, { type: file.type })
+      const newFile = new File([file], `${Date.now() + listIdx + idx}_brandImage`, { type: file.type })
 
-      const fileTarget = findTarget(selectImageFiles.value, listIdx, idx) || {
-        index: [listIdx, idx],
-        file: null
-      }
+      // 處理 selectImageFiles
+      let fileTarget = findTarget(selectImageFiles.value, listIdx, idx)
       if (fileTarget) {
         fileTarget.file = newFile
+      } else {
+        fileTarget = {
+          index: [listIdx, idx],
+          file: newFile
+        }
+        selectImageFiles.value.push(fileTarget)
       }
 
-      const urlTarget = findTarget(previewImageUrl.value, listIdx, idx) || {
-        index: [listIdx, idx],
-        url: ''
-      }
+      // 處理 previewImageUrl
+      let urlTarget = findTarget(previewImageUrl.value, listIdx, idx)
       if (urlTarget) {
         urlTarget.url = URL.createObjectURL(file)
+      } else {
+        urlTarget = {
+          index: [listIdx, idx],
+          url: URL.createObjectURL(file)
+        }
+        previewImageUrl.value.push(urlTarget)
       }
 
-      const nameTarget = findTarget(previewImageName.value, listIdx, idx) || {
-        index: [listIdx, idx],
-        name: ''
-      }
+      // 處理 previewImageName
+      let nameTarget = findTarget(previewImageName.value, listIdx, idx)
       if (nameTarget) {
         nameTarget.name = file.name
+      } else {
+        nameTarget = {
+          index: [listIdx, idx],
+          name: file.name
+        }
+        previewImageName.value.push(nameTarget)
       }
 
-      const updateTarget = findTarget(updateImageFile.value, listIdx, idx) || {
-        index: [listIdx, idx],
-        name: ''
-      }
+      // 處理 updateImageFile
+      let updateTarget = findTarget(updateImageFile.value, listIdx, idx)
       if (updateTarget) {
         updateTarget.name = newFile.name.split(".")[0]
+      } else {
+        updateTarget = {
+          index: [listIdx, idx],
+          name: newFile.name.split(".")[0]
+        }
+        updateImageFile.value.push(updateTarget)
       }
-
     } else {
       const fileTarget = findTarget(selectImageFiles.value, listIdx, idx)
       if (fileTarget) {
@@ -548,17 +564,22 @@
         @click="editBrand(brandInfo, 'archive')">封存商品</button>
     </div>
     <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
-      <button 
+      <button  
         :disabled="!isReady"
         v-if="!isEdit"
         @click="editBrand(brandInfo, 'create')">創建草稿</button>
-      <button 
+      <button  
         :disabled="!isReady"
         v-else
         @click="editBrand(brandInfo, 'save')">儲存草稿</button>
-      <button 
+      <button  
         :disabled="!isReady"
-        @click="editBrand(brandInfo, 'add')">上架品牌</button>
+        v-if="!isEdit"
+        @click="editBrand(brandInfo, 'add')">上架貼文</button>
+      <button  
+        :disabled="!isReady"
+        v-else
+        @click="editBrand(brandInfo, 'active')">上架貼文</button>
     </div>
   </div>
 </template>

@@ -36,7 +36,7 @@ export const useProductStore = defineStore('product', () => {
     }
   })
 
-  const selectSizes = ref([])
+  // const selectSizes = ref([])
   const selectFile = ref(null)
 
   const isGetProducts = ref(false)
@@ -63,21 +63,29 @@ export const useProductStore = defineStore('product', () => {
   })
 
   const sucessInfo = {
+    'creat': {
+      title: '新增草稿',
+      message: '已成功新增草稿，按確定返回產品管理列表。'
+    },
     'add': {
       title: '上架成功',
-      message: '商品已經上架成功，按確定返回產品管理列表。'
+      message: '產品已經上架成功，按確定返回產品管理列表。'
     },
     'save': {
       title: '儲存成功',
-      message: '商品草稿已經儲存成功，按確定返回產品管理列表。'
+      message: '產品草稿已經儲存成功，按確定返回產品管理列表。'
     },
     'edit': {
       title: '編輯成功',
-      message: '商品已經編輯成功，按確定返回產品管理列表。'
+      message: '產品已經編輯成功，按確定返回產品管理列表。'
+    },
+    'active': {
+      title: '上架成功',
+      message: '產品已經上架成功，按確定返回產品管理列表。'
     },
     'archive': {
-      title: '商品已封存',
-      message: '商品已經封存完成，無法再進行任何編輯，按確定返回產品管理列表。'
+      title: '產品已封存',
+      message: '產品已經封存完成，無法再進行任何編輯，按確定返回產品管理列表。'
     }
   }
 
@@ -92,12 +100,13 @@ export const useProductStore = defineStore('product', () => {
 
   const editProduct = ref( async (productInfo, editType) => {
     isLoading.value = true
-
+    
     let type = null
     type = editType == 'create' ? 'add'
     : editType == 'save' ? 'edit'
-    : editType == 'add' ? (productInfo.status = 'active', 'edit') 
+    : editType == 'add' ? (productInfo.status = 'active', 'add') 
     : editType == 'edit' ? 'edit'
+    : editType == 'active' ? (productInfo.status = 'active', 'edit')
     : editType == 'archive' ? (productInfo.status = 'archived', 'edit')
     : null
 
@@ -117,7 +126,7 @@ export const useProductStore = defineStore('product', () => {
 
     formData.append("description", JSON.stringify(productInfo.description))
     formData.append("name", JSON.stringify(productInfo.name))
-    formData.append("sizes", JSON.stringify(selectSizes.value))
+    // formData.append("sizes", JSON.stringify(selectSizes.value))
     formData.append("subImages", JSON.stringify(productInfo.subImages))
     formData.append("shapes", JSON.stringify(productInfo.shapes))
     formData.append("colors", JSON.stringify(productInfo.colors))
@@ -198,8 +207,9 @@ export const useProductStore = defineStore('product', () => {
   })
 
   return { 
+    // selectSizes,
     statusList, category, status, sort, order, 
-    products, selectSizes, selectFile,
+    products, selectFile,
     selectSubImageFiles, updateSubImageFile,
     selectShapeImageFiles, updateShapeImageFile,
     selectColorImageFiles, updateColorImageFile,

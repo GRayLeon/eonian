@@ -57,6 +57,7 @@
     <li class="head">
       <div class="name">名稱</div>
       <div class="status">狀態</div>
+      <div class="category">分類</div>
       <div class="description">描述</div>
     </li>
     <li v-for="project in projects.data" @click="router.push(`project/${project._id}`)">
@@ -64,6 +65,7 @@
       <div class="status">
         <span :class="project.status">{{ statusWording(project.status) }}</span>
       </div>
+      <div class="category">{{  project.category }}</div>
       <div class="description">{{  project.description['zh'] }}</div>
     </li>
   </ul>

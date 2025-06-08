@@ -136,8 +136,6 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
   req.body.tags = JSON.parse(req.body.tags)
   req.body.imageList = JSON.parse(req.body.imageList)
 
-  req.body.updateProjectImages = JSON.parse(req.body.updateProjectImages)
-
   let project
   let status
   let wording
@@ -152,6 +150,7 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
       // 若有新的 subImages 則刪除舊的
       const deleteProjectImages = []
       if (projectImagesData && projectImagesData.length > 0) {
+        req.body.updateProjectImages = JSON.parse(req.body.updateProjectImages)
         const newImages = []
         req.body.imageList.forEach( (list, listIdx) => {
           list.images.forEach( (image, idx) => {
@@ -237,12 +236,17 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
 
 async function getProjects(req, res, next) {
   const { 
+    page = 1,
+    size = 999,
     status,
     category,
     sortBy = "_id",
     sortOrder = "asc",
     search
   } = req.query
+
+  const pageNumber = parseInt(page, 10)
+  const pageSize = parseInt(size, 10)
 
   let filter = {}
   if (category) { filter.category = category }
@@ -271,6 +275,8 @@ async function getProjects(req, res, next) {
     const projects = await Project
                             .find(filter)
                             .sort(sort)
+                            .skip((pageNumber - 1) * pageSize)
+                            .limit(pageSize)
     if (projects == undefined) {
         return res
                 .status(404)
@@ -281,7 +287,10 @@ async function getProjects(req, res, next) {
       res.projects = {
         data: projects,
         pagination: {
-          total
+          total,
+          currentPage: pageNumber,
+          pageSize,
+          totalPages: Math.ceil(total / pageSize)
         }
       }
       next()

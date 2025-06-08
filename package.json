@@ -2,7 +2,8 @@
   "scripts": {
     "client": "cd client && npm run dev",
     "admin": "cd admin && npm run dev",
-    "server": "node server/app.js",
+    "server": "nodemon server/app.js",
+    "dev": "concurrently \"npm run client\" \"npm run admin\" \"npm run server\"",
     "build": "npm run build:client && npm run build:admin",
     "build:client": "cd client && npm run build",
     "build:admin": "cd admin && npm run build",
@@ -12,5 +13,8 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.10"
   }
 }

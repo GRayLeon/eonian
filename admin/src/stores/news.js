@@ -60,6 +60,10 @@ export const useNewsStore = defineStore('news', () => {
   })
 
   const sucessInfo = {
+    'creat': {
+      title: '新增草稿',
+      message: '已成功新增草稿，按確定返回貼文管理列表。'
+    },
     'add': {
       title: '上架成功',
       message: '貼文已經上架成功，按確定返回貼文管理列表。'
@@ -71,6 +75,10 @@ export const useNewsStore = defineStore('news', () => {
     'edit': {
       title: '編輯成功',
       message: '貼文已經編輯成功，按確定返回貼文管理列表。'
+    },
+    'active': {
+      title: '上架成功',
+      message: '貼文已經上架成功，按確定返回貼文管理列表。'
     },
     'archive': {
       title: '貼文已封存',
@@ -89,8 +97,9 @@ export const useNewsStore = defineStore('news', () => {
     let type = null
     type = editType == 'create' ? 'add'
     : editType == 'save' ? 'edit'
-    : editType == 'add' ? (newsInfo.status = 'active', 'edit') 
+    : editType == 'add' ? (newsInfo.status = 'active', 'add') 
     : editType == 'edit' ? 'edit'
+    : editType == 'active' ? (newsInfo.status = 'active', 'edit')
     : editType == 'archive' ? (newsInfo.status = 'archived', 'edit')
     : null
 
@@ -147,8 +156,8 @@ export const useNewsStore = defineStore('news', () => {
         openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'newsList')
       }
     } catch(e) {
-      errorHandle.value(e)
       console.log(e)
+      errorHandle.value(e)
     }
   })
 

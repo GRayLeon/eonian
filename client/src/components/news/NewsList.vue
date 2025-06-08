@@ -25,13 +25,16 @@
   const focusCategory = ref('all')
 
   const categorySwitch = category => {
-    getNews.value(page.value, category == 'all'? null : category)
+    let categoryQuery = category == 'all'? null : category
+    getNews.value(page.value, categoryQuery)
     focusCategory.value = category
   }
 
   const showLanText = input => {
     return input[locale.value]
   }
+
+
 
   onMounted( () => {
     getNews.value(page.value)
@@ -44,7 +47,7 @@
         :class="{ active: focusCategory == 'all' }"
         @click="categorySwitch('all')">
         <span class="category">{{ $t('news.all') }}</span>
-        <span class="amount">({{ news.categoryAmount['Press_Coverage'] || 0 + news.categoryAmount['Press_Coverage'] || 0}})</span>
+        <span class="amount">({{ (news.categoryAmount['Press_Coverage'] || 0) + (news.categoryAmount['Joural_Articles'] || 0)}})</span>
       </li>
       <li
         :class="{ active: focusCategory == 'Press_Coverage' }"

@@ -98,7 +98,7 @@
   const onImageFileChange = (event, listIdx, idx) => {
     const file = event.target.files[0]
     if (file) {
-      const newFile = new File([file], `${Date.now() + listIdx + idx}_${file.name}`, { type: file.type })
+      const newFile = new File([file], `${Date.now() + listIdx + idx}_projectImage`, { type: file.type })
 
       let fileTarget = findTarget(selectImageFiles.value, listIdx, idx)
       if (fileTarget) {
@@ -532,17 +532,22 @@
         @click="editProject(projectInfo, 'archive')">封存商品</button>
     </div>
     <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
-      <button 
+      <button  
         :disabled="!isReady"
         v-if="!isEdit"
         @click="editProject(projectInfo, 'create')">創建草稿</button>
-      <button 
+      <button  
         :disabled="!isReady"
         v-else
         @click="editProject(projectInfo, 'save')">儲存草稿</button>
-      <button 
+      <button  
         :disabled="!isReady"
-        @click="editProject(projectInfo, 'add')">上架專案</button>
+        v-if="!isEdit"
+        @click="editProject(projectInfo, 'add')">上架產品</button>
+      <button  
+        :disabled="!isReady"
+        v-else
+        @click="editProject(projectInfo, 'active')">上架產品</button>
     </div>
   </div>
 </template>

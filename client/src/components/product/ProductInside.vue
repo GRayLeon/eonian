@@ -43,16 +43,18 @@
     basePrice: 0
   })
 
-  const selectedColor = ref(null)
+  const selectedColor = ref('--')
+  const selectedColorSize = ref('--')
 
   const selectColor = ref( color => {
-    selectedColor.value = color.title
+    selectedColor.value = color.title || '--'
+    selectedColorSize.value = color.size || '--'
   })
 
   const selectedShape = ref(null)
 
   const selectShape = ref( shape => {
-    selectedShape.value = shape.title
+    selectedShape.value = shape.title || '--'
   })
 
   const sumPrice = computed( () => {
@@ -60,7 +62,17 @@
   })
 
   const showLanText = input => {
-    return input[locale.value]
+    if (input) {
+      return input[locale.value]
+    }
+    return '--'
+  }
+
+  const checkContent = input => {
+    if (input) {
+      return input
+    }
+    return '--'
   }
 
   const initProductInfo = () => {
@@ -69,8 +81,13 @@
         productInfo.value = { ...product }
       }
     })
-    selectedColor.value = productInfo.value.colors[0].title
-    selectedShape.value = productInfo.value.shapes[0].title
+    if (productInfo.value.colors.length > 0) {
+      selectedColor.value = productInfo.value.colors[0].title || '--'
+      selectedColorSize.value = productInfo.value.colors[0].size || '--'
+    }
+    if (productInfo.value.shapes.length > 0) {
+      selectedShape.value = productInfo.value.shapes[0].title || '--'
+    }
   }
 
   watch(
@@ -89,7 +106,7 @@
     <div class="productInsideContent__option">
       <div class="optionSection">
         <div class="head">{{ $t('spec.shapes') }}</div>
-        <ul>
+        <ul v-if="productInfo.shapes.length > 0">
           <li
             :class="{ active: selectedShape == shape.title }"
             v-for="shape in productInfo.shapes"
@@ -97,10 +114,13 @@
             <img :src="shape.imageURL">
           </li>
         </ul>
+        <div v-else class="noData">
+          No shapes.
+        </div>
       </div>
       <div class="optionSection">
           <div class="head">{{ $t('spec.colors') }}</div>
-          <ul>
+          <ul v-if="productInfo.colors.length > 0">
           <li
             :class="{ active: selectedColor == color.title }"
             v-for="color in productInfo.colors"
@@ -108,6 +128,9 @@
             <img :src="color.imageURL">
           </li>
         </ul>
+        <div v-else class="noData">
+          No colors.
+        </div>
       </div>
     </div>
     <div class="productInsideContent__images">
@@ -128,7 +151,7 @@
             <div class="spec">
                 <div class="spec__item">
                   {{ $t('spec.dimension') }}:&nbsp;&nbsp;
-                  {{ productInfo.dimension }}
+                  {{ selectedColorSize }}
                 </div>
                 <div class="spec__item">
                   {{ $t('spec.origin') }}:&nbsp;&nbsp;
@@ -140,18 +163,18 @@
                 </div>
                 <div class="spec__item">
                   {{ $t('spec.slipResistance') }}:&nbsp;&nbsp;
-                  {{ productInfo.slipResistance }}
+                  {{ checkContent(productInfo.slipResistance) }}
                 </div>
                 <div class="spec__item">
                   {{ $t('spec.application') }}:&nbsp;&nbsp;
-                  {{ productInfo.application }}
+                  {{ checkContent(productInfo.application) }}
                 </div>
             </div>
             <div class="optional">
                 <div class="productInsideContent__option">
                   <div class="optionSection">
                     <div class="head">{{ $t('spec.shapes') }}</div>
-                    <ul>
+                    <ul v-if="productInfo.shapes.length > 0">
                       <li
                         :class="{ active: selectedShape == shape.title }"
                         v-for="shape in productInfo.shapes"
@@ -159,10 +182,13 @@
                         <img :src="shape.imageURL">
                       </li>
                     </ul>
+                    <div v-else class="noData">
+                      No shapes.
+                    </div>
                   </div>
                   <div class="optionSection">
-                      <div class="head">{{ $t('spec.colors') }}</div>
-                      <ul>
+                    <div class="head">{{ $t('spec.colors') }}</div>
+                    <ul v-if="productInfo.colors.length > 0">
                       <li
                         :class="{ active: selectedColor == color.title }"
                         v-for="color in productInfo.colors"
@@ -170,6 +196,9 @@
                         <img :src="color.imageURL">
                       </li>
                     </ul>
+                    <div v-else class="noData">
+                      No colors.
+                    </div>
                   </div>
                 </div>
             </div>

@@ -68,9 +68,6 @@
       imageURL: '',
       imagePublicId: ''
     })
-    selectIndexImageFiles.value.push(null)
-    previewIndexImageUrl.value.push(null)
-    previewIndexImageName.value.push('請選擇圖片檔案')
     isIndexImageChanging.value.push(true)
   }
 
@@ -83,15 +80,7 @@
   }
   
   const initPages = () => {
-    selectIndexImageFiles.value = []
-    previewIndexImageUrl.value = []
-    previewIndexImageName.value = []
-    isIndexImageChanging.value = []
-
     pages.value.index.images.forEach(() => {
-      selectIndexImageFiles.value.push(null)
-      previewIndexImageUrl.value.push(null)
-      previewIndexImageName.value.push('請選擇圖片檔案')
       isIndexImageChanging.value.push(false)
     })
   }
@@ -100,6 +89,7 @@
     isLoading.value = true
     initPages()
     updateIndexImageFile.value = []
+    selectIndexImageFiles.value = []
   })
 
   onUpdated( () => {

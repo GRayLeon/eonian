@@ -60,6 +60,10 @@ export const useBrandStore = defineStore('brand', () => {
   })
 
   const sucessInfo = {
+    'creat': {
+      title: '新增草稿',
+      message: '已成功新增草稿，按確定返回品牌管理列表。'
+    },
     'add': {
       title: '上架成功',
       message: '品牌已經上架成功，按確定返回品牌管理列表。'
@@ -71,6 +75,10 @@ export const useBrandStore = defineStore('brand', () => {
     'edit': {
       title: '編輯成功',
       message: '品牌已經編輯成功，按確定返回品牌管理列表。'
+    },
+    'active': {
+      title: '上架成功',
+      message: '品牌已經上架成功，按確定返回品牌管理列表。'
     },
     'archive': {
       title: '品牌已封存',
@@ -89,8 +97,9 @@ export const useBrandStore = defineStore('brand', () => {
     let type = null
     type = editType == 'create' ? 'add'
     : editType == 'save' ? 'edit'
-    : editType == 'add' ? (brandInfo.status = 'active', 'edit') 
+    : editType == 'add' ? (brandInfo.status = 'active', 'add') 
     : editType == 'edit' ? 'edit'
+    : editType == 'active' ? (brandInfo.status = 'active', 'edit')
     : editType == 'archive' ? (brandInfo.status = 'archived', 'edit')
     : null
 

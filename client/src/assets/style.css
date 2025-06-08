@@ -879,6 +879,10 @@ img {
 .productInsideContent__option .optionSection ul li img {
   width: 100%;
 }
+.productInsideContent__option .optionSection .noData {
+  font-size: 12px;
+  color: #999a98;
+}
 .productInsideContent__images {
   display: flex;
   flex-direction: column;
@@ -1366,7 +1370,7 @@ img {
 }
 .brandContent__list li img {
   width: 100%;
-  min-height: 200px;
+  height: 250px;
 }
 
 .brandInsideContent {
@@ -1461,7 +1465,7 @@ img {
   }
   .brandContent__list li img {
     width: 100%;
-    min-height: 0;
+    height: 150px;
   }
   .brandInsideContent {
     flex-direction: column;
@@ -1558,7 +1562,7 @@ img {
 }
 .newsContent__list li .image img {
   width: 100%;
-  min-height: 150px;
+  height: 200px;
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -1690,6 +1694,9 @@ img {
   }
   .newsContent__list li .image {
     width: 100%;
+  }
+  .newsContent__list li .image img {
+    height: 150px;
   }
   .newsContent__list li .description {
     gap: 16px;

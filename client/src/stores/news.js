@@ -32,9 +32,9 @@ export const useNewsStore = defineStore('news', () => {
 
   const getNews = ref( async (page, category) => {
     isLoading.value = true
-    page = page? `?page=${page}&pageSize=${pageSize.value}` : ''
+    page = page? `&page=${page}&pageSize=${pageSize.value}` : ''
     category = category? `&category=${category}` : ''
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/news${page}${category}`
+    const apiURL = `${import.meta.env.VITE_APP_API_URL}/news?status=active${page}${category}`
     try {
       let response = await axios.get(apiURL)
       if (response) {

@@ -58,7 +58,6 @@ export const usePagesStore = defineStore('pages', () => {
       let response = await axios.get(apiURL)
       if (response) {
         pagesInfo.value = {...response.data}
-        console.log(pagesInfo.value)
         isGetPages.value = true
         isLoading.value = false
       }

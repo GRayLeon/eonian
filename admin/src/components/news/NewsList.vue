@@ -57,6 +57,7 @@
     <li class="head">
       <div class="name">標題</div>
       <div class="status">狀態</div>
+      <div class="category">分類</div>
       <div class="description">描述</div>
     </li>
     <li v-for="news in news.data" @click="router.push(`news/${news._id}`)">
@@ -64,6 +65,7 @@
       <div class="status">
         <span :class="news.status">{{ statusWording(news.status) }}</span>
       </div>
+      <div class="category">{{  news.category }}</div>
       <div class="description">{{  news.description['zh'] }}</div>
     </li>
   </ul>

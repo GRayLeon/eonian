@@ -26,7 +26,7 @@ export const useBrandStore = defineStore('brand', () => {
 
   const getBrands = ref( async () => {
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/brand`
+    const apiURL = `${import.meta.env.VITE_APP_API_URL}/brand?status=active`
     try {
       let response = await axios.get(apiURL)
       if (response) {

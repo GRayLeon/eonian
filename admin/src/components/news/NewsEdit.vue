@@ -79,7 +79,8 @@
   const onFileChange = event => {
     const file = event.target.files[0]
     if (file) {
-      selectFile.value = file
+      const newFile = new File([file], `${Date.now()}_newsImage`, { type: file.type })
+      selectFile.value = newFile
       previewUrl.value = URL.createObjectURL(file)
       previewName.value = file.name
     } else {
@@ -623,7 +624,12 @@
         @click="editNews(newsInfo, 'save')">儲存草稿</button>
       <button  
         :disabled="!isReady"
+        v-if="!isEdit"
         @click="editNews(newsInfo, 'add')">上架貼文</button>
+      <button  
+        :disabled="!isReady"
+        v-else
+        @click="editNews(newsInfo, 'active')">上架貼文</button>
     </div>
   </div>
 </template>

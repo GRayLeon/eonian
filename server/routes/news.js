@@ -248,11 +248,16 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
 
 async function getNews(req, res, next) {
   const { 
+    page = 1,
+    size = 999,
     status,
     category,
     sortBy = "_id",
     sortOrder = "asc"
   } = req.query
+
+  const pageNumber = parseInt(page, 10)
+  const pageSize = parseInt(size, 10)
 
   const filter = {}
   if (category) { filter.category = category }
@@ -266,6 +271,8 @@ async function getNews(req, res, next) {
     const news = await News
                             .find(filter)
                             .sort(sort)
+                            .skip((pageNumber - 1) * pageSize)
+                            .limit(pageSize)
     if (news == undefined) {
         return res
                 .status(404)
@@ -275,6 +282,7 @@ async function getNews(req, res, next) {
     }
 
     const categoryStats = await News.aggregate([
+      { $match: { status: 'active' } },
       { $group: { _id: "$category", count: { $sum: 1 } } }
     ])
 
@@ -286,7 +294,10 @@ async function getNews(req, res, next) {
     res.news = {
       data: news,
       pagination: {
-        total
+        total,
+        currentPage: pageNumber,
+        pageSize,
+        totalPages: Math.ceil(total / pageSize)
       },
       categoryAmount
     }

@@ -39,7 +39,7 @@ const productSchema = new mongoose.Schema({
     // required: true
   },
   slipResistance: {
-    type: Number,
+    type: String,
     // required: true
   },
   application: {
@@ -82,6 +82,9 @@ const productSchema = new mongoose.Schema({
   colors: [{
     title: {
       type: String,
+    },
+    size: {
+      type: String
     },
     imageURL: {
       type: String

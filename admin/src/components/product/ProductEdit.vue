@@ -8,7 +8,8 @@
 
   const productStore = useProductStore()
 	const { 
-    products, selectSizes, selectFile,
+    // selectSizes,
+    products, selectFile,
     selectSubImageFiles, updateSubImageFile,
     selectShapeImageFiles, updateShapeImageFile,
     selectColorImageFiles, updateColorImageFile,
@@ -55,15 +56,15 @@
 
   const basePrice = ref(0)
 
-  const sumPrice = computed( () => {
-    let prices = {}
-    selectSizes.value.forEach( selectSize => {
-      let scale = sizeDatas.value.find(size => size._id == selectSize.sizeId).scale
-      let count = selectSize.count
-      prices[selectSize.sizeId] = productInfo.value.basePrice * scale - count
-    })
-    return prices
-  })
+  // const sumPrice = computed( () => {
+  //   let prices = {}
+  //   selectSizes.value.forEach( selectSize => {
+  //     let scale = sizeDatas.value.find(size => size._id == selectSize.sizeId).scale
+  //     let count = selectSize.count
+  //     prices[selectSize.sizeId] = productInfo.value.basePrice * scale - count
+  //   })
+  //   return prices
+  // })
 
   const isEdit = computed( () => {
     return route.params.id !== undefined
@@ -124,7 +125,8 @@
   const onFileChange = event => {
     const file = event.target.files[0]
     if (file) {
-      selectFile.value = file
+      const newFile = new File([file], `${Date.now()}_productImage`, { type: file.type })
+      selectFile.value = newFile
       previewUrl.value = URL.createObjectURL(file)
       previewName.value = file.name
     } else {
@@ -135,35 +137,35 @@
 
   // sizes
 
-  const hasId = id => {
-    let isHas = false
-    selectSizes.value.forEach( size => {
-      if (size.sizeId == id) { isHas = true }
-    })
-    return isHas
-  }
+  // const hasId = id => {
+  //   let isHas = false
+  //   selectSizes.value.forEach( size => {
+  //     if (size.sizeId == id) { isHas = true }
+  //   })
+  //   return isHas
+  // }
 
-  const setCount = id => {
-    if (selectSizes.value.find( size => size.sizeId == id)) {
-      return selectSizes.value.find( size => size.sizeId == id).count
-    }
-  }
+  // const setCount = id => {
+  //   if (selectSizes.value.find( size => size.sizeId == id)) {
+  //     return selectSizes.value.find( size => size.sizeId == id).count
+  //   }
+  // }
 
-  const selectId = id => {
-    if (hasId(id)) {
-      selectSizes.value = selectSizes.value.filter( size => size.sizeId !== id)
-    } else {
-      selectSizes.value.push({ sizeId: id, count: 0 })
-    }
-  }
+  // const selectId = id => {
+  //   if (hasId(id)) {
+  //     selectSizes.value = selectSizes.value.filter( size => size.sizeId !== id)
+  //   } else {
+  //     selectSizes.value.push({ sizeId: id, count: 0 })
+  //   }
+  // }
 
-  const editCount = (inputCount, id) => {
-    selectSizes.value.forEach( item => {
-      if (item.sizeId == id) {
-        item.count = inputCount
-      }
-    })
-  }
+  // const editCount = (inputCount, id) => {
+  //   selectSizes.value.forEach( item => {
+  //     if (item.sizeId == id) {
+  //       item.count = inputCount
+  //     }
+  //   })
+  // }
 
   // subImages
   const previewSubImageUrl = ref([])
@@ -330,7 +332,7 @@
       products.value.data.forEach(product => {
         if (product._id == route.params.id) {
           productInfo.value = { ...product }
-          selectSizes.value = [...productInfo.value.sizes]
+          // selectSizes.value = [...productInfo.value.sizes]
           basePrice.value = product.basePrice
         }
       })
@@ -552,7 +554,7 @@
         v-model="productInfo.slipResistance"
         :disabled="isArchived"
         placeholder="請輸入防滑度"
-        type="number"/>
+        type="text"/>
     </div>
     <div class="inputItem">
       <div class="head">應用</div>
@@ -724,6 +726,13 @@
               v-model="color.title"
               placeholder="請輸入顏色編號" />
           </div>
+          <div class="shapeInputItem">
+            <div class="subHead">尺寸</div>
+            <input
+              type="text"
+              v-model="color.size"
+              placeholder="請輸入顏色尺寸" />
+          </div>
           <div class="shapeInputOption">
             <div
               class="shapeButton"
@@ -783,17 +792,22 @@
         @click="editProduct(productInfo, 'archive', selecteFile)">封存商品</button>
     </div>
     <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
-      <button 
+      <button  
         :disabled="!isReady"
         v-if="!isEdit"
-        @click="editProduct(productInfo, 'create', selecteFile)">創建草稿</button>
-      <button 
+        @click="editProduct(productInfo, 'create')">創建草稿</button>
+      <button  
         :disabled="!isReady"
         v-else
-        @click="editProduct(productInfo, 'save', selecteFile)">儲存草稿</button>
-      <button 
+        @click="editProduct(productInfo, 'save')">儲存草稿</button>
+      <button  
         :disabled="!isReady"
-        @click="editProduct(productInfo, 'add', selecteFile)">上架商品</button>
+        v-if="!isEdit"
+        @click="editProduct(productInfo, 'add')">上架產品</button>
+      <button  
+        :disabled="!isReady"
+        v-else
+        @click="editProduct(productInfo, 'active')">上架產品</button>
     </div>
   </div>
 </template>

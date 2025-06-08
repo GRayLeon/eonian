@@ -13,10 +13,6 @@
 
   const router = useRouter()
 
-  const categoryWording = categoryId => {
-    return categorys.value.find( category => category._id == categoryId ).name['zh']
-  }
-
   const statusWording = statusValue => {
     return statusList.value.find( status => status.value == statusValue ).label
   }
@@ -71,7 +67,6 @@
       <select v-model="sort">
         <option value="_id">上架時間</option>
         <option value="name">名稱</option>
-        <option value="parentCategory">分類</option>
         <option value="basePrice">價錢</option>
       </select>
     </div>

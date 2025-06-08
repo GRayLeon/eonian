@@ -175,7 +175,7 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
 
   req.body.name = JSON.parse(req.body.name)
   req.body.description = JSON.parse(req.body.description)
-  req.body.sizes = JSON.parse(req.body.sizes)
+  // req.body.sizes = JSON.parse(req.body.sizes)
 
   req.body.subImages = JSON.parse(req.body.subImages)
   req.body.updateSubImages = JSON.parse(req.body.updateSubImages)
@@ -328,12 +328,14 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
           if (!image) {
             return {
               'title': newColor.title,
+              'size': newColor.size,
               'imageURL': newColor.imageURL,
               'imagePublicId': newColor.imagePublicId
             }
           } else {
             return {
               'title': newColor.title,
+              'size': newColor.size,
               'imageURL': image.imageURL,
               'imagePublicId': image.imagePublicId
             }
@@ -380,6 +382,8 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
 
 async function getProducts(req, res, next) {
   const { 
+    page = 1,
+    size = 999,
     status,
     category,
     sortBy = "_id",
@@ -390,6 +394,9 @@ async function getProducts(req, res, next) {
     supportEn,
     brandEn
   } = req.query
+
+  const pageNumber = parseInt(page, 10)
+  const pageSize = parseInt(size, 10)
 
   const filter = {}
   if (status) { filter.status = status }
@@ -410,6 +417,8 @@ async function getProducts(req, res, next) {
     const products = await Product
                             .find(filter)
                             .sort(sort)
+                            .skip((pageNumber - 1) * pageSize)
+                            .limit(pageSize)
     if (products == undefined) {
         return res
                 .status(404)
@@ -420,7 +429,10 @@ async function getProducts(req, res, next) {
       res.products = {
         data: products,
         pagination: {
-          total
+          total,
+          currentPage: pageNumber,
+          pageSize,
+          totalPages: Math.ceil(total / pageSize)
         }
       }
       next()

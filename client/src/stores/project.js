@@ -29,13 +29,13 @@ export const useProjectStore = defineStore('project', () => {
   const getProjects = ref( async (page, filter) => {
     let query = ''
     if (filter) {
-      query = `search=${filter}`
-    } else {
-      query = `page=${page}&size=${pageSize.value}`
+      query = `&search=${filter}`
+    } else if (page){
+      query = `&page=${page}&size=${pageSize.value}`
     }
 
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/project?${query}`
+    const apiURL = `${import.meta.env.VITE_APP_API_URL}/project?status=active${query}`
     try {
       let response = await axios.get(apiURL)
       if (response) {

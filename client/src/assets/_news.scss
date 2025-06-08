@@ -59,7 +59,7 @@
                 width: 320px;
                 img {
                     width: 100%;
-                    min-height: 150px;
+                    height: 200px;
                     object-fit: cover;
                     object-position: center;
                 }
@@ -192,6 +192,9 @@
                 }
                 .image {
                     width: 100%;
+                    img {
+                        height: 150px;
+                    }
                 }
                 .description {
                     gap: 16px;

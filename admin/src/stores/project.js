@@ -60,6 +60,10 @@ export const useProjectStore = defineStore('project', () => {
   })
 
   const sucessInfo = {
+    'creat': {
+      title: '新增草稿',
+      message: '已成功新增草稿，按確定返回專案管理列表。'
+    },
     'add': {
       title: '上架成功',
       message: '專案已經上架成功，按確定返回專案管理列表。'
@@ -71,6 +75,10 @@ export const useProjectStore = defineStore('project', () => {
     'edit': {
       title: '編輯成功',
       message: '專案已經編輯成功，按確定返回專案管理列表。'
+    },
+    'active': {
+      title: '上架成功',
+      message: '專案已經上架成功，按確定返回專案管理列表。'
     },
     'archive': {
       title: '專案已封存',
@@ -87,8 +95,9 @@ export const useProjectStore = defineStore('project', () => {
     let type = null
     type = editType == 'create' ? 'add'
     : editType == 'save' ? 'edit'
-    : editType == 'add' ? (projectInfo.status = 'active', 'edit') 
+    : editType == 'add' ? (projectInfo.status = 'active', 'add') 
     : editType == 'edit' ? 'edit'
+    : editType == 'active' ? (projectInfo.status = 'active', 'edit')
     : editType == 'archive' ? (projectInfo.status = 'archived', 'edit')
     : null
 

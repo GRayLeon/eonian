@@ -27,11 +27,11 @@ export const useProductStore = defineStore('product', () => {
   const isGetProducts = ref(false)
 
   const getProducts = ref( async (page, filter, activeName) => {
-    page = page? `page=${page}` : ''
+    page = page? `&page=${page}` : ''
     filter = (filter && activeName)? `&${filter}En=${activeName}` : ''
 
     isLoading.value = true
-    const apiURL = `${import.meta.env.VITE_APP_API_URL}/product?${page}&size=${pageSize.value}${filter}`
+    const apiURL = `${import.meta.env.VITE_APP_API_URL}/product?status=active${page}&size=${pageSize.value}${filter}`
     try {
       let response = await axios.get(apiURL)
       if (response) {
