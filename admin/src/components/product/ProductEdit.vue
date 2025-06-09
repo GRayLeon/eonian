@@ -540,14 +540,14 @@
         placeholder="請如入型號"
         type="text"/>
     </div>
-    <div class="inputItem">
+    <!-- <div class="inputItem">
       <div class="head">尺寸</div>
       <input
         v-model="productInfo.dimension"
         :disabled="isArchived"
         placeholder="請輸入尺寸"
         type="text"/>
-    </div>
+    </div> -->
     <div class="inputItem">
       <div class="head">防滑度</div>
       <input
@@ -752,7 +752,7 @@
         </div>
       </div>
     </div>
-    <div class="inputItem">
+    <!-- <div class="inputItem">
       <div class="head">標籤</div>
       <div class="tagListArea">
         <div class="tagList" v-if="productInfo.tags.length > 0">
@@ -781,7 +781,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
       <button 
         :disabled="!isReady"

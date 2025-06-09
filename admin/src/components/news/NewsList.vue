@@ -47,9 +47,8 @@
       <div class="head">排序</div>
       <select v-model="sort">
         <option value="_id">上架時間</option>
-        <option value="name">名稱</option>
-        <option value="parentCategory">分類</option>
-        <option value="basePrice">價錢</option>
+        <option value="topic.zh">名稱</option>
+        <option value="category">分類</option>
       </select>
     </div>
   </div>
