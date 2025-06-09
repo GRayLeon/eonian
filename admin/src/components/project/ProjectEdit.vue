@@ -54,7 +54,7 @@
 
   const isReady = computed( () => {
     let ready = true
-    // if( !projectInfo.value.imageURL && !previewImageUrl.value ) { ready = false}
+    // if( !projectInfo.value.imageURL && !previewimageURL.value ) { ready = false}
     // if( !projectInfo.value.title ) { ready = false}
     // if( !projectInfo.value.category ) { ready = false}
     // if( !projectInfo.value.artist ) { ready = false}
@@ -77,7 +77,7 @@
   })
 
   // projectImages
-  const previewImageUrl = ref([])
+  const previewimageURL = ref([])
   const previewImageName = ref([])
   const isImageChanging = ref([])
 
@@ -111,7 +111,7 @@
         selectImageFiles.value.push(fileTarget)
       }
 
-      const urlTarget = findTarget(previewImageUrl.value, listIdx, idx) || {
+      const urlTarget = findTarget(previewimageURL.value, listIdx, idx) || {
         index: [listIdx, idx],
         url: ''
       }
@@ -144,7 +144,7 @@
         fileTarget.file = null
       }
 
-      const urlTarget = findTarget(previewImageUrl.value, listIdx, idx)
+      const urlTarget = findTarget(previewimageURL.value, listIdx, idx)
       if (urlTarget) {
         urlTarget.url = null
       }
@@ -181,7 +181,7 @@
       index: [projectInfo.value.imageList.length - 1, 0],
       isChange: true
     })
-    previewImageUrl.value.push({
+    previewimageURL.value.push({
       index: [projectInfo.value.imageList.length - 1, 0],
       url: ''
     })
@@ -202,7 +202,7 @@
     projectInfo.value.imageList.splice(idx, 1)
     removeParent(updateImageFile.value, idx)
     removeParent(selectImageFiles.value, idx)
-    removeParent(previewImageUrl.value, idx)
+    removeParent(previewimageURL.value, idx)
     removeParent(previewImageName.value, idx)
     removeParent(isImageChanging.value, idx)
   }
@@ -242,7 +242,7 @@
             index: [listIdx, idx],
             name: ''
           })
-          previewImageUrl.value.push({
+          previewimageURL.value.push({
             index: [listIdx, idx],
             url: ''
           })
@@ -265,7 +265,7 @@
         index: [0, 0],
         name: ''
       })
-      previewImageUrl.value.push({
+      previewimageURL.value.push({
         index: [0, 0],
         url: ''
       })
@@ -287,7 +287,7 @@
         index: [0, 0],
         name: ''
       })
-      previewImageUrl.value.push({
+      previewimageURL.value.push({
         index: [0, 0],
         url: null
       })
@@ -316,8 +316,8 @@
       const changeTarget = findTarget(isImageChanging.value, istIdx, 1)
       isImageChanging.value.splice(isImageChanging.value.indexOf(changeTarget), 1)
 
-      const urlTarget = findTarget(previewImageUrl.value, listIdx, 1)
-      previewImageUrl.value.splice(previewImageUrl.value.indexOf(urlTarget), 1)
+      const urlTarget = findTarget(previewimageURL.value, listIdx, 1)
+      previewimageURL.value.splice(previewimageURL.value.indexOf(urlTarget), 1)
 
       const nameTarget = findTarget(previewImageName.value, listIdx, 1)
       previewImageName.value.splice(previewImageName.value.indexOf(nameTarget), 1)
@@ -339,7 +339,7 @@
         index: [listIdx, 1],
         isChange: true
       })
-      previewImageUrl.value.push({
+      previewimageURL.value.push({
         index: [listIdx, 1],
         url: ''
       })
@@ -395,8 +395,8 @@
                 :src="image.imageURL"
                 v-if="image.imageURL && !findTarget(isImageChanging, listIdx, idx).isChange">
               <img
-                :src="findTarget(previewImageUrl, listIdx, idx) && findTarget(previewImageUrl, listIdx, idx).url"
-                v-else-if="findTarget(previewImageUrl, listIdx, idx) && findTarget(previewImageUrl, listIdx, idx).url && findTarget(isImageChanging, listIdx, idx).isChange">
+                :src="findTarget(previewimageURL, listIdx, idx) && findTarget(previewimageURL, listIdx, idx).url"
+                v-else-if="findTarget(previewimageURL, listIdx, idx) && findTarget(previewimageURL, listIdx, idx).url && findTarget(isImageChanging, listIdx, idx).isChange">
               <div class="noImage" v-else><span>沒有圖片</span></div>
               <button
                 v-if="findTarget(isImageChanging, listIdx, idx) && !findTarget(isImageChanging, listIdx, idx).isChange && !isArchived"

@@ -12,12 +12,10 @@
     return ready
   })
 
-  onMounted( () => {
-    getPages.value()
-  })
-
-  onUpdated( () => {
-    getPages.value()
+  onUpdated( async () => {
+    isLoading.value = true
+    await getPages.value()
+    isLoading.value = false
   })
 </script>
 

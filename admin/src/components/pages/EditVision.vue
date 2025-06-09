@@ -6,7 +6,7 @@
 
   const pagesStore = usePagesStore()
 	const { 
-    pages, selectVisionFile
+    getPages, pages, selectVisionFile
   } = storeToRefs(pagesStore)
 
   const loadStore = useLoadStore()
@@ -35,9 +35,7 @@
 
   onMounted( async () => {
     isLoading.value = true
-  })
-
-  onUpdated( () => {
+    await getPages.value()
     isLoading.value = false
   })
 

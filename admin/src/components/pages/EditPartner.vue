@@ -6,14 +6,14 @@
 
   const pagesStore = usePagesStore()
 	const { 
-    pages, selectPartnerImageFiles, updatePartnerImageFile 
+    getPages, pages, selectPartnerImageFiles, updatePartnerImageFile 
   } = storeToRefs(pagesStore)
 
   const loadStore = useLoadStore()
 	const { isLoading } = storeToRefs(loadStore)
 
   // partnerImages
-  const previewPartnerImageUrl = ref([])
+  const previewPartnerimageURL = ref([])
   const previewPartnerImageName = ref(['請選擇圖片檔案'])
 
   const isPartnerImageChanging = ref([])
@@ -26,14 +26,14 @@
     if (file) {
       const newFile = new File([file], `${Date.now() + idx}_partnerImage`, { type: file.type })
       selectPartnerImageFiles.value[idx] = newFile
-      previewPartnerImageUrl.value[idx] = URL.createObjectURL(file)
+      previewPartnerimageURL.value[idx] = URL.createObjectURL(file)
       previewPartnerImageName.value[idx] = file.name
       updatePartnerImageFile.value.push( {
         idx: idx,
         name: newFile.name.split(".")[0]
       })
     } else {
-      previewPartnerImageUrl.value[idx] = null
+      previewPartnerimageURL.value[idx] = null
       previewPartnerImageName.value[idx] = '請選擇圖片檔案'
       updatePartnerImageFile.value.forEach( (file, findx) => {
         if (file.idx == idx) {
@@ -55,7 +55,7 @@
   const removePartnerImage = idx => {
     pages.value.partners.splice(idx, 1)
     selectPartnerImageFiles.value.splice(idx, 1)
-    previewPartnerImageUrl.value.splice(idx, 1)
+    previewPartnerimageURL.value.splice(idx, 1)
     previewPartnerImageName.value.splice(idx, 1)
     isPartnerImageChanging.value.splice(idx, 1)
   }
@@ -67,13 +67,11 @@
   }
 
   onMounted( async () => {
-    isLoading.value = true
+    isLoading.value = 
+    await getPages.value()
     initPartnerInfo()
     updatePartnerImageFile.value = []
     selectPartnerImageFiles.value = []
-  })
-
-  onUpdated( () => {
     isLoading.value = false
   })
 
@@ -91,8 +89,8 @@
               :src="partner.imageURL"
               v-if="partner.imageURL && !isPartnerImageChanging[idx]">
             <img
-              :src="previewPartnerImageUrl[idx]"
-              v-else-if="previewPartnerImageUrl[idx] && isPartnerImageChanging[idx]">
+              :src="previewPartnerimageURL[idx]"
+              v-else-if="previewPartnerimageURL[idx] && isPartnerImageChanging[idx]">
             <div class="noImage" v-else><span>沒有圖片</span></div>
             <button
               v-if="!isPartnerImageChanging[idx]"

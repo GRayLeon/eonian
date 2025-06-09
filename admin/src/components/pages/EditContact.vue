@@ -5,16 +5,14 @@
   import { ref, onMounted, onUpdated } from 'vue';
 
   const pagesStore = usePagesStore()
-	const { pages } = storeToRefs(pagesStore)
+	const { getPages, pages } = storeToRefs(pagesStore)
 
   const loadStore = useLoadStore()
 	const { isLoading } = storeToRefs(loadStore)
 
   onMounted( async () => {
     isLoading.value = true
-  })
-
-  onUpdated( () => {
+    await getPages.value()
     isLoading.value = false
   })
 

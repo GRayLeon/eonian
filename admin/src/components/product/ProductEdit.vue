@@ -168,7 +168,7 @@
   // }
 
   // subImages
-  const previewSubImageUrl = ref([])
+  const previewSubimageURL = ref([])
   const previewSubImageName = ref(['請選擇圖片檔案'])
 
   const isSubImageChanging = ref([])
@@ -181,14 +181,14 @@
     if (file) {
       const newFile = new File([file], `${Date.now() + idx}_subImage`, { type: file.type })
       selectSubImageFiles.value[idx] = newFile
-      previewSubImageUrl.value[idx] = URL.createObjectURL(file)
+      previewSubimageURL.value[idx] = URL.createObjectURL(file)
       previewSubImageName.value[idx] = file.name
       updateSubImageFile.value.push( {
         idx: idx,
         name: newFile.name.split(".")[0]
       })
     } else {
-      previewSubImageUrl.value[idx] = null
+      previewSubimageURL.value[idx] = null
       previewSubImageName.value[idx] = '請選擇圖片檔案'
       updateSubImageFile.value.forEach( (file, findx) => {
         if (file.idx == idx) {
@@ -209,13 +209,13 @@
   const removeSubImage = idx => {
     productInfo.value.subImages.splice(idx, 1)
     selectSubImageFiles.value.splice(idx, 1)
-    previewSubImageUrl.value.splice(idx, 1)
+    previewSubimageURL.value.splice(idx, 1)
     previewSubImageName.value.splice(idx, 1)
     isSubImageChanging.value.splice(idx, 1)
   }
 
   // shapes
-  const previewShapeImageUrl = ref([])
+  const previewShapeimageURL = ref([])
   const previewShapeImageName = ref(['請選擇圖片檔案'])
 
   const isShapeImageChanging = ref([])
@@ -228,14 +228,14 @@
     if (file) {
       const newFile = new File([file], `${Date.now() + idx}_shpaeImage`, { type: file.type })
       selectShapeImageFiles.value[idx] = newFile
-      previewShapeImageUrl.value[idx] = URL.createObjectURL(file)
+      previewShapeimageURL.value[idx] = URL.createObjectURL(file)
       previewShapeImageName.value[idx] = file.name
       updateShapeImageFile.value.push( {
         idx: idx,
         name: newFile.name.split(".")[0]
       })
     } else {
-      previewShapeImageUrl.value[idx] = null
+      previewShapeimageURL.value[idx] = null
       previewShapeImageName.value[idx] = '請選擇圖片檔案'
       updateShapeImageFile.value.forEach( (file, findx) => {
         if (file.idx == idx) {
@@ -258,13 +258,13 @@
   const removeShape = idx => {
     productInfo.value.shapes.splice(idx, 1)
     selectShapeImageFiles.value.splice(idx, 1)
-    previewShapeImageUrl.value.splice(idx, 1)
+    previewShapeimageURL.value.splice(idx, 1)
     previewShapeImageName.value.splice(idx, 1)
     isShapeImageChanging.value.splice(idx, 1)
   }
 
   // colors
-  const previewColorImageUrl = ref([])
+  const previewColorimageURL = ref([])
   const previewColorImageName = ref(['請選擇圖片檔案'])
 
   const isColorImageChanging = ref([])
@@ -277,14 +277,14 @@
     if (file) {
       const newFile = new File([file], `${Date.now() + idx}_colorImage`, { type: file.type })
       selectColorImageFiles.value[idx] = newFile
-      previewColorImageUrl.value[idx] = URL.createObjectURL(file)
+      previewColorimageURL.value[idx] = URL.createObjectURL(file)
       previewColorImageName.value[idx] = file.name
       updateColorImageFile.value.push( {
         idx: idx,
         name: newFile.name.split(".")[0]
       })
     } else {
-      previewColorImageUrl.value[idx] = null
+      previewColorimageURL.value[idx] = null
       previewColorImageName.value[idx] = '請選擇圖片檔案'
       updateColorImageFile.value.forEach( (file, findx) => {
         if (file.idx == idx) {
@@ -306,7 +306,7 @@
   const removeColor = idx => {
     productInfo.value.colors.splice(idx, 1)
     selectColorImageFiles.value.splice(idx, 1)
-    previewColorImageUrl.value.splice(idx, 1)
+    previewColorimageURL.value.splice(idx, 1)
     previewColorImageName.value.splice(idx, 1)
     isColorImageChanging.value.splice(idx, 1)
   }
@@ -414,8 +414,8 @@
             :src="subImage.imageURL"
             v-if="subImage.imageURL && !isSubImageChanging[idx]">
           <img
-            :src="previewSubImageUrl[idx]"
-            v-else-if="previewSubImageUrl[idx] && isSubImageChanging[idx]">
+            :src="previewSubimageURL[idx]"
+            v-else-if="previewSubimageURL[idx] && isSubImageChanging[idx]">
           <div class="noImage" v-else><span>沒有圖片</span></div>
           <button
             v-if="!isSubImageChanging[idx] && !isArchived"
@@ -636,8 +636,8 @@
                 :src="shape.imageURL"
                 v-if="shape.imageURL && !isShapeImageChanging[idx]">
               <img
-                :src="previewShapeImageUrl[idx]"
-                v-else-if="previewShapeImageUrl[idx] && isShapeImageChanging[idx]">
+                :src="previewShapeimageURL[idx]"
+                v-else-if="previewShapeimageURL[idx] && isShapeImageChanging[idx]">
               <div class="noImage" v-else><span>沒有圖片</span></div>
               <button
                 v-if="!isShapeImageChanging[idx] && !isArchived"
@@ -700,8 +700,8 @@
                 :src="color.imageURL"
                 v-if="color.imageURL && !isColorImageChanging[idx]">
               <img
-                :src="previewColorImageUrl[idx]"
-                v-else-if="previewColorImageUrl[idx] && isColorImageChanging[idx]">
+                :src="previewColorimageURL[idx]"
+                v-else-if="previewColorimageURL[idx] && isColorImageChanging[idx]">
               <div class="noImage" v-else><span>沒有圖片</span></div>
               <button
                 v-if="!isColorImageChanging[idx] && !isArchived"

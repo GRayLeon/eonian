@@ -102,7 +102,7 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
   // 透過 upload 上傳圖片至 cloudinary 並取得相關資訊
 
   // const indexImage = req.files["indexImage"] ? req.files["indexImage"][0] : null
-  // const indexImageURL = indexImage?.path || null
+  // const indeximageURL = indexImage?.path || null
   // const indexImagePublicId = indexImage?.filename || null
 
   let indexImagesData = null
@@ -116,7 +116,7 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
   }
 
   const visionImage = req.files["visionImage"] ? req.files["visionImage"][0] : null
-  const visionImageURL = visionImage?.path || null
+  const visionimageURL = visionImage?.path || null
   const visionImagePublicId = visionImage?.filename || null
 
   let partnerImagesData = null
@@ -150,7 +150,7 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
       //     await cloudinary.uploader.destroy(pages.index.imagePublicId)
       //   }
       //   pages.index.imagePublicId = indexImagePublicId
-      //   pages.index.imageURL = indexImageURL
+      //   pages.index.imageURL = indeximageURL
       // }
 
       const deleteIndexImages = []
@@ -203,7 +203,7 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
           await cloudinary.uploader.destroy(pages.vision.imagePublicId)
         }
         pages.vision.imagePublicId = visionImagePublicId
-        pages.vision.imageURL = visionImageURL
+        pages.vision.imageURL = visionimageURL
       }
 
       // 若有新的 partnerImages 則刪除舊的

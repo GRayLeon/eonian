@@ -6,7 +6,7 @@
 
   const pagesStore = usePagesStore()
 	const { 
-    pages, selectIndexImageFiles, updateIndexImageFile
+    getPages, pages, selectIndexImageFiles, updateIndexImageFile
   } = storeToRefs(pagesStore)
 
   const loadStore = useLoadStore()
@@ -33,7 +33,7 @@
   //   }
   // }
 
-  const previewIndexImageUrl = ref([])
+  const previewIndeximageURL = ref([])
   const previewIndexImageName = ref(['請選擇圖片檔案'])
 
   const isIndexImageChanging = ref([])
@@ -46,14 +46,14 @@
     if (file) {
       const newFile = new File([file], `${Date.now() + idx}_indexImage`, { type: file.type })
       selectIndexImageFiles.value[idx] = newFile
-      previewIndexImageUrl.value[idx] = URL.createObjectURL(file)
+      previewIndeximageURL.value[idx] = URL.createObjectURL(file)
       previewIndexImageName.value[idx] = file.name
       updateIndexImageFile.value.push( {
         idx: idx,
         name: newFile.name.split(".")[0]
       })
     } else {
-      previewIndexImageUrl.value[idx] = null
+      previewIndeximageURL.value[idx] = null
       previewIndexImageName.value[idx] = '請選擇圖片檔案'
       updateIndexImageFile.value.forEach( (file, findx) => {
         if (file.idx == idx) {
@@ -74,7 +74,7 @@
   const removeIndexImage = idx => {
     pages.value.index.images.splice(idx, 1)
     selectIndexImageFiles.value.splice(idx, 1)
-    previewIndexImageUrl.value.splice(idx, 1)
+    previewIndeximageURL.value.splice(idx, 1)
     previewIndexImageName.value.splice(idx, 1)
     isIndexImageChanging.value.splice(idx, 1)
   }
@@ -87,12 +87,10 @@
 
   onMounted( async () => {
     isLoading.value = true
+    await getPages.value()
     initPages()
     updateIndexImageFile.value = []
     selectIndexImageFiles.value = []
-  })
-
-  onUpdated( () => {
     isLoading.value = false
   })
 
@@ -124,20 +122,20 @@
     </div> -->
     <div class="inputItem inputItem--column">
       <ul class="subImages">
-        <li v-for="(image, idx) in pages.index.images">
+        <li v-for="(indexImage, idx) in pages.index.images">
           <img
-            :src="image.imageURL"
-            v-if="image.imageURL && !isIndexImageChanging[idx]">
+            :src="indexImage.imageURL"
+            v-if="indexImage.imageURL && !isIndexImageChanging[idx]">
           <img
-            :src="previewIndexImageUrl[idx]"
-            v-else-if="previewIndexImageUrl[idx] && isIndexImageChanging[idx]">
+            :src="previewIndeximageURL[idx]"
+            v-else-if="previewIndeximageURL[idx] && isIndexImageChanging[idx]">
           <div class="noImage" v-else><span>沒有圖片</span></div>
           <button
-            v-if="!isIndexImageChanging[idx]"
+            v-if="!isIndexImageChanging[idx] && !isArchived"
             @click="changeIndexImage(idx)">
             更改圖片
           </button>
-          <div v-else class="imageSelect">
+          <div v-else-if="!isArchived" class="imageSelect">
             <input
               type="file"
               accept=".jpg, .png"

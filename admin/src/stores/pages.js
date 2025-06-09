@@ -23,7 +23,7 @@ export const usePagesStore = defineStore('pages', () => {
       },
       images: [
         {
-          imageUrl: '',
+          imageURL: '',
           imagePublicId: ''
         }
       ]
@@ -33,12 +33,12 @@ export const usePagesStore = defineStore('pages', () => {
         en: '',
         zh: ''
       },
-      imageUrl: '',
+      imageURL: '',
       imagePublicId: ''
     },
     partners: [{
       name: '',
-      imageUrl: '',
+      imageURL: '',
       imagePublicId: ''
     }],
     contact: {
