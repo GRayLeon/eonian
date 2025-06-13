@@ -26,16 +26,16 @@ const storage = new CloudinaryStorage({
     let transformation
     if (file.fieldname === "indexImages" || file.fieldname === "visionImage") {
       transformation = [{ 
-        width: 1024,
-        height: 1024,
+        width: 1920,
+        height: 1080,
         crop: "limit",
         quality: "auto",
         fetch_format: "auto"
       }]
     } else if (file.fieldname === "partnerImages") {
       transformation = [{
-        width: 100,
-        height: 100,
+        width: 300,
+        height: 300,
         crop: "limit",
         quality: "auto",
         fetch_format: "auto"
@@ -57,8 +57,8 @@ const upload = multer({
   storage,
   fileFilter: (req, file, callback) => {
     const allowedMimeTypes = ["image/jpeg", "image/png"]
-    const maxSizeLargeImage = 1 * 1024 * 1024
-    const maxSizeSmallImage = 300 * 1024
+    const maxSizeLargeImage = 2 * 1024 * 1024
+    const maxSizeSmallImage = 500 * 1024
     
     if ((file.fieldname === "indexImages" || file.fieldname === "visionImage") && file.size > maxSizeLargeImage) {
       callback(new Error("商品圖片大小不得超過 1MB"))

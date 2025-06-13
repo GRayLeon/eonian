@@ -25,8 +25,8 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => {
     let transformation
     transformation = [{ 
-      width: 1024,
-      height: 1024,
+      width: 1920,
+      height: 1080,
       crop: "limit",
       quality: "auto",
       fetch_format: "auto"
@@ -47,7 +47,7 @@ const upload = multer({
   storage,
   fileFilter: (req, file, callback) => {
     const allowedMimeTypes = ["image/jpeg", "image/png"]
-    const maxSize = 1 * 1024 * 1024
+    const maxSize = 2 * 1024 * 1024
     
     if (!allowedMimeTypes.includes(file.mimetype)) {
       callback(new Error("僅接受 JPG 或 PNG 格式的圖片"))
