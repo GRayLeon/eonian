@@ -145,69 +145,6 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
     try {
       project = await Project.findById(req.body._id)
       Object.assign(project, req.body)
-
-
-      // 若有新的 subImages 則刪除舊的
-      const deleteProjectImages = []
-      if (projectImagesData && projectImagesData.length > 0) {
-        req.body.updateProjectImages = JSON.parse(req.body.updateProjectImages)
-        const newImages = []
-        req.body.imageList.forEach( (list, listIdx) => {
-          list.images.forEach( (image, idx) => {
-            newImages.push({
-              listIdx: listIdx,
-              idx: idx,
-              image: image
-            })
-          })
-        })
-        const updateProjectImages = newImages.map( newImage => {
-          let image
-          for (const update of req.body.updateProjectImages) {
-            if (update.index[0] == newImage.listIdx && update.index[1] == newImage.idx) {
-              projectImagesData.forEach( data => {
-                let checkName = data.imagePublicId.split("-")[1]
-                if (update.name == checkName) {
-                  image = data
-                }
-              })
-              if (project.imageList[newImage.listIdx].images[newImage.idx] && project.imageList[newImage.listIdx].images[newImage.idx].imagePublicId) {
-                deleteProjectImages.push(project.imageList[newImage.listIdx].images[newImage.idx].imagePublicId)
-              }
-            }
-          }
-          if (!image) {
-            return {
-              'listIdx': newImage.listIdx,
-              'idx': newImage.idx,
-              'imageURL': newImage.image.imageURL,
-              'imagePublicId': newImage.image.imagePublicId
-            }
-          } else {
-            return {
-              'listIdx': newImage.listIdx,
-              'idx': newImage.idx,
-              'imageURL': image.imageURL,
-              'imagePublicId': image.imagePublicId
-            }
-          }
-        })
-        for (const image of deleteProjectImages) {
-          try {
-            await cloudinary.uploader.destroy(image)
-          } catch (err) {
-            return res
-                    .status(400)
-                    .json({ message: err.message })
-          }
-        }
-        updateProjectImages.forEach( update => {
-          project.imageList[update.listIdx].images[update.idx].imageURL = update.imageURL
-          project.imageList[update.listIdx].images[update.idx].imagePublicId = update.imagePublicId
-        })
-        project.markModified('imageList')
-      }
-
       status = 200
       wording = '修改'
     } catch (err) {
@@ -219,6 +156,67 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
     project = new Project({ ...req.body })
     status = 201
     wording = '新增'
+  }
+
+  // 若有新的 subImages 則刪除舊的
+  const deleteProjectImages = []
+  if (projectImagesData && projectImagesData.length > 0) {
+    req.body.updateProjectImages = JSON.parse(req.body.updateProjectImages)
+    const newImages = []
+    req.body.imageList.forEach( (list, listIdx) => {
+      list.images.forEach( (image, idx) => {
+        newImages.push({
+          listIdx: listIdx,
+          idx: idx,
+          image: image
+        })
+      })
+    })
+    const updateProjectImages = newImages.map( newImage => {
+      let image
+      for (const update of req.body.updateProjectImages) {
+        if (update.index[0] == newImage.listIdx && update.index[1] == newImage.idx) {
+          projectImagesData.forEach( data => {
+            let checkName = data.imagePublicId.split("-")[1]
+            if (update.name == checkName) {
+              image = data
+            }
+          })
+          if (project.imageList[newImage.listIdx].images[newImage.idx] && project.imageList[newImage.listIdx].images[newImage.idx].imagePublicId) {
+            deleteProjectImages.push(project.imageList[newImage.listIdx].images[newImage.idx].imagePublicId)
+          }
+        }
+      }
+      if (!image) {
+        return {
+          'listIdx': newImage.listIdx,
+          'idx': newImage.idx,
+          'imageURL': newImage.image.imageURL,
+          'imagePublicId': newImage.image.imagePublicId
+        }
+      } else {
+        return {
+          'listIdx': newImage.listIdx,
+          'idx': newImage.idx,
+          'imageURL': image.imageURL,
+          'imagePublicId': image.imagePublicId
+        }
+      }
+    })
+    for (const image of deleteProjectImages) {
+      try {
+        await cloudinary.uploader.destroy(image)
+      } catch (err) {
+        return res
+                .status(400)
+                .json({ message: err.message })
+      }
+    }
+    updateProjectImages.forEach( update => {
+      project.imageList[update.listIdx].images[update.idx].imageURL = update.imageURL
+      project.imageList[update.listIdx].images[update.idx].imagePublicId = update.imagePublicId
+    })
+    project.markModified('imageList')
   }
 
   try {

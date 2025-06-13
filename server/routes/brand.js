@@ -150,76 +150,6 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
       brand = await Brand.findById(req.body._id)
       Object.assign(brand, req.body)
 
-      // 若有新的 imagePublicId 則刪除舊的
-      if (imagePublicId) {
-        if (brand.imagePublicId) {
-          await cloudinary.uploader.destroy(brand.imagePublicId)
-        }
-        brand.imagePublicId = imagePublicId
-        brand.imageURL = imageURL
-      }
-
-      // 若有新的 subImages 則刪除舊的
-      const deleteBrandImages = []
-      if (brandImagesData && brandImagesData.length > 0) {
-        req.body.updateBrandImages = JSON.parse(req.body.updateBrandImages)
-        const newImages = []
-        req.body.content.forEach( (item, listIdx) => {
-          item.article.forEach( (image, idx) => {
-            newImages.push({
-              listIdx: listIdx,
-              idx: idx,
-              image: image
-            })
-          })
-        })
-        const updateBrandImages = newImages.map( newImage => {
-          let image
-          for (const update of req.body.updateBrandImages) {
-            if (update.index[0] == newImage.listIdx && update.index[1] == newImage.idx) {
-              brandImagesData.forEach( data => {
-                let checkName = data.imagePublicId.split("-")[1]
-                if (update.name == checkName) {
-                  image = data
-                }
-              })
-              if (brand.content[newImage.listIdx].article[newImage.idx] && brand.content[newImage.listIdx].article[newImage.idx].imagePublicId) {
-                deleteBrandImages.push(brand.content[newImage.listIdx].article[newImage.idx].imagePublicId)
-              }
-            }
-          }
-          if (!image) {
-            return {
-              'listIdx': newImage.listIdx,
-              'idx': newImage.idx,
-              'imageURL': newImage.image.imageURL,
-              'imagePublicId': newImage.image.imagePublicId
-            }
-          } else {
-            return {
-              'listIdx': newImage.listIdx,
-              'idx': newImage.idx,
-              'imageURL': image.imageURL,
-              'imagePublicId': image.imagePublicId
-            }
-          }
-        })
-        for (const image of deleteBrandImages) {
-          try {
-            await cloudinary.uploader.destroy(image)
-          } catch (err) {
-            return res
-                    .status(400)
-                    .json({ message: err.message })
-          }
-        }
-        updateBrandImages.forEach( update => {
-          brand.content[update.listIdx].article[update.idx].imageURL = update.imageURL
-          brand.content[update.listIdx].article[update.idx].imagePublicId = update.imagePublicId
-        })
-        brand.markModified('content')
-      }
-
       status = 200
       wording = '修改'
     } catch (err) {
@@ -231,6 +161,76 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
     brand = new Brand({ ...req.body })
     status = 201
     wording = '新增'
+  }
+
+  // 若有新的 imagePublicId 則刪除舊的
+  if (imagePublicId) {
+    if (brand.imagePublicId) {
+      await cloudinary.uploader.destroy(brand.imagePublicId)
+    }
+    brand.imagePublicId = imagePublicId
+    brand.imageURL = imageURL
+  }
+
+  // 若有新的 subImages 則刪除舊的
+  const deleteBrandImages = []
+  if (brandImagesData && brandImagesData.length > 0) {
+    req.body.updateBrandImages = JSON.parse(req.body.updateBrandImages)
+    const newImages = []
+    req.body.content.forEach( (item, listIdx) => {
+      item.article.forEach( (image, idx) => {
+        newImages.push({
+          listIdx: listIdx,
+          idx: idx,
+          image: image
+        })
+      })
+    })
+    const updateBrandImages = newImages.map( newImage => {
+      let image
+      for (const update of req.body.updateBrandImages) {
+        if (update.index[0] == newImage.listIdx && update.index[1] == newImage.idx) {
+          brandImagesData.forEach( data => {
+            let checkName = data.imagePublicId.split("-")[1]
+            if (update.name == checkName) {
+              image = data
+            }
+          })
+          if (brand.content[newImage.listIdx].article[newImage.idx] && brand.content[newImage.listIdx].article[newImage.idx].imagePublicId) {
+            deleteBrandImages.push(brand.content[newImage.listIdx].article[newImage.idx].imagePublicId)
+          }
+        }
+      }
+      if (!image) {
+        return {
+          'listIdx': newImage.listIdx,
+          'idx': newImage.idx,
+          'imageURL': newImage.image.imageURL,
+          'imagePublicId': newImage.image.imagePublicId
+        }
+      } else {
+        return {
+          'listIdx': newImage.listIdx,
+          'idx': newImage.idx,
+          'imageURL': image.imageURL,
+          'imagePublicId': image.imagePublicId
+        }
+      }
+    })
+    for (const image of deleteBrandImages) {
+      try {
+        await cloudinary.uploader.destroy(image)
+      } catch (err) {
+        return res
+                .status(400)
+                .json({ message: err.message })
+      }
+    }
+    updateBrandImages.forEach( update => {
+      brand.content[update.listIdx].article[update.idx].imageURL = update.imageURL
+      brand.content[update.listIdx].article[update.idx].imagePublicId = update.imagePublicId
+    })
+    brand.markModified('content')
   }
 
   try {

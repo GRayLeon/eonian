@@ -111,56 +111,55 @@ router.post("/", authenticateToken, uploadFields, async (req, res) => {
   try {
     spec = await Spec.findOne()
     Object.assign(spec, req.body)
-
-    // 若有新的 brandImages 則刪除舊的
-    const deleteBrands = []
-    if (brandImagesData && brandImagesData.length > 0) {
-      const newBrands = req.body.brands.list
-      const updatedBrands = newBrands.map( (newBrand, idx) => {
-        let image
-        for (const update of req.body.updateBrands) {
-          if (update.idx == idx) {
-            brandImagesData.forEach( data => {
-              let checkName = data.imagePublicId.split("-")[1]
-              if (update.name == checkName) {
-                image = data
-              }
-            })
-            if (spec.brands.list[idx].imagePublicId) {
-              deleteBrands.push(spec.brands.list[idx].imagePublicId)
-            }
-          }
-        }
-        if (!image) {
-          return {
-            'name': newBrand.name,
-            'imageURL': newBrand.imageURL,
-            'imagePublicId': newBrand.imagePublicId
-          }
-        } else {
-          return {
-            'name': newBrand.name,
-            'imageURL': image.imageURL,
-            'imagePublicId': image.imagePublicId
-          }
-        }
-      })
-      for (const image of deleteBrands) {
-        try {
-          await cloudinary.uploader.destroy(image)
-        } catch (err) {
-          return res
-                  .status(400)
-                  .json({ message: err.message })
-        }
-      }
-      spec.brands.list = updatedBrands
-    }
-
   } catch (err) {
     res
       .status(400)
       .json({ message: err.message })
+  }
+
+  // 若有新的 brandImages 則刪除舊的
+  const deleteBrands = []
+  if (brandImagesData && brandImagesData.length > 0) {
+    const newBrands = req.body.brands.list
+    const updatedBrands = newBrands.map( (newBrand, idx) => {
+      let image
+      for (const update of req.body.updateBrands) {
+        if (update.idx == idx) {
+          brandImagesData.forEach( data => {
+            let checkName = data.imagePublicId.split("-")[1]
+            if (update.name == checkName) {
+              image = data
+            }
+          })
+          if (spec.brands.list[idx].imagePublicId) {
+            deleteBrands.push(spec.brands.list[idx].imagePublicId)
+          }
+        }
+      }
+      if (!image) {
+        return {
+          'name': newBrand.name,
+          'imageURL': newBrand.imageURL,
+          'imagePublicId': newBrand.imagePublicId
+        }
+      } else {
+        return {
+          'name': newBrand.name,
+          'imageURL': image.imageURL,
+          'imagePublicId': image.imagePublicId
+        }
+      }
+    })
+    for (const image of deleteBrands) {
+      try {
+        await cloudinary.uploader.destroy(image)
+      } catch (err) {
+        return res
+                .status(400)
+                .json({ message: err.message })
+      }
+    }
+    spec.brands.list = updatedBrands
   }
 
   try {

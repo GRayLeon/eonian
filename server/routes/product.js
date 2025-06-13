@@ -203,157 +203,6 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
     try {
       product = await Product.findById(req.body._id)
       Object.assign(product, req.body)
-
-      // 若有新的 imagePublicId 則刪除舊的
-      if (imagePublicId) {
-        if (product.imagePublicId) {
-          await cloudinary.uploader.destroy(product.imagePublicId)
-        }
-        product.imagePublicId = imagePublicId
-        product.imageURL = imageURL
-      }
-
-      // 若有新的 subImages 則刪除舊的
-      const deleteSubImages = []
-      if (subImagesData && subImagesData.length > 0) {
-        const newImages = req.body.subImages
-        const updateSubImages = newImages.map( (newImage, idx) => {
-          let image
-          for (const update of req.body.updateSubImages) {
-            if (update.idx == idx) {
-              subImagesData.forEach( data => {
-                let checkName = data.imagePublicId.split("-")[1]
-                if (update.name == checkName) {
-                  image = data
-                }
-              })
-              if (product.subImages[idx] && product.subImages[idx].imagePublicId) {
-                deleteSubImages.push(product.subImages[idx].imagePublicId)
-              }
-            }
-          }
-          if (!image) {
-            return {
-              'imageURL': newImage.imageURL,
-              'imagePublicId': newImage.imagePublicId
-            }
-          } else {
-            return {
-              'imageURL': image.imageURL,
-              'imagePublicId': image.imagePublicId
-            }
-          }
-          
-        })
-        for (const image of deleteSubImages) {
-          try {
-            await cloudinary.uploader.destroy(image)
-          } catch (err) {
-            return res
-                    .status(400)
-                    .json({ message: err.message })
-          }
-        }
-        product.subImages = updateSubImages
-      }
-      
-      // 若有新的 shapes 則刪除舊的
-      const deleteShapeImages = []
-      if (shapeImagesData && shapeImagesData.length > 0) {
-        const newShapes = req.body.shapes
-        const updateShapeImages = newShapes.map( (newShape, idx) => {
-          let image
-          for (const update of req.body.updateShapeImages) {
-            if (update.idx == idx) {
-              shapeImagesData.forEach( data => {
-                let checkName = data.imagePublicId.split("-")[1]
-                if (update.name == checkName) {
-                  image = data
-                }
-              })
-              if (product.shapes[idx] && product.shapes[idx].imagePublicId) {
-                deleteShapeImages.push(product.shapes[idx].imagePublicId)
-              }
-              
-            }
-          }
-          if (!image) {
-            return {
-              'title': newShape.title,
-              'scale': newShape.scale,
-              'imageURL': newShape.imageURL,
-              'imagePublicId': newShape.imagePublicId
-            }
-          } else {
-            return {
-              'title': newShape.title,
-              'scale': newShape.scale,
-              'imageURL': image.imageURL,
-              'imagePublicId': image.imagePublicId
-            }
-          }
-          
-        })
-        for (const shape of deleteShapeImages) {
-          try {
-            await cloudinary.uploader.destroy(shape)
-          } catch (err) {
-            return res
-                    .status(400)
-                    .json({ message: err.message })
-          }
-        }
-        product.shapes = updateShapeImages
-      }
-
-      // 若有新的 colors 則刪除舊的
-      const deleteColorImages = []
-      if (colorImagesData && colorImagesData.length > 0) {
-        const newColors = req.body.colors
-        const updateColorImages = newColors.map( (newColor, idx) => {
-          let image
-          for (const update of req.body.updateColorImages) {
-            if (update.idx == idx) {
-              colorImagesData.forEach( data => {
-                let checkName = data.imagePublicId.split("-")[1]
-                if (update.name == checkName) {
-                  image = data
-                }
-              })
-              if (product.colors[idx] && product.colors[idx].imagePublicId) {
-                deleteColorImages.push(product.colors[idx].imagePublicId)
-              }
-            }
-          }
-          if (!image) {
-            return {
-              'title': newColor.title,
-              'size': newColor.size,
-              'imageURL': newColor.imageURL,
-              'imagePublicId': newColor.imagePublicId
-            }
-          } else {
-            return {
-              'title': newColor.title,
-              'size': newColor.size,
-              'imageURL': image.imageURL,
-              'imagePublicId': image.imagePublicId
-            }
-          }
-          
-        })
-        for (const color of deleteColorImages) {
-          try {
-            await cloudinary.uploader.destroy(color)
-          } catch (err) {
-            return res
-                    .status(400)
-                    .json({ message: err.message })
-          }
-        }
-        product.colors = updateColorImages
-      }
-
       status = 200
       wording = '修改'
     } catch (err) {
@@ -365,6 +214,156 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
     product = new Product({ ...req.body, imageURL, imagePublicId })
     status = 201
     wording = '新增'
+  }
+
+  // 若有新的 imagePublicId 則刪除舊的
+  if (imagePublicId) {
+    if (product.imagePublicId) {
+      await cloudinary.uploader.destroy(product.imagePublicId)
+    }
+    product.imagePublicId = imagePublicId
+    product.imageURL = imageURL
+  }
+
+  // 若有新的 subImages 則刪除舊的
+  const deleteSubImages = []
+  if (subImagesData && subImagesData.length > 0) {
+    const newImages = req.body.subImages
+    const updateSubImages = newImages.map( (newImage, idx) => {
+      let image
+      for (const update of req.body.updateSubImages) {
+        if (update.idx == idx) {
+          subImagesData.forEach( data => {
+            let checkName = data.imagePublicId.split("-")[1]
+            if (update.name == checkName) {
+              image = data
+            }
+          })
+          if (product.subImages[idx] && product.subImages[idx].imagePublicId) {
+            deleteSubImages.push(product.subImages[idx].imagePublicId)
+          }
+        }
+      }
+      if (!image) {
+        return {
+          'imageURL': newImage.imageURL,
+          'imagePublicId': newImage.imagePublicId
+        }
+      } else {
+        return {
+          'imageURL': image.imageURL,
+          'imagePublicId': image.imagePublicId
+        }
+      }
+      
+    })
+    for (const image of deleteSubImages) {
+      try {
+        await cloudinary.uploader.destroy(image)
+      } catch (err) {
+        return res
+                .status(400)
+                .json({ message: err.message })
+      }
+    }
+    product.subImages = updateSubImages
+  }
+  
+  // 若有新的 shapes 則刪除舊的
+  const deleteShapeImages = []
+  if (shapeImagesData && shapeImagesData.length > 0) {
+    const newShapes = req.body.shapes
+    const updateShapeImages = newShapes.map( (newShape, idx) => {
+      let image
+      for (const update of req.body.updateShapeImages) {
+        if (update.idx == idx) {
+          shapeImagesData.forEach( data => {
+            let checkName = data.imagePublicId.split("-")[1]
+            if (update.name == checkName) {
+              image = data
+            }
+          })
+          if (product.shapes[idx] && product.shapes[idx].imagePublicId) {
+            deleteShapeImages.push(product.shapes[idx].imagePublicId)
+          }
+          
+        }
+      }
+      if (!image) {
+        return {
+          'title': newShape.title,
+          'scale': newShape.scale,
+          'imageURL': newShape.imageURL,
+          'imagePublicId': newShape.imagePublicId
+        }
+      } else {
+        return {
+          'title': newShape.title,
+          'scale': newShape.scale,
+          'imageURL': image.imageURL,
+          'imagePublicId': image.imagePublicId
+        }
+      }
+      
+    })
+    for (const shape of deleteShapeImages) {
+      try {
+        await cloudinary.uploader.destroy(shape)
+      } catch (err) {
+        return res
+                .status(400)
+                .json({ message: err.message })
+      }
+    }
+    product.shapes = updateShapeImages
+  }
+
+  // 若有新的 colors 則刪除舊的
+  const deleteColorImages = []
+  if (colorImagesData && colorImagesData.length > 0) {
+    const newColors = req.body.colors
+    const updateColorImages = newColors.map( (newColor, idx) => {
+      let image
+      for (const update of req.body.updateColorImages) {
+        if (update.idx == idx) {
+          colorImagesData.forEach( data => {
+            let checkName = data.imagePublicId.split("-")[1]
+            if (update.name == checkName) {
+              image = data
+            }
+          })
+          if (product.colors[idx] && product.colors[idx].imagePublicId) {
+            deleteColorImages.push(product.colors[idx].imagePublicId)
+          }
+        }
+      }
+      if (!image) {
+        return {
+          'title': newColor.title,
+          'size': newColor.size,
+          'imageURL': newColor.imageURL,
+          'imagePublicId': newColor.imagePublicId
+        }
+      } else {
+        return {
+          'title': newColor.title,
+          'size': newColor.size,
+          'imageURL': image.imageURL,
+          'imagePublicId': image.imagePublicId
+        }
+      }
+      
+    })
+    for (const color of deleteColorImages) {
+      try {
+        await cloudinary.uploader.destroy(color)
+      } catch (err) {
+        return res
+                .status(400)
+                .json({ message: err.message })
+      }
+    }
+    product.colors = updateColorImages
   }
 
   try {

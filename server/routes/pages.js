@@ -143,116 +143,6 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
     try {
       pages = await Pages.findOne()
       Object.assign(pages, req.body)
-
-      // 若有新的 indexImagePublicId 則刪除舊的
-      // if (indexImagePublicId) {
-      //   if (pages.index.imagePublicId) {
-      //     await cloudinary.uploader.destroy(pages.index.imagePublicId)
-      //   }
-      //   pages.index.imagePublicId = indexImagePublicId
-      //   pages.index.imageURL = indeximageURL
-      // }
-
-      const deleteIndexImages = []
-      if (indexImagesData && indexImagesData.length > 0) {
-        const newImages = req.body.index.images
-        req.body.updateIndexImages = JSON.parse(req.body.updateIndexImages)
-        const updateIndexImages = newImages.map( (newImage, idx) => {
-          let image
-          for (const update of req.body.updateIndexImages) {
-            if (update.idx == idx) {
-              indexImagesData.forEach( data => {
-                let checkName = data.imagePublicId.split("-")[1]
-                if (update.name == checkName) {
-                  image = data
-                }
-              })
-              if (pages.index.images[idx] && pages.index.images[idx].imagePublicId) {
-                deleteIndexImages.push(pages.index.images[idx].imagePublicId)
-              }
-            }
-          }
-          if (!image) {
-            return {
-              'imageURL': newImage.imageURL,
-              'imagePublicId': newImage.imagePublicId
-            }
-          } else {
-            return {
-              'imageURL': image.imageURL,
-              'imagePublicId': image.imagePublicId
-            }
-          }
-          
-        })
-        for (const image of deleteIndexImages) {
-          try {
-            await cloudinary.uploader.destroy(image)
-          } catch (err) {
-            return res
-                    .status(400)
-                    .json({ message: err.message })
-          }
-        }
-        pages.index.images = updateIndexImages
-      }
-
-      // 若有新的 imagePublicId 則刪除舊的
-      if (visionImagePublicId) {
-        if (pages.vision.imagePublicId) {
-          await cloudinary.uploader.destroy(pages.vision.imagePublicId)
-        }
-        pages.vision.imagePublicId = visionImagePublicId
-        pages.vision.imageURL = visionimageURL
-      }
-
-      // 若有新的 partnerImages 則刪除舊的
-      const deletePartnerImages = []
-      if (partnerImagesData && partnerImagesData.length > 0) {
-        const newImages = req.body.partners
-        req.body.updatePartnerImages = JSON.parse(req.body.updatePartnerImages)
-        const updatePartnerImages = newImages.map( (newImage, idx) => {
-          let image
-          for (const update of req.body.updatePartnerImages) {
-            if (update.idx == idx) {
-              partnerImagesData.forEach( data => {
-                let checkName = data.imagePublicId.split("-")[1]
-                if (update.name == checkName) {
-                  image = data
-                }
-              })
-              if (pages.partners[idx] && pages.partners[idx].imagePublicId) {
-                deletePartnerImages.push(pages.partners[idx].imagePublicId)
-              }
-            }
-          }
-          if (!image) {
-            return {
-              'name': newImage.name,
-              'imageURL': newImage.imageURL,
-              'imagePublicId': newImage.imagePublicId
-            }
-          } else {
-            return {
-              'name': newImage.name,
-              'imageURL': image.imageURL,
-              'imagePublicId': image.imagePublicId
-            }
-          }
-          
-        })
-        for (const image of deletePartnerImages) {
-          try {
-            await cloudinary.uploader.destroy(image)
-          } catch (err) {
-            return res
-                    .status(400)
-                    .json({ message: err.message })
-          }
-        }
-        pages.partners = updatePartnerImages
-      }
-
       status = 200
       wording = '修改'
     } catch (err) {
@@ -264,6 +154,107 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
     pages = new Pages({ ...req.body })
     status = 201
     wording = '新增'
+  }
+
+  // 若有新的 indexImagePublicId 則刪除舊的
+  const deleteIndexImages = []
+  if (indexImagesData && indexImagesData.length > 0) {
+    const newImages = req.body.index.images
+    req.body.updateIndexImages = JSON.parse(req.body.updateIndexImages)
+    const updateIndexImages = newImages.map( (newImage, idx) => {
+      let image
+      for (const update of req.body.updateIndexImages) {
+        if (update.idx == idx) {
+          indexImagesData.forEach( data => {
+            let checkName = data.imagePublicId.split("-")[1]
+            if (update.name == checkName) {
+              image = data
+            }
+          })
+          if (pages.index.images[idx] && pages.index.images[idx].imagePublicId) {
+            deleteIndexImages.push(pages.index.images[idx].imagePublicId)
+          }
+        }
+      }
+      if (!image) {
+        return {
+          'imageURL': newImage.imageURL,
+          'imagePublicId': newImage.imagePublicId
+        }
+      } else {
+        return {
+          'imageURL': image.imageURL,
+          'imagePublicId': image.imagePublicId
+        }
+      }
+      
+    })
+    for (const image of deleteIndexImages) {
+      try {
+        await cloudinary.uploader.destroy(image)
+      } catch (err) {
+        return res
+                .status(400)
+                .json({ message: err.message })
+      }
+    }
+    pages.index.images = updateIndexImages
+  }
+
+  // 若有新的 imagePublicId 則刪除舊的
+  if (visionImagePublicId) {
+    if (pages.vision.imagePublicId) {
+      await cloudinary.uploader.destroy(pages.vision.imagePublicId)
+    }
+    pages.vision.imagePublicId = visionImagePublicId
+    pages.vision.imageURL = visionimageURL
+  }
+
+  // 若有新的 partnerImages 則刪除舊的
+  const deletePartnerImages = []
+  if (partnerImagesData && partnerImagesData.length > 0) {
+    const newImages = req.body.partners
+    req.body.updatePartnerImages = JSON.parse(req.body.updatePartnerImages)
+    const updatePartnerImages = newImages.map( (newImage, idx) => {
+      let image
+      for (const update of req.body.updatePartnerImages) {
+        if (update.idx == idx) {
+          partnerImagesData.forEach( data => {
+            let checkName = data.imagePublicId.split("-")[1]
+            if (update.name == checkName) {
+              image = data
+            }
+          })
+          if (pages.partners[idx] && pages.partners[idx].imagePublicId) {
+            deletePartnerImages.push(pages.partners[idx].imagePublicId)
+          }
+        }
+      }
+      if (!image) {
+        return {
+          'name': newImage.name,
+          'imageURL': newImage.imageURL,
+          'imagePublicId': newImage.imagePublicId
+        }
+      } else {
+        return {
+          'name': newImage.name,
+          'imageURL': image.imageURL,
+          'imagePublicId': image.imagePublicId
+        }
+      }
+      
+    })
+    for (const image of deletePartnerImages) {
+      try {
+        await cloudinary.uploader.destroy(image)
+      } catch (err) {
+        return res
+                .status(400)
+                .json({ message: err.message })
+      }
+    }
+    pages.partners = updatePartnerImages
   }
 
   try {

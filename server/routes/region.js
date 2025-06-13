@@ -112,16 +112,6 @@ router.post("/:type", authenticateToken, upload.single("image"), async (req, res
     try {
       region = await Region.findById(req.body._id)
       Object.assign(region, req.body)
-      
-      // 若有新的 imagePublicId 則刪除舊的
-      if (imagePublicId) {
-        if (region.imagePublicId) {
-          await cloudinary.uploader.destroy(region.imagePublicId)
-        }
-        region.imagePublicId = imagePublicId
-        region.imageURL = imageURL
-      }
-
       status = 200
       wording = '修改'
     } catch (err) {
@@ -133,6 +123,15 @@ router.post("/:type", authenticateToken, upload.single("image"), async (req, res
     region = new Region({ ...req.body, imageURL, imagePublicId })
     status = 201
     wording = '新增'
+  }
+
+  // 若有新的 imagePublicId 則刪除舊的
+  if (imagePublicId) {
+    if (region.imagePublicId) {
+      await cloudinary.uploader.destroy(region.imagePublicId)
+    }
+    region.imagePublicId = imagePublicId
+    region.imageURL = imageURL
   }
 
   try {
