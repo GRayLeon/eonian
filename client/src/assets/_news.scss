@@ -113,7 +113,7 @@
             width: calc( 100% - 280px );
             img {
                 width: 100%;
-                min-height: 500px;
+                height: auto;
             }
         }
     }
@@ -148,7 +148,7 @@
                 }
                 &.image-top, &.image-bottom {
                     img {
-                        height: 250px;
+                        height: auto;
                         object-fit: cover;
                         object-position: center;
                     }
@@ -193,7 +193,7 @@
                 .image {
                     width: 100%;
                     img {
-                        height: 150px;
+                        height: auto;
                     }
                 }
                 .description {

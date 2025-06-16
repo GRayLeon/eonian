@@ -7,6 +7,7 @@
   import InquiryBox from '@/components/layout/InquiryBox.vue'
   import Loading from '@/components/layout/Loading.vue'
   import Dialog from '@/components/layout/Dialog.vue'
+  import Gallery from '@/components/layout/Gallery.vue'
   import { RouterView } from 'vue-router'
   import { watch } from 'vue'
 
@@ -42,6 +43,8 @@
     <InquiryBox />
     <Loading />
     <Dialog />
+    <Gallery />
+    <
   </div>
 </template>
 

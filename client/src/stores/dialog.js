@@ -11,17 +11,6 @@ export const useDialogStore = defineStore('dialog', () => {
   const dialogTarget = ref(null)
   const dialogData = ref(null)
 
-  const openDialogFn = ref( () => {
-    
-  })
-
-  const closeDialogFn = ref( () => {
-    dialogIsShow.value = false
-    setTimeout(function() {
-      dialogIsOpen.value = false
-    }, 250)
-  })
-
   const openDialog = ref( (status, title, info, target, data) => {
     dialogStatus.value = status
     dialogTitle.value = title

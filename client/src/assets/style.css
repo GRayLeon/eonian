@@ -1371,6 +1371,10 @@ img {
 .brandContent__list li img {
   width: 100%;
   height: 250px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
 }
 
 .brandInsideContent {
@@ -1401,7 +1405,7 @@ img {
 .brandInsideContent__detail .section img {
   flex: 1;
   min-width: 0;
-  min-height: 250px;
+  min-height: auto;
 }
 .brandInsideContent__detail .section .articleLayout {
   flex: 1;
@@ -1427,7 +1431,7 @@ img {
 }
 .brandInsideContent__detail .section .articleLayout img {
   width: 100%;
-  min-height: 250px;
+  min-height: auto;
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -1465,7 +1469,7 @@ img {
   }
   .brandContent__list li img {
     width: 100%;
-    height: 150px;
+    height: auto;
   }
   .brandInsideContent {
     flex-direction: column;
@@ -1617,7 +1621,7 @@ img {
 }
 .newsInsideContent__mainInfo .image img {
   width: 100%;
-  min-height: 500px;
+  height: auto;
 }
 .newsInsideContent__detail {
   display: flex;
@@ -1652,7 +1656,7 @@ img {
   flex-direction: column-reverse;
 }
 .newsInsideContent__detail .section .card.image-top img, .newsInsideContent__detail .section .card.image-bottom img {
-  height: 250px;
+  height: auto;
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -1696,7 +1700,7 @@ img {
     width: 100%;
   }
   .newsContent__list li .image img {
-    height: 150px;
+    height: auto;
   }
   .newsContent__list li .description {
     gap: 16px;
@@ -1772,7 +1776,7 @@ img {
 }
 .aboutContent__section .detail--vision img {
   width: 240px;
-  height: 360px;
+  height: auto;
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -1962,6 +1966,17 @@ img {
   transform: translateY(-24px);
   opacity: 0;
 }
+.dialog__box--gallery {
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+.dialog__box--gallery .dialog__title {
+  border-bottom: 0;
+}
+.dialog__box--gallery span {
+  cursor: pointer;
+}
 .dialog.open {
   display: flex;
 }
@@ -2005,6 +2020,10 @@ img {
   padding: 16px 0;
   text-align: center;
   font-size: 12px;
+}
+.dialog__image {
+  width: calc(100% - 48px);
+  max-width: 1024px;
 }
 .dialog button {
   width: 100%;

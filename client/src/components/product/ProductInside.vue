@@ -2,6 +2,7 @@
   import { useProductStore } from '@/stores/product'
   import { useLoadStore } from '@/stores/load'
   import { useInquiryStore } from '@/stores/inquiry'
+  import { useGalleryStore } from '@/stores/gallery'
 	import { storeToRefs } from 'pinia'
   import { useRoute } from 'vue-router'
   import { ref, watch, computed } from 'vue'
@@ -17,6 +18,9 @@
 
   const inquiryStore = useInquiryStore()
 	const { unit, amount } = storeToRefs(inquiryStore)
+
+  const galleryStore = useGalleryStore()
+	const { openGallery } = storeToRefs(galleryStore)
 
   const route = useRoute()
 
@@ -88,6 +92,22 @@
     return '--'
   }
 
+  const handleClick = (target, data) => {
+    if (target == 'shape') {
+      if (selectedShape.value == data.title) {
+        openGallery.value(data.title, data.imageURL)
+      } else {
+        selectShape.value(data)
+      }
+    } else if (target == 'color') {
+      if (selectedColor.value == data.title) {
+        openGallery.value(data.title, data.imageURL)
+      } else {
+        selectColor.value(data)
+      }
+    }
+  }
+
   const initProductInfo = () => {
     products.value.data.forEach(product => {
       if (product._id == route.params.id) {
@@ -123,7 +143,7 @@
           <li
             :class="{ active: selectedShape == shape.title }"
             v-for="shape in productInfo.shapes"
-            @click="selectShape(shape)">
+            @click="handleClick('shape', shape)">
             <img :src="shape.imageURL">
           </li>
         </ul>
@@ -137,7 +157,7 @@
           <li
             :class="{ active: selectedColor == color.title }"
             v-for="color in productInfo.colors"
-            @click="selectColor(color)">
+            @click="handleClick('color', color)">
             <img :src="color.imageURL">
           </li>
         </ul>
@@ -191,7 +211,7 @@
                       <li
                         :class="{ active: selectedShape == shape.title }"
                         v-for="shape in productInfo.shapes"
-                        @click="selectShape(shape)">
+                        @click="handleClick('shape', shape)">
                         <img :src="shape.imageURL">
                       </li>
                     </ul>
@@ -205,7 +225,7 @@
                       <li
                         :class="{ active: selectedColor == color.title }"
                         v-for="color in productInfo.colors"
-                        @click="selectColor(color)">
+                        @click="handleClick('color', color)">
                         <img :src="color.imageURL">
                       </li>
                     </ul>
