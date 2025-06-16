@@ -39,11 +39,11 @@
     shapes: [],
     colors: [],
     tags: [],
-    origin: '',
-    appearance: '',
-    functionality: '',
-    support: '',
-    brand: '', 
+    origin: [],
+    appearance: [],
+    functionality: [],
+    support: [],
+    brand: [], 
     status: 'draft',
     imageURL: '',
     basePrice: 0,
@@ -327,12 +327,24 @@
     router.push({ name: 'productList'})
   }
 
+  const ensureArray = value => {
+    if (Array.isArray(value)) { return value }
+    if (value === null || value === undefined || value === '') { return [] }
+    return [value]
+  }
+
   const initProductInfo = () => {
     if (isEdit.value) {
       products.value.data.forEach(product => {
         if (product._id == route.params.id) {
-          productInfo.value = { ...product }
-          // selectSizes.value = [...productInfo.value.sizes]
+          productInfo.value = { 
+            ...product,
+            origin: ensureArray(product.origin),
+            appearance: ensureArray(product.appearance),
+            functionality: ensureArray(product.functionality),
+            support: ensureArray(product.support),
+            brand: ensureArray(product.brand),
+          }
           basePrice.value = product.basePrice
         }
       })
@@ -453,68 +465,104 @@
     </div>
     <div class="inputItem" v-if="isGetSpecs">
       <div class="head">產地</div>
-      <select
+      <ul class="checkboxList">
+        <li v-for="(origin, idx) in specDatas.origin.list">
+          <input type="checkbox" :id="'origin' + idx" v-model="productInfo.origin" :value="origin">
+          <label :for="'origin' + idx">{{ origin['zh'] }} / {{ origin['en'] }}</label>
+        </li>
+      </ul>
+      <!-- <select
         v-model="productInfo.origin"
-        :disabled="isArchived">
+        :disabled="isArchived"
+        multiple>
         <option value="" disabled>請選擇產地</option>
         <option
           :value="origin"
           v-for="origin in specDatas.origin.list">
           {{ origin['zh'] }}&emsp;/&emsp;{{ origin['en'] }}
         </option>
-      </select>
+      </select> -->
+
     </div>
     <div class="inputItem" v-if="isGetSpecs">
       <div class="head">外觀</div>
-      <select
+      <ul class="checkboxList">
+        <li v-for="(appearance, idx) in specDatas.appearance.list">
+          <input type="checkbox" :id="'appearance' + idx" v-model="productInfo.appearance" :value="appearance">
+          <label :for="'appearance' + idx">{{ appearance['zh'] }} / {{ appearance['en'] }}</label>
+        </li>
+      </ul>
+      <!-- <select
         v-model="productInfo.appearance"
-        :disabled="isArchived">
+        :disabled="isArchived"
+        multiple>
         <option value="" disabled>請選擇外觀</option>
         <option
           :value="appearance"
           v-for="appearance in specDatas.appearance.list">
           {{ appearance['zh'] }}&emsp;/&emsp;{{ appearance['en'] }}
         </option>
-      </select>
+      </select> -->
     </div>
     <div class="inputItem" v-if="isGetSpecs">
       <div class="head">功能</div>
-      <select
+      <ul class="checkboxList">
+        <li v-for="(functionality, idx) in specDatas.functionality.list">
+          <input type="checkbox" :id="'functionality' + idx" v-model="productInfo.functionality" :value="functionality">
+          <label :for="'functionality' + idx">{{ functionality['zh'] }} / {{ functionality['en'] }}</label>
+        </li>
+      </ul>
+      <!-- <select
         v-model="productInfo.functionality"
-        :disabled="isArchived">
+        :disabled="isArchived"
+        multiple>
         <option value="" disabled>請選擇功能</option>
         <option
           :value="functionality"
           v-for="functionality in specDatas.functionality.list">
           {{ functionality['zh'] }}&emsp;/&emsp;{{ functionality['en'] }}
         </option>
-      </select>
+      </select> -->
     </div>
     <div class="inputItem" v-if="isGetSpecs">
-      <div class="head">配套</div>
-      <select
+      <div class="head">經典系列</div>
+      <ul class="checkboxList">
+        <li v-for="(support, idx) in specDatas.support.list">
+          <input type="checkbox" :id="'support' + idx" v-model="productInfo.support" :value="support">
+          <label :for="'support' + idx">{{ support['zh'] }} / {{ support['en'] }}</label>
+        </li>
+      </ul>
+      <!-- <select
         v-model="productInfo.support"
-        :disabled="isArchived">
-        <option value="" disabled>請選擇配套</option>
+        :disabled="isArchived"
+        multiple>
+        <option value="" disabled>請選擇系列</option>
         <option
           :value="support"
           v-for="support in specDatas.support.list">
           {{ support['zh'] }}&emsp;/&emsp;{{ support['en'] }}
         </option>
-      </select>
+      </select> -->
     </div>
     <div class="inputItem" v-if="isGetSpecs">
       <div class="head">品牌</div>
-      <select
+      <ul class="checkboxList">
+        <li v-for="(brand, idx) in specDatas.brands.list">
+          <input type="checkbox" :id="'brand' + idx" v-model="productInfo.brand" :value="brand.name">
+          <label :for="'brand' + idx">{{ brand.name }}</label>
+        </li>
+      </ul>
+      <!-- <select
         v-model="productInfo.brand"
-        :disabled="isArchived">
+        :disabled="isArchived"
+        multiple>
         <option value="" disabled>請選擇品牌</option>
         <option
           :value="brand.name"
           v-for="brand in specDatas.brands.list">
           {{ brand.name }}
         </option>
-      </select>
+      </select> -->
     </div>
     <div class="inputItem">
       <div class="head">名稱(英)</div>

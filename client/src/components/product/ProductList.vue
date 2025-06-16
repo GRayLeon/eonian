@@ -34,7 +34,7 @@
   }
 
   const changePageTo = idx => {
-    if (idx < products.totalPages && idx > 1) {
+    if (idx <= products.value.pagination.totalPages && idx >= 1) {
       page.value = idx
       getProducts.value(page.value)
     }
@@ -144,7 +144,7 @@
       <ul class="pagesList" v-if="products.data.length > 0">
         <li>
           <a 
-          @click="changePageTo(idx - 1)">﹤</a>
+          @click="changePageTo(page - 1)">﹤</a>
         </li>
         <li
           v-for="idx in products.pagination.totalPages"
@@ -153,7 +153,7 @@
           {{ idx }}
         </li>
         <li>
-          <a @click="changePageTo(idx + 1)">﹥</a>
+          <a @click="changePageTo(page + 1)">﹥</a>
         </li>
       </ul>
       <div v-else class="noContent">

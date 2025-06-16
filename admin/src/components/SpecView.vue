@@ -36,7 +36,7 @@
       <RouterLink to="/spec/functionality">功能管理</RouterLink>
     </li>
     <li>
-      <RouterLink to="/spec/support">配套管理</RouterLink>
+      <RouterLink to="/spec/support">經典系列管理</RouterLink>
     </li>
     <li>
       <RouterLink to="/spec/specBrand">品牌管理</RouterLink>

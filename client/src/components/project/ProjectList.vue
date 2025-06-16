@@ -13,7 +13,7 @@
   } = storeToRefs(projectStore)
 
   const changePageTo = idx => {
-    if (idx < projects.totalPages && idx > 1) {
+    if (idx < projects.value.pagination.totalPages && idx > 1) {
       page.value = idx
       getProjects.value(page.value)
     }
@@ -145,7 +145,7 @@
     <ul class="pagesList" v-if="projects.data.length > 0">
       <li>
         <a 
-        @click="changePageTo(idx - 1)">﹤</a>
+        @click="changePageTo(page - 1)">﹤</a>
       </li>
       <li
         v-for="idx in projects.pagination.totalPages"
@@ -154,7 +154,7 @@
         {{ idx }}
       </li>
       <li>
-        <a @click="changePageTo(idx + 1)">﹥</a>
+        <a @click="changePageTo(page + 1)">﹥</a>
       </li>
     </ul>
     <div v-else class="noContent">

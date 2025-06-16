@@ -1,8 +1,9 @@
 <script setup>
   import { useInquiryStore } from '@/stores/inquiry'
   import { useLoadStore } from '@/stores/load'
+  import { useProductStore } from '@/stores/product'
   import { storeToRefs } from 'pinia'
-  import { ref } from 'vue'
+  import { ref, onMounted } from 'vue'
   import { useI18n } from 'vue-i18n'
 
   const { t, locale } = useI18n()
@@ -12,6 +13,9 @@
 
   const inquiryStore = useInquiryStore()
 	const { unit, amount, sendInquiry } = storeToRefs(inquiryStore)
+
+  const productStore = useProductStore()
+	const { printData } = storeToRefs(productStore)
 
   const inquiryInfo = ref({
     data: {
@@ -25,8 +29,14 @@
       subscribe: false
     },
     printData: {
-      unit: unit.value,
-      amount: amount.value
+      application: '',
+      model: '',
+      spec: '',
+      color: '',
+      amount: '',
+      unit: '',
+      price: 0,
+      sum: 0
     },
     category: 'calculate',
     status: 'pending'
@@ -35,6 +45,10 @@
   const showLanText = input => {
     return input[locale.value]
   }
+
+  onMounted( () => {
+    inquiryInfo.value.printData = printData.value
+  })
 
 </script>
 <template>

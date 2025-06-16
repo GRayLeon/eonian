@@ -87,7 +87,7 @@
           <div class="category">{{ newsInfo.category.split('_')[0] }} {{ newsInfo.category.split('_')[1] }}</div>
         </div>
         <div class="description">
-          <p>{{ showLanText(newsInfo.description) }}</p>
+          <p>{{ showLanText(newsInfo.detail) }}</p>
         </div>
       </div>
       <div class="image">

@@ -66,7 +66,7 @@
             <div class="subtitle">{{ projectInfo.artist }}</div>
           </div>
           <div class="description">
-            <p>{{ showLanText(projectInfo.description) }}</p>
+            <p>{{ showLanText(projectInfo.detail) }}</p>
           </div>
           <ul class="tagList">
             <li v-for="tag in projectInfo.tags">{{ tag }}</li>

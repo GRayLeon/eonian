@@ -48,7 +48,7 @@
     </div>
     <div class="bottomArea">
       <div class="bottomArea__copyright">
-        <span>&copy; Eonian Acumen Corporation</span>
+        <span>&copy; Eonian Acumen Co., LTD.</span>
       </div>
       <div class="bottomArea__link">
         <ul class="social">

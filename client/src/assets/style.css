@@ -244,6 +244,7 @@ img {
 .content .pagesList li a {
   color: #1a1311;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .footer {
@@ -822,13 +823,12 @@ img {
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  height: 150px;
   color: #1a1311;
   text-decoration: none;
 }
 .productContent__list .cards li a img {
   width: 100%;
-  height: 100%;
+  height: 175px;
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
@@ -887,14 +887,14 @@ img {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: calc(100% - 240px - 360px - 64px);
+  width: calc(100% - 240px - 432px - 64px);
 }
 .productInsideContent__images img {
   width: 100%;
   min-height: 500px;
 }
 .productInsideContent__info {
-  width: 360px;
+  width: 432px;
 }
 .productInsideContent__info .stickyCard {
   position: sticky;
@@ -1947,7 +1947,7 @@ img {
   width: 100%;
   height: 100%;
   background-color: rgba(202, 200, 201, 0.8666666667);
-  z-index: 998;
+  z-index: 99999;
   opacity: 0;
 }
 .dialog__box {

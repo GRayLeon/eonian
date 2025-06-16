@@ -10,7 +10,7 @@
   const { t, locale } = useI18n()
 
   const productStore = useProductStore()
-	const { products } = storeToRefs(productStore)
+	const { products, printData } = storeToRefs(productStore)
 
   const loadStore = useLoadStore()
 	const { openInquiry } = storeToRefs(loadStore)
@@ -25,6 +25,7 @@
       en: '',
       zh: ''
     },
+    model: '',
     description: {
       en: '',
       zh: ''
@@ -42,6 +43,18 @@
     imageURL: '',
     basePrice: 0
   })
+
+  const setPrintData = () => {
+    printData.value.application = productInfo.value.application
+    printData.value.model = productInfo.value.model
+    printData.value.spec = selectedColorSize.value
+    printData.value.color = selectedColor.value
+    printData.value.amount = amount.value
+    printData.value.unit = unit.value
+    printData.value.price = productInfo.value.basePrice
+    printData.value.sum = productInfo.value.basePrice * amount.value
+    openInquiry.value()
+  }
 
   const selectedColor = ref('--')
   const selectedColorSize = ref('--')
@@ -231,12 +244,12 @@
                 <div class="inquirySection">
                     <div
                       class="linkButton"
-                      @click="openInquiry">{{ $t('button.download') }}</div>
+                      @click="setPrintData">{{ $t('button.download') }}</div>
                 </div>
                 <div class="inquirySection">
                     <div
                       class="linkButton"
-                      @click="openInquiry">{{ $t('button.send') }}</div>
+                      @click="setPrintData">{{ $t('button.send') }}</div>
                 </div>
             </div>
         </div>

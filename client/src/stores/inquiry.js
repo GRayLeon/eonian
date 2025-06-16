@@ -21,7 +21,7 @@ export const useInquiryStore = defineStore('inquiry', () => {
     try {
       let response = await axios.post(apiURL, inquiryInfo)
       if (response) {
-        
+        isLoading.value = false
         if (inquiryInfo.category == 'calculate') {
           downloadInquiry.value(response.data)
         } else {
@@ -37,6 +37,7 @@ export const useInquiryStore = defineStore('inquiry', () => {
   const downloadInquiry = ref( id => {
     const apiURL = `${import.meta.env.VITE_APP_API_URL}/inquiry/download/${id}`
     window.open(apiURL, '_blank')
+    openDialog.value('success', '下載成功', '估價單已下載完成，請按確定繼續。', 'reload')
   })
   return { unit, amount, sendInquiry, downloadInquiry }
 })

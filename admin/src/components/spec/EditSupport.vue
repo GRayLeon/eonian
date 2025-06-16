@@ -48,25 +48,25 @@
         <td class="name">
           <input
             type="text"
-            placeholder="請輸入配套英文"
+            placeholder="請輸入系列英文"
             v-model="support.en" />
         </td>
         <td class="name">
             <input
             type="text"
-            placeholder="請輸入配套中文"
+            placeholder="請輸入系列中文"
             v-model="support.zh" />
         </td>
         <td class="action">
           <div class="tableButtonArea">
-            <button @click="removeSupport(idx)">刪除配套</button>
+            <button @click="removeSupport(idx)">刪除系列</button>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
   <div class="bottomButtonArea">
-    <button @click="addSupport()">新增配套</button>
+    <button @click="addSupport()">新增系列</button>
   </div>
 </template>
 

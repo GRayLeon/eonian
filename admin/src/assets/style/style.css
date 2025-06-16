@@ -745,6 +745,28 @@ option {
 .inputItem input:disabled, .inputItem select:disabled, .inputItem textarea:disabled {
   opacity: 0.5;
 }
+.inputItem .checkboxList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0;
+}
+.inputItem input[type=checkbox] {
+  display: none;
+}
+.inputItem input[type=checkbox] + label {
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #666;
+  border: #666 1px solid;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.inputItem input[type=checkbox]:checked + label {
+  color: white;
+  border: white 1px solid;
+}
 .inputItem textarea {
   height: 200px;
   min-height: 200px;

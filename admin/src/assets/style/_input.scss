@@ -72,6 +72,29 @@
       opacity: .5;
     }
   }
+
+  .checkboxList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 4px 0;
+  }
+  input[type="checkbox"] {
+    display: none;
+    & + label {
+      padding: 4px 8px;
+      font-size: 12px;
+      color: #666;
+      border: #666 1px solid;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    &:checked + label {
+      color: white;
+      border: white 1px solid;
+    }
+  }
   textarea {
     height: 200px;
     min-height: 200px;

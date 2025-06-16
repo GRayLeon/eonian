@@ -16,7 +16,7 @@
   }
 
   const changePageTo = idx => {
-    if (idx < news.totalPages && idx > 1) {
+    if (idx < news.value.pagination.totalPages && idx > 1) {
       page.value = idx
       getNews.value(page.value)
     }
@@ -83,7 +83,7 @@
     <ul class="pagesList" v-if="news.data.length > 0">
         <li>
           <a 
-          @click="changePageTo(idx - 1)">﹤</a>
+          @click="changePageTo(page - 1)">﹤</a>
         </li>
         <li
           v-for="idx in news.pagination.totalPages"
@@ -92,7 +92,7 @@
           {{ idx }}
         </li>
         <li>
-          <a @click="changePageTo(idx + 1)">﹥</a>
+          <a @click="changePageTo(page + 1)">﹥</a>
         </li>
       </ul>
       <div v-else class="noContent">

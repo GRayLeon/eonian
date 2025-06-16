@@ -6,30 +6,30 @@ const productSchema = new mongoose.Schema({
     of: String,
     // required: true
   },
-  origin: {
+  origin: [{
     type: Map,
     of: String,
     // required: true
-  },
-  appearance: {
+  }],
+  appearance: [{
     type: Map,
     of: String,
     // required: true
-  },
-  functionality: {
+  }],
+  functionality: [{
     type: Map,
     of: String,
     // required: true
-  },
-  support: {
+  }],
+  support: [{
     type: Map,
     of: String,
     // required: true
-  },
-  brand: {
+  }],
+  brand: [{
     type: String,
     // required: true
-  },
+  }],
   model: {
     type: String,
     // required: true

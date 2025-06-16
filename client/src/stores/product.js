@@ -24,6 +24,17 @@ export const useProductStore = defineStore('product', () => {
     }
   })
 
+  const printData = ref({
+    application: '',
+    model: '',
+    spec: '',
+    color: '',
+    amount: '',
+    unit: '',
+    price: 0,
+    sum: 0
+  })
+
   const isGetProducts = ref(false)
 
   const getProducts = ref( async (page, filter, activeName) => {
@@ -44,5 +55,5 @@ export const useProductStore = defineStore('product', () => {
       console.log(e)
     }
   })
-  return { page, pageSize, products, isGetProducts, getProducts }
+  return { page, pageSize, products, printData, isGetProducts, getProducts }
 })
