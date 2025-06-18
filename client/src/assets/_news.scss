@@ -84,6 +84,7 @@
     flex-direction: column;
     gap: 40px;
     width: 100%;
+    max-width: 1200px;
     padding: 72px 32px;
     &__mainInfo {
         display: flex;

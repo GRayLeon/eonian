@@ -133,6 +133,7 @@
     flex-direction: row;
     gap: 32px;
     width: 100%;
+    max-width: 1366px;
     padding: 72px 32px;
     &__option {
         display: flex;
@@ -178,7 +179,6 @@
         width: calc( 100% - 240px - 432px - 32px*2);
         img {
             width: 100%;
-            min-height: 500px;
         }
     }
     &__info {
