@@ -322,12 +322,17 @@ img {
 }
 .footer .bottomArea__link .social a {
   color: #1a1311;
+  text-decoration: none;
 }
 .footer .bottomArea__link .subPages {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 16px;
+}
+.footer .bottomArea__link .subPages a {
+  color: #1a1311;
+  text-decoration: none;
 }
 
 .noContent {

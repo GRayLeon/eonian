@@ -363,6 +363,42 @@
     selectImageFiles.value = []
   })
 
+  function moveItemInArray(array, fromIndex, toIndex) {
+    if (toIndex < 0 || toIndex >= array.length) return;
+    const item = array.splice(fromIndex, 1)[0];
+    array.splice(toIndex, 0, item);
+  }
+
+  const orderEdit = (type, listIdx) => {
+    const targetIdx = type === 'up' ? listIdx - 1 : listIdx + 1;
+    if (targetIdx < 0 || targetIdx >= projectInfo.value.imageList.length) return;
+
+    // 移動主要內容
+    moveItemInArray(projectInfo.value.imageList, listIdx, targetIdx);
+
+    // 以下同步搬移每一個圖片相關的陣列中所有屬於 listIdx 的資料
+    const arraysToUpdate = [
+      selectImageFiles.value,
+      updateImageFile.value,
+      previewimageURL.value,
+      previewImageName.value,
+      isImageChanging.value
+    ];
+
+    arraysToUpdate.forEach(array => {
+      const groupA = array.filter(item => item.index[0] === listIdx);
+      const groupB = array.filter(item => item.index[0] === targetIdx);
+
+      // 交換 index[0]
+      groupA.forEach(item => item.index[0] = targetIdx);
+      groupB.forEach(item => item.index[0] = listIdx);
+
+      // 重組 array：groupA 和 groupB 位置互換，其它不變
+      const rest = array.filter(item => item.index[0] !== listIdx && item.index[0] !== targetIdx);
+      array.splice(0, array.length, ...rest, ...groupA, ...groupB);
+    });
+  };
+
 </script>
 
 <template>
@@ -388,6 +424,10 @@
               <option value="single">單張滿版</option>
               <option value="double">兩張並列</option>
             </select>
+            <div class="buttonArea">
+              <button class="smallButton" @click="orderEdit('up', listIdx)">順序上移</button>
+              <button class="smallButton" @click="orderEdit('down', listIdx)">順序下移</button>
+            </div>
           </div>
           <div class="imageList">
             <div class="imageList__image" v-for="(image, idx) in imageList.images">

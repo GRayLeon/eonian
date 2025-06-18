@@ -849,6 +849,11 @@ option {
 .inputItem:has(*:disabled) .sizeList {
   opacity: 0.5;
 }
+.inputItem .smallButton {
+  width: 100px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
 
 .noImage {
   display: flex;

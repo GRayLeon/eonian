@@ -38,10 +38,14 @@
         </div>
         <ul class="message">
           <li>
-            <img src="@/assets/images/message--fb.png">
+            <a href="https://www.facebook.com/mosatilestw" target="_blank">
+              <img src="@/assets/images/message--fb.png">
+            </a>
           </li>
           <li>
-            <img src="@/assets/images/message--line.png">
+            <a href="https://lin.ee/BOaZY0z" target="_blank">
+              <img src="@/assets/images/message--line.png">
+            </a>
           </li>
         </ul>
       </div>
@@ -53,16 +57,22 @@
       <div class="bottomArea__link">
         <ul class="social">
           <li>
-            <a href="">Facebook</a>
+            <a href="https://www.facebook.com/mosatilestw" target="_blank">Facebook</a>
           </li>
           <li>
-            <a href="">Instagram</a>
+            <a href="https://www.instagram.com/eonian.taipei/" target="_blank">Instagram</a>
           </li>
         </ul>
         <ul class="subPages">
-          <li>{{ $t('link.policy') }}</li>
-          <li>{{ $t('link.notice') }}</li>
-          <li>{{ $t('link.terms') }}</li>
+          <li>
+            <a href="">{{ $t('link.policy') }}</a>
+          </li>
+          <li>
+            <a href="">{{ $t('link.notice') }}</a>
+          </li>
+          <li>
+            <a href="">{{ $t('link.terms') }}</a>
+          </li>
         </ul>
       </div>
     </div>
