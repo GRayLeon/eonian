@@ -35,8 +35,8 @@ const storage = new CloudinaryStorage({
       }]
     } else if (file.fieldname === "shapeImages" || file.fieldname === "colorImages") {
       transformation = [{
-        width: 300,
-        height: 300,
+        width: 1024,
+        height: 768,
         crop: "limit",
         quality: "auto",
         fetch_format: "auto"
