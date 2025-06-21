@@ -946,6 +946,9 @@ img {
   justify-content: space-between;
 }
 .productInsideContent__info .inquiry .inquirySection .option {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
   max-width: 72px;
 }
 .productInsideContent__info .inquiry .inquirySection .option input, .productInsideContent__info .inquiry .inquirySection .option select {

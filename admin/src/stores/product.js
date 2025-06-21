@@ -131,6 +131,7 @@ export const useProductStore = defineStore('product', () => {
     formData.append("shapes", JSON.stringify(productInfo.shapes))
     formData.append("colors", JSON.stringify(productInfo.colors))
     formData.append("tags", JSON.stringify(productInfo.tags))
+    formData.append("unitArea", JSON.stringify(productInfo.unitArea))
 
     formData.append("origin", JSON.stringify(productInfo.origin))
     formData.append("appearance", JSON.stringify(productInfo.appearance))

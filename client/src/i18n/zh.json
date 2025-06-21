@@ -17,7 +17,8 @@
     "colour": "顏色",
     "slipResistance": "防滑係數",
     "application": "應用",
-    "unit": "單位",
+    "unit": "箱",
+    "area": "面積",
     "amount": "數量",
     "total": "合計"
   },

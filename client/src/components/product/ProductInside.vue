@@ -5,7 +5,7 @@
   import { useGalleryStore } from '@/stores/gallery'
 	import { storeToRefs } from 'pinia'
   import { useRoute } from 'vue-router'
-  import { ref, watch, computed } from 'vue'
+  import { ref, watch, computed, onMounted } from 'vue'
   import { useI18n } from 'vue-i18n'
 
   const { t, locale } = useI18n()
@@ -17,7 +17,7 @@
 	const { openInquiry } = storeToRefs(loadStore)
 
   const inquiryStore = useInquiryStore()
-	const { unit, amount } = storeToRefs(inquiryStore)
+	const { unit, area, amount } = storeToRefs(inquiryStore)
 
   const galleryStore = useGalleryStore()
 	const { openGallery } = storeToRefs(galleryStore)
@@ -45,6 +45,7 @@
     brand: {},
     status: 'draft',
     imageURL: '',
+    unitArea: 0,
     basePrice: 0
   })
 
@@ -55,8 +56,7 @@
     printData.value.color = selectedColor.value
     printData.value.amount = amount.value
     printData.value.unit = unit.value
-    printData.value.price = productInfo.value.basePrice
-    printData.value.sum = productInfo.value.basePrice * amount.value
+    printData.value.area = area.value
     openInquiry.value()
   }
 
@@ -108,6 +108,14 @@
     }
   }
 
+  watch( area, nVal => {
+    if (productInfo.value.unitArea) {
+      amount.value = Math.ceil(area.value / productInfo.value.unitArea)
+    } else {
+      amount.value = 0
+    }
+  })
+
   const initProductInfo = () => {
     products.value.data.forEach(product => {
       if (product._id == route.params.id) {
@@ -128,6 +136,7 @@
     (newData) => {
       if (newData.length > 0) {
         initProductInfo()
+        area.value = productInfo.value.unitArea
       }
     },
     { immediate: true }
@@ -236,7 +245,7 @@
                 </div>
             </div>
             <div class="inquiry">
-                <div class="inquirySection">
+                <!-- <div class="inquirySection">
                     <div class="head">{{ $t('spec.unit') }}</div>
                     <div class="option">
                         <select v-model="unit">
@@ -244,23 +253,31 @@
                             <option value="kg">kg</option>
                         </select>
                     </div>
+                </div> -->
+                <div class="inquirySection">
+                    <div class="head">{{ $t('spec.area') }}</div>
+                    <div class="option">
+                        <input
+                          v-model="area"
+                          type="number">
+                        <span>{{ unit }}</span>
+                    </div>
                 </div>
                 <div class="inquirySection">
                     <div class="head">{{ $t('spec.amount') }}</div>
                     <div class="option">
-                        <input
-                          v-model="amount"
-                          type="number">
+                        {{ amount }}
+                        <span>{{ $t('spec.unit') }}</span>
                     </div>
                 </div>
-                <div class="inquirySection">
+                <!-- <div class="inquirySection">
                     <div class="head">{{ $t('spec.total') }}</div>
                     <div class="option">
                         <div class="sum">
                             $ <span>{{ sumPrice }}</span>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="inquirySection">
                     <div
                       class="linkButton"

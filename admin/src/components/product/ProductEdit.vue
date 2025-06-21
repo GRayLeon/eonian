@@ -47,6 +47,7 @@
     status: 'draft',
     imageURL: '',
     basePrice: 0,
+    unitArea: 0,
     slipResistance: 0,
     model: '',
     dimension: '',
@@ -632,12 +633,13 @@
         type="text"/>
     </div>
     <div class="inputItem">
-      <div class="head">基本價格</div>
+      <div class="head">單箱面積</div>
       <input
-        v-model="productInfo.basePrice"
+        v-model="productInfo.unitArea"
         :disabled="isArchived"
-        placeholder="請輸入基本價格"
+        placeholder="請輸入單箱面積"
         type="number"/>
+      <span>m²</span>
     </div>
     <!-- <div class="inputItem">
       <div class="head">尺寸</div>

@@ -35,8 +35,9 @@
       color: '',
       amount: '',
       unit: '',
-      price: 0,
-      sum: 0
+      area: '',
+      date: '',
+      serialNumber: ''
     },
     category: 'calculate',
     status: 'pending'
@@ -46,8 +47,24 @@
     return input[locale.value]
   }
 
+  function generateDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}${month}${day}`;
+  }
+
+  function generateRandomNumber() {
+    const dateString = generateDate()
+    const randomNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0'); // 產生六位隨機數
+    return `${dateString}${randomNum}`;
+  }
+
   onMounted( () => {
     inquiryInfo.value.printData = printData.value
+    inquiryInfo.value.printData.date = generateDate()
+    inquiryInfo.value.printData.serialNumber = generateRandomNumber()
   })
 
 </script>

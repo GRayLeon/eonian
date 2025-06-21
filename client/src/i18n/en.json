@@ -17,7 +17,8 @@
     "colour": "Colour",
     "slipResistance": "Slip Resistance",
     "application": "Application",
-    "unit": "Unit",
+    "unit": "Box",
+    "area": "Area",
     "amount": "Amount",
     "total": "Total"
   },

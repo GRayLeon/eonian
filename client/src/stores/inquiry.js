@@ -5,7 +5,8 @@ import { ref } from 'vue'
 
 import axios from 'axios'
 
-const unit = ref('m2')
+const unit = ref('m²')
+const area = ref(null)
 const amount = ref(1)
 
 export const useInquiryStore = defineStore('inquiry', () => {
@@ -39,5 +40,5 @@ export const useInquiryStore = defineStore('inquiry', () => {
     window.open(apiURL, '_blank')
     openDialog.value('success', '下載成功', '估價單已下載完成，請按確定繼續。', 'reload')
   })
-  return { unit, amount, sendInquiry, downloadInquiry }
+  return { unit, area, amount, sendInquiry, downloadInquiry }
 })

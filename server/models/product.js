@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const autoFixMapFields = require('../middleware/autoFixMapFields')
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -7,24 +8,36 @@ const productSchema = new mongoose.Schema({
     // required: true
   },
   origin: [{
-    type: Map,
-    of: String,
-    // required: true
+    en: {
+      type: String
+    },
+    zh: {
+      type: String
+    }
   }],
   appearance: [{
-    type: Map,
-    of: String,
-    // required: true
+    en: {
+      type: String
+    },
+    zh: {
+      type: String
+    }
   }],
   functionality: [{
-    type: Map,
-    of: String,
-    // required: true
+    en: {
+      type: String
+    },
+    zh: {
+      type: String
+    }
   }],
   support: [{
-    type: Map,
-    of: String,
-    // required: true
+    en: {
+      type: String
+    },
+    zh: {
+      type: String
+    }
   }],
   brand: [{
     type: String,
@@ -93,6 +106,9 @@ const productSchema = new mongoose.Schema({
       type: String
     },
   }],
+  unitArea: {
+    type: Number,
+  },
   tags: {
     type: Array,
     of: String
