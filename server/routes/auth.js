@@ -131,6 +131,14 @@ router.delete("/:id", authenticateToken, async (req, res) => {
 
 router.get("/profile", authenticateToken, async (req, res) => {
   try {
+    
+    res.set({
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'Surrogate-Control': 'no-store'
+    })
+
     let account = await Account.findById(req.account.id)
     if (account) {
       res.json({

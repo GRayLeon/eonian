@@ -57,14 +57,21 @@ export const useAuthStore = defineStore('auth', () => {
     checkLogin.value()
   })
 
-  const checkLogin = ref( () => {
-    const accessToken = getToken.value()
-    if (accessToken) {
+  const checkLogin = ref(async () => {
+    const token = getToken.value()
+    if (!token) {
+      isLogin.value = false
+      return
+    }
+
+    try {
+      await getProfile.value()
       isLogin.value = true
-    } else {
+    } catch (e) {
       isLogin.value = false
     }
   })
+
 
   const profile = ref({})
   const getProfile = ref( async () => {
@@ -83,6 +90,10 @@ export const useAuthStore = defineStore('auth', () => {
       }
     } catch(e) {
       console.log(e)
+      if (e.response?.status === 401 || e.response?.status === 403) {
+        logout.value()
+        router.push('/login')
+      }
     }
   })
 

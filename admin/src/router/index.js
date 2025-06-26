@@ -304,7 +304,6 @@ router.beforeEach( async (to, from, next) => {
     isLoading.value = true
     await checkLogin.value()
     if (isLogin.value) {
-      await getProfile.value()
       next()
     } else {
       if (to.name === 'login') {

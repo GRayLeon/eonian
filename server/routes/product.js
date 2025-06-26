@@ -194,6 +194,12 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
   req.body.support = JSON.parse(req.body.support)
   req.body.brand = JSON.parse(req.body.brand)
 
+  if (req.body.unitArea === 'undefined' || req.body.unitArea === '' || req.body.unitArea === undefined) {
+    delete req.body.unitArea
+  } else {
+    req.body.unitArea = Number(req.body.unitArea)
+  }
+
   let product
   let status
   let wording
