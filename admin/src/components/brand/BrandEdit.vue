@@ -1,6 +1,7 @@
 <script setup>
   import { useBrandStore } from '@/stores/brand'
   import { useLoadStore } from '@/stores/load'
+  import { usePreviewDialogStore } from '@/stores/previewDialog'
 	import { storeToRefs } from 'pinia'
 	import { useRoute, useRouter } from 'vue-router'
   import { ref, computed, watch, onMounted } from 'vue';
@@ -14,6 +15,9 @@
 
   const loadStore = useLoadStore()
 	const { isLoading } = storeToRefs(loadStore)
+  
+  const previewDialogStore = usePreviewDialogStore()
+	const { openPreviewDialog } = storeToRefs(previewDialogStore)
 
   const route = useRoute()
   const router = useRouter()
@@ -595,6 +599,8 @@
         type="text"></textarea>
     </div>
     <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
+      <button
+        @click="openPreviewDialog('brand', brandInfo)">預覽</button>
       <button 
         :disabled="!isReady"
         @click="editBrand(brandInfo, 'edit')">儲存編輯</button>
@@ -604,6 +610,8 @@
         @click="editBrand(brandInfo, 'archive')">封存商品</button>
     </div>
     <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
+      <button
+        @click="openPreviewDialog('brand', brandInfo)">預覽</button>
       <button  
         :disabled="!isReady"
         v-if="!isEdit"

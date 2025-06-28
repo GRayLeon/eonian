@@ -2,6 +2,7 @@
   import { useProductStore } from '@/stores/product'
   import { useSpecStore } from '@/stores/spec'
   import { useLoadStore } from '@/stores/load'
+  import { usePreviewDialogStore } from '@/stores/previewDialog'
 	import { storeToRefs } from 'pinia'
 	import { useRoute, useRouter } from 'vue-router'
   import { ref, computed, onMounted, onUpdated } from 'vue';
@@ -22,6 +23,9 @@
 
   const loadStore = useLoadStore()
 	const { isLoading } = storeToRefs(loadStore)
+
+  const previewDialogStore = usePreviewDialogStore()
+	const { openPreviewDialog } = storeToRefs(previewDialogStore)
 
   const route = useRoute()
   const router = useRouter()
@@ -833,6 +837,8 @@
       </div>
     </div> -->
     <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
+      <button
+        @click="openPreviewDialog('product', productInfo)">預覽</button>
       <button 
         :disabled="!isReady"
         @click="editProduct(productInfo, 'edit', selecteFile)">儲存編輯</button>
@@ -842,6 +848,8 @@
         @click="editProduct(productInfo, 'archive', selecteFile)">封存商品</button>
     </div>
     <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
+      <button
+        @click="openPreviewDialog('product', productInfo)">預覽</button>
       <button  
         :disabled="!isReady"
         v-if="!isEdit"

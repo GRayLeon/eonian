@@ -66,3 +66,415 @@
     cursor: pointer;
   }
 }
+
+.previewDialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.15);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  font-family: 'Belleza', 'Noto Serif TC', serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .5px;
+  color: #1a1311;
+  * {
+    box-sizing: border-box;
+    transition: .3s;
+    &::placeholder {
+      font-family: 'Belleza', 'Noto Serif TC', serif;
+      font-size: 12px;
+    }
+  }
+
+  input, textarea {
+    font-family: 'Belleza', 'Noto Serif TC', serif;
+    outline: none;
+  }
+
+  select {
+    font-family: 'Belleza', 'Noto Serif TC', serif;
+    font-size: 12px;
+  }
+
+  img {
+    display: block;
+  }
+  &__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100vw - 48px);
+    height: calc(100vh - 48px);
+    padding: 32px 48px;
+    border-radius: 8px;
+    background-color: #ededee;
+    overflow: auto;
+  }
+  .productInsideContent {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    width: 100%;
+    max-width: 1366px;
+    padding: 72px 32px;
+    &__option {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 240px;
+      .optionSection {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        .head {
+          border-bottom: #999a98 1px solid;
+        }
+        ul {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 4px;
+          li {
+            flex: 0 0 calc( 20% - 4px*4/5);
+            width: 0;
+            padding: 2px;
+            border: #ededee 1px solid;
+            cursor: pointer;
+            &.active {
+              border: #999a98 1px solid;
+            }
+            img {
+              width: 100%;
+            }
+          }
+        }
+        .noData {
+          font-size: 12px;
+          color: #999a98;
+        }
+      }
+    }
+    &__images {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: calc( 100% - 240px - 432px - 32px*2);
+      img {
+        width: 100%;
+      }
+    }
+    &__info {
+      width: 432px;
+      .stickyCard {
+        position: sticky;
+        top: 85px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .productTitle {
+        h2 {
+          font-size: 24px;
+        }
+        span.model {
+          font-size: 14px;
+          color: #999a98;
+        }
+      }
+      .description {
+        padding: 24px 0;
+        border-bottom: #cac8c9 1px solid;
+      }
+      .spec {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        .spec__item {
+          flex: 0 0 50%;
+          font-size: 14px;
+          line-height: 24px;
+        }
+      }
+      .optional {
+        display: none;
+      }
+      .inquiry {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 24px;
+        margin-top: 56px;
+        border: #cac8c9 1px solid;
+        .inquirySection {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .option {
+            display: flex;
+            flex-direction: row;
+            gap: 4px;
+            max-width: 72px;
+            input, select {
+              border: 0;
+              background-color: transparent;
+            }
+            input {
+              width: 100%;
+              border-bottom: #cac8c9 1px solid;
+            }
+          }
+          .linkButton {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+  .projectInsideContent {
+    display: flex;
+    flex-direction: row;
+    gap: 56px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 72px 32px;
+    &__info {
+      width: 240px;
+      .stickyCard {
+        position: sticky;
+        top: 85px;
+        display: flex;
+        flex-direction: column;
+        gap: 72px;
+        width: 240px;
+        .title {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          h2 {
+            font-size: 20px;
+          }
+          span.category {
+            text-decoration: underline;
+          }
+        }
+        .tagList {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 6px;
+          li {
+            padding: 4px 8px;
+            color: #999a98;
+            border: #999a98 1px solid;
+          }
+        }
+      }
+    }
+    &__images {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: calc( 100% - 296px );
+      .section {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 100%;
+        img {
+          flex:  1;
+          min-width: 0;
+          min-height: auto;
+          object-fit: cover;
+          object-position: center;
+        }
+      }
+    }
+  }
+
+  .newsInsideContent {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 72px 32px;
+    &__mainInfo {
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      .info {
+        display: flex;
+        flex-direction: column;
+        width: 240px;
+        > * {
+          flex: 1;
+        }
+        .title {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          h2 {
+            font-size: 20px;
+            line-height: 24px;
+          }
+          .category {
+            color: #999a98;
+          }
+        }
+      }
+      .image {
+        width: calc( 100% - 280px );
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+    &__detail {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      .section {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+        .card {
+          flex: 1;
+          display: flex;
+          gap: 40px;
+          .text {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            h3 {
+              font-size: 16px;;
+            }
+          }
+          img {
+            width: 100%;
+          }
+          &.image-top {
+            flex-direction: column;
+          }
+          &.image-bottom {
+            flex-direction: column-reverse;
+            }
+          &.image-top, &.image-bottom {
+            img {
+              height: auto;
+              object-fit: cover;
+              object-position: center;
+            }
+          }
+          &.image-left {
+            flex-direction: row;
+          }
+          &.image-right {
+            flex-direction: row-reverse;
+          }
+          &.image-left, &.image-right {
+            flex-direction: row;
+            .text {
+              width: 360px;
+            }
+            img {
+              width: calc( 100% - 400px );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .brandInsideContent {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    width: 100%;
+    max-width: 1366px;
+    padding: 72px 32px;
+    &__info {
+      width: 240px;
+      h2 {
+        font-size: 24px;
+      }
+    }
+    &__detail {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: calc( 100% - 240px - 360px - 40px*2 );
+      .section {
+        display: flex;
+        flex-direction: row;
+        gap: 24px;
+        width: 100%;
+        img {
+          flex: 1;
+          min-width: 0;
+          min-height: auto;
+        }
+        .articleLayout {
+          flex: 1;
+          display: flex;
+          gap: 16px;
+          min-width: 0;
+          &.image-top {
+            flex-direction: column;
+          }
+          &.image-bottom {
+            flex-direction: column-reverse;
+          }
+          &.image-left {
+            flex-direction: row;
+          }
+          &.image-right {
+            flex-direction: row-reverse;
+          }
+          img, .article {
+            flex: 1;
+            min-width: 0;
+          }
+          img {
+            width: 100%;
+            min-height: auto;
+            object-fit: cover;
+            object-position: center;
+          }
+          .article {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            .title {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+    &__description {
+      width: 360px;
+      .stickyCard {
+        position: sticky;
+        top: 85px;
+      }
+    }
+  }
+
+  .close {
+    position: absolute;
+    top: 48px;
+    right: 48px;
+    cursor: pointer;
+  }
+}

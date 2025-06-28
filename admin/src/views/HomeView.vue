@@ -8,6 +8,7 @@
   import Nav from '../components/layout/Nav.vue'
   import AccountBox from '../components/layout/AccountBox.vue'
   import Dialog from '../components/layout/Dialog.vue'
+  import Preview from '../components/layout/Preview.vue'
   import Loading from '../components/layout/Loading.vue'
 
   const authStore = useAuthStore()
@@ -39,6 +40,7 @@
   </div>
   <Loading></Loading>
   <Dialog></Dialog>
+  <Preview></Preview>
 </template>
 
 <style scoped>

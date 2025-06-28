@@ -1409,4 +1409,416 @@ option {
   color: white;
   background-color: #333;
   cursor: pointer;
+}
+
+.previewDialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  z-index: 9999;
+  font-family: "Belleza", "Noto Serif TC", serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #1a1311;
+}
+.previewDialog * {
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+.previewDialog *::-moz-placeholder {
+  font-family: "Belleza", "Noto Serif TC", serif;
+  font-size: 12px;
+}
+.previewDialog *::placeholder {
+  font-family: "Belleza", "Noto Serif TC", serif;
+  font-size: 12px;
+}
+.previewDialog input, .previewDialog textarea {
+  font-family: "Belleza", "Noto Serif TC", serif;
+  outline: none;
+}
+.previewDialog select {
+  font-family: "Belleza", "Noto Serif TC", serif;
+  font-size: 12px;
+}
+.previewDialog img {
+  display: block;
+}
+.previewDialog__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100vw - 48px);
+  height: calc(100vh - 48px);
+  padding: 32px 48px;
+  border-radius: 8px;
+  background-color: #ededee;
+  overflow: auto;
+}
+.previewDialog .productInsideContent {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  width: 100%;
+  max-width: 1366px;
+  padding: 72px 32px;
+}
+.previewDialog .productInsideContent__option {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 240px;
+}
+.previewDialog .productInsideContent__option .optionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.previewDialog .productInsideContent__option .optionSection .head {
+  border-bottom: #999a98 1px solid;
+}
+.previewDialog .productInsideContent__option .optionSection ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.previewDialog .productInsideContent__option .optionSection ul li {
+  flex: 0 0 calc(20% - 3.2px);
+  width: 0;
+  padding: 2px;
+  border: #ededee 1px solid;
+  cursor: pointer;
+}
+.previewDialog .productInsideContent__option .optionSection ul li.active {
+  border: #999a98 1px solid;
+}
+.previewDialog .productInsideContent__option .optionSection ul li img {
+  width: 100%;
+}
+.previewDialog .productInsideContent__option .optionSection .noData {
+  font-size: 12px;
+  color: #999a98;
+}
+.previewDialog .productInsideContent__images {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: calc(100% - 240px - 432px - 64px);
+}
+.previewDialog .productInsideContent__images img {
+  width: 100%;
+}
+.previewDialog .productInsideContent__info {
+  width: 432px;
+}
+.previewDialog .productInsideContent__info .stickyCard {
+  position: sticky;
+  top: 85px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.previewDialog .productInsideContent__info .productTitle h2 {
+  font-size: 24px;
+}
+.previewDialog .productInsideContent__info .productTitle span.model {
+  font-size: 14px;
+  color: #999a98;
+}
+.previewDialog .productInsideContent__info .description {
+  padding: 24px 0;
+  border-bottom: #cac8c9 1px solid;
+}
+.previewDialog .productInsideContent__info .spec {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.previewDialog .productInsideContent__info .spec .spec__item {
+  flex: 0 0 50%;
+  font-size: 14px;
+  line-height: 24px;
+}
+.previewDialog .productInsideContent__info .optional {
+  display: none;
+}
+.previewDialog .productInsideContent__info .inquiry {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  margin-top: 56px;
+  border: #cac8c9 1px solid;
+}
+.previewDialog .productInsideContent__info .inquiry .inquirySection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.previewDialog .productInsideContent__info .inquiry .inquirySection .option {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  max-width: 72px;
+}
+.previewDialog .productInsideContent__info .inquiry .inquirySection .option input, .previewDialog .productInsideContent__info .inquiry .inquirySection .option select {
+  border: 0;
+  background-color: transparent;
+}
+.previewDialog .productInsideContent__info .inquiry .inquirySection .option input {
+  width: 100%;
+  border-bottom: #cac8c9 1px solid;
+}
+.previewDialog .productInsideContent__info .inquiry .inquirySection .linkButton {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.previewDialog .projectInsideContent {
+  display: flex;
+  flex-direction: row;
+  gap: 56px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 72px 32px;
+}
+.previewDialog .projectInsideContent__info {
+  width: 240px;
+}
+.previewDialog .projectInsideContent__info .stickyCard {
+  position: sticky;
+  top: 85px;
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+  width: 240px;
+}
+.previewDialog .projectInsideContent__info .stickyCard .title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.previewDialog .projectInsideContent__info .stickyCard .title h2 {
+  font-size: 20px;
+}
+.previewDialog .projectInsideContent__info .stickyCard .title span.category {
+  text-decoration: underline;
+}
+.previewDialog .projectInsideContent__info .stickyCard .tagList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.previewDialog .projectInsideContent__info .stickyCard .tagList li {
+  padding: 4px 8px;
+  color: #999a98;
+  border: #999a98 1px solid;
+}
+.previewDialog .projectInsideContent__images {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: calc(100% - 296px);
+}
+.previewDialog .projectInsideContent__images .section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+.previewDialog .projectInsideContent__images .section img {
+  flex: 1;
+  min-width: 0;
+  min-height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.previewDialog .newsInsideContent {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 72px 32px;
+}
+.previewDialog .newsInsideContent__mainInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+.previewDialog .newsInsideContent__mainInfo .info {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+}
+.previewDialog .newsInsideContent__mainInfo .info > * {
+  flex: 1;
+}
+.previewDialog .newsInsideContent__mainInfo .info .title {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.previewDialog .newsInsideContent__mainInfo .info .title h2 {
+  font-size: 20px;
+  line-height: 24px;
+}
+.previewDialog .newsInsideContent__mainInfo .info .title .category {
+  color: #999a98;
+}
+.previewDialog .newsInsideContent__mainInfo .image {
+  width: calc(100% - 280px);
+}
+.previewDialog .newsInsideContent__mainInfo .image img {
+  width: 100%;
+  height: auto;
+}
+.previewDialog .newsInsideContent__detail {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.previewDialog .newsInsideContent__detail .section {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+.previewDialog .newsInsideContent__detail .section .card {
+  flex: 1;
+  display: flex;
+  gap: 40px;
+}
+.previewDialog .newsInsideContent__detail .section .card .text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.previewDialog .newsInsideContent__detail .section .card .text h3 {
+  font-size: 16px;
+}
+.previewDialog .newsInsideContent__detail .section .card img {
+  width: 100%;
+}
+.previewDialog .newsInsideContent__detail .section .card.image-top {
+  flex-direction: column;
+}
+.previewDialog .newsInsideContent__detail .section .card.image-bottom {
+  flex-direction: column-reverse;
+}
+.previewDialog .newsInsideContent__detail .section .card.image-top img, .previewDialog .newsInsideContent__detail .section .card.image-bottom img {
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.previewDialog .newsInsideContent__detail .section .card.image-left {
+  flex-direction: row;
+}
+.previewDialog .newsInsideContent__detail .section .card.image-right {
+  flex-direction: row-reverse;
+}
+.previewDialog .newsInsideContent__detail .section .card.image-left, .previewDialog .newsInsideContent__detail .section .card.image-right {
+  flex-direction: row;
+}
+.previewDialog .newsInsideContent__detail .section .card.image-left .text, .previewDialog .newsInsideContent__detail .section .card.image-right .text {
+  width: 360px;
+}
+.previewDialog .newsInsideContent__detail .section .card.image-left img, .previewDialog .newsInsideContent__detail .section .card.image-right img {
+  width: calc(100% - 400px);
+}
+.previewDialog .brandInsideContent {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  width: 100%;
+  max-width: 1366px;
+  padding: 72px 32px;
+}
+.previewDialog .brandInsideContent__info {
+  width: 240px;
+}
+.previewDialog .brandInsideContent__info h2 {
+  font-size: 24px;
+}
+.previewDialog .brandInsideContent__detail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: calc(100% - 240px - 360px - 80px);
+}
+.previewDialog .brandInsideContent__detail .section {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  width: 100%;
+}
+.previewDialog .brandInsideContent__detail .section img {
+  flex: 1;
+  min-width: 0;
+  min-height: auto;
+}
+.previewDialog .brandInsideContent__detail .section .articleLayout {
+  flex: 1;
+  display: flex;
+  gap: 16px;
+  min-width: 0;
+}
+.previewDialog .brandInsideContent__detail .section .articleLayout.image-top {
+  flex-direction: column;
+}
+.previewDialog .brandInsideContent__detail .section .articleLayout.image-bottom {
+  flex-direction: column-reverse;
+}
+.previewDialog .brandInsideContent__detail .section .articleLayout.image-left {
+  flex-direction: row;
+}
+.previewDialog .brandInsideContent__detail .section .articleLayout.image-right {
+  flex-direction: row-reverse;
+}
+.previewDialog .brandInsideContent__detail .section .articleLayout img, .previewDialog .brandInsideContent__detail .section .articleLayout .article {
+  flex: 1;
+  min-width: 0;
+}
+.previewDialog .brandInsideContent__detail .section .articleLayout img {
+  width: 100%;
+  min-height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}
+.previewDialog .brandInsideContent__detail .section .articleLayout .article {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.previewDialog .brandInsideContent__detail .section .articleLayout .article .title {
+  font-size: 18px;
+}
+.previewDialog .brandInsideContent__description {
+  width: 360px;
+}
+.previewDialog .brandInsideContent__description .stickyCard {
+  position: sticky;
+  top: 85px;
+}
+.previewDialog .close {
+  position: absolute;
+  top: 48px;
+  right: 48px;
+  cursor: pointer;
 }/*# sourceMappingURL=style.css.map */
