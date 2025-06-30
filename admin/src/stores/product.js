@@ -36,6 +36,11 @@ export const useProductStore = defineStore('product', () => {
     }
   })
 
+  const tempFunctionality = ref([])
+  const tempOrigin = ref([])
+  const tempAppearance = ref([])
+  const tempSupport = ref([])
+
   // const selectSizes = ref([])
   const selectFile = ref(null)
 
@@ -133,10 +138,10 @@ export const useProductStore = defineStore('product', () => {
     formData.append("tags", JSON.stringify(productInfo.tags))
     formData.append("unitArea", JSON.stringify(productInfo.unitArea))
 
-    formData.append("origin", JSON.stringify(productInfo.origin))
-    formData.append("appearance", JSON.stringify(productInfo.appearance))
-    formData.append("functionality", JSON.stringify(productInfo.functionality))
-    formData.append("support", JSON.stringify(productInfo.support))
+    formData.append("origin", JSON.stringify(tempOrigin.value))
+    formData.append("appearance", JSON.stringify(tempAppearance.value))
+    formData.append("functionality", JSON.stringify(tempFunctionality.value))
+    formData.append("support", JSON.stringify(tempSupport.value))
     formData.append("brand", JSON.stringify(productInfo.brand))
     
     if (productInfo.imagePublicId) {
@@ -214,6 +219,7 @@ export const useProductStore = defineStore('product', () => {
     selectSubImageFiles, updateSubImageFile,
     selectShapeImageFiles, updateShapeImageFile,
     selectColorImageFiles, updateColorImageFile,
+    tempFunctionality, tempOrigin, tempAppearance, tempSupport,
     getProducts, isGetProducts, editProduct, deleteProduct, goToAddProduct
   }
 })

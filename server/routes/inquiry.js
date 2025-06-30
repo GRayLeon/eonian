@@ -7,6 +7,37 @@ const path = require('path')
 const fs = require('fs')
 const { createReport } = require('docx-templates')
 
+const nodemailer = require('nodemailer')
+const puppeteer = require('puppeteer')
+const os = require('os')
+
+async function sendHtmlReportEmail(data) {
+  const htmlContent = `<html>
+    <body>
+      <h1>${data.name} 的報告</h1>
+      <p>內容：${data.content}</p>
+    </body>
+  </html>`
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'maxgray1986@gmail.com',
+      pass: 'wqdk jjkg pabd mzmo',
+    },
+  })
+
+  await transporter.sendMail({
+    from: 'maxgray1986@gmail.com',
+    to: 'maxgray1986@gmail.com',
+    subject: '自動產生的報告',
+    html: htmlContent, // ✅ 使用 HTML 內容
+  })
+
+  console.log('HTML 報告已寄出')
+}
+
+
 require('dotenv').config()
 
 // api
@@ -40,6 +71,13 @@ router.get("/download/:id", async (req, res) => {
 
       fs.writeFileSync('./test.docx', docxBuffer)
 
+      const mailData = {
+        name: inquiry.name || '無名',
+        content: inquiry.data?.content || '無內容', // 確保有字串
+      }
+
+      await sendHtmlReportEmail(mailData)
+
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
       res.setHeader('Content-Disposition', 'attachment; filename=report.docx')
       res.setHeader('Content-Length', docxBuffer.length)
@@ -55,6 +93,59 @@ router.get("/download/:id", async (req, res) => {
   } catch (err) {
     console.error('Error generating docx:', err)
     res.status(500).send('產生 Word 文件失敗')
+  }
+})
+
+router.get("/handleInquiry/:id", async (req, res) => {
+  try {
+    const { id } = req.params
+    const { send, download } = req.query
+
+    const inquiry = await Inquiry.findById(id)
+    if (!inquiry) {
+      return res.status(404).json({ message: "找不到資料" })
+    }
+
+    // 如果要寄信
+    if (send === 'true') {
+      await sendHtmlReportEmail({
+        name: inquiry.name || '無名',
+        content: inquiry.data?.content || '無內容',
+      })
+    }
+
+    // 如果要下載 PDF
+    if (download === 'true') {
+      const templatePath = path.join(__dirname, '..', 'templates', 'report-template.docx')
+      const template = fs.readFileSync(templatePath)
+
+      const docxBuffer = await createReport({
+        template,
+        data: {
+          ...inquiry.data,
+          ...inquiry.printData,
+          category: inquiry.category,
+          status: inquiry.status,
+          createTime: inquiry.createTime,
+        },
+        cmdDelimiter: ['{{', '}}']
+      })
+
+      fs.writeFileSync('./test.docx', docxBuffer)
+
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+      res.setHeader('Content-Disposition', 'attachment; filename=report.docx')
+      res.setHeader('Content-Length', docxBuffer.length)
+
+      return res.status(200).end(docxBuffer)
+    }
+
+    // 如果都沒有下載就回傳處理成功
+    return res.status(200).json({ message: '報告處理完成' })
+
+  } catch (err) {
+    console.error('處理報告失敗:', err)
+    res.status(500).send('處理報告失敗')
   }
 })
 

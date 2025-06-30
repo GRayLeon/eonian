@@ -4,7 +4,7 @@
   import { ref, onMounted, computed } from 'vue'
 
   const previewDialogStore = usePreviewDialogStore()
-	const { previewData } = storeToRefs(previewDialogStore)
+	const { lan, switchLan, showLan, previewData } = storeToRefs(previewDialogStore)
 
   const brandInfo = ref({
     name: '',
@@ -56,15 +56,15 @@
           <div
             v-if="article.text.en"
             class="article">
-            <div class="title">{{ article.title.en }}</div>
-            <p>{{ article.text.en }}</p>
+            <div class="title">{{ showLan(article.title) }}</div>
+            <p>{{ showLan(article.text) }}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="brandInsideContent__description">
       <div class="stickyCard">
-        <p>{{ brandInfo.description.en }}</p>
+        <p>{{ showLan(brandInfo.description) }}</p>
       </div>
     </div>
   </div>

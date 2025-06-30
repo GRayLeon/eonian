@@ -14,6 +14,7 @@
     selectSubImageFiles, updateSubImageFile,
     selectShapeImageFiles, updateShapeImageFile,
     selectColorImageFiles, updateColorImageFile,
+    tempFunctionality, tempOrigin, tempAppearance, tempSupport,
     editProduct,
     getProducts
   } = storeToRefs(productStore)
@@ -351,6 +352,30 @@
             brand: ensureArray(product.brand),
           }
           basePrice.value = product.basePrice
+          product.origin.forEach( item => {
+            tempOrigin.value.push({
+              en: item.en,
+              zh: item.zh
+            })
+          })
+          product.functionality.forEach( item => {
+            tempFunctionality.value.push({
+              en: item.en,
+              zh: item.zh
+            })
+          })
+          product.appearance.forEach( item => {
+            tempAppearance.value.push({
+              en: item.en,
+              zh: item.zh
+            })
+          })
+          product.support.forEach( item => {
+            tempSupport.value.push({
+              en: item.en,
+              zh: item.zh
+            })
+          })
         }
       })
       productInfo.value.subImages.forEach( subImage => {
@@ -389,6 +414,15 @@
   onUpdated( () => {
     isLoading.value = false
   })
+
+  const openPreview = () => {
+    let tempProductInfo = {...productInfo.value}
+    tempProductInfo.functionality = [...tempFunctionality.value]
+    tempProductInfo.appearance = [...tempAppearance.value]
+    tempProductInfo.support = [...tempSupport.value]
+    tempProductInfo.origin = [...tempOrigin.value]
+    openPreviewDialog.value('product', tempProductInfo)
+  }
 
 </script>
 
@@ -472,7 +506,7 @@
       <div class="head">產地</div>
       <ul class="checkboxList">
         <li v-for="(origin, idx) in specDatas.origin.list">
-          <input type="checkbox" :id="'origin' + idx" v-model="productInfo.origin" :value="origin">
+          <input type="checkbox" :id="'origin' + idx" v-model="tempOrigin" :value="origin">
           <label :for="'origin' + idx">{{ origin['zh'] }} / {{ origin['en'] }}</label>
         </li>
       </ul>
@@ -493,7 +527,7 @@
       <div class="head">外觀</div>
       <ul class="checkboxList">
         <li v-for="(appearance, idx) in specDatas.appearance.list">
-          <input type="checkbox" :id="'appearance' + idx" v-model="productInfo.appearance" :value="appearance">
+          <input type="checkbox" :id="'appearance' + idx" v-model="tempAppearance" :value="appearance">
           <label :for="'appearance' + idx">{{ appearance['zh'] }} / {{ appearance['en'] }}</label>
         </li>
       </ul>
@@ -513,7 +547,7 @@
       <div class="head">功能</div>
       <ul class="checkboxList">
         <li v-for="(functionality, idx) in specDatas.functionality.list">
-          <input type="checkbox" :id="'functionality' + idx" v-model="productInfo.functionality" :value="functionality">
+          <input type="checkbox" :id="'functionality' + idx" v-model="tempFunctionality" :value="functionality">
           <label :for="'functionality' + idx">{{ functionality['zh'] }} / {{ functionality['en'] }}</label>
         </li>
       </ul>
@@ -533,7 +567,7 @@
       <div class="head">經典系列</div>
       <ul class="checkboxList">
         <li v-for="(support, idx) in specDatas.support.list">
-          <input type="checkbox" :id="'support' + idx" v-model="productInfo.support" :value="support">
+          <input type="checkbox" :id="'support' + idx" v-model="tempSupport" :value="support">
           <label :for="'support' + idx">{{ support['zh'] }} / {{ support['en'] }}</label>
         </li>
       </ul>
@@ -838,7 +872,7 @@
     </div> -->
     <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
       <button
-        @click="openPreviewDialog('product', productInfo)">預覽</button>
+        @click="openPreview()">預覽</button>
       <button 
         :disabled="!isReady"
         @click="editProduct(productInfo, 'edit', selecteFile)">儲存編輯</button>
@@ -849,7 +883,7 @@
     </div>
     <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
       <button
-        @click="openPreviewDialog('product', productInfo)">預覽</button>
+        @click="openPreview()">預覽</button>
       <button  
         :disabled="!isReady"
         v-if="!isEdit"

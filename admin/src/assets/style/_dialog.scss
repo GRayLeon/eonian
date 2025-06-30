@@ -471,6 +471,13 @@
     }
   }
 
+  .switch {
+    position: absolute;
+    top: 48px;
+    left: 48px;
+    cursor: pointer;
+  }
+
   .close {
     position: absolute;
     top: 48px;

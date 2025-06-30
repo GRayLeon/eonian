@@ -4,7 +4,7 @@
   import { ref, onMounted, computed } from 'vue'
 
   const previewDialogStore = usePreviewDialogStore()
-	const { previewData } = storeToRefs(previewDialogStore)
+	const { lan, switchLan, showLan, previewData } = storeToRefs(previewDialogStore)
 
   const productInfo = ref({
     name: {
@@ -29,6 +29,21 @@
     imageURL: '',
     unitArea: 0,
     basePrice: 0
+  })
+
+  const showOrigin = computed( () => {
+    let output = ''
+    if (productInfo.value.origin.length == undefined) {
+      return
+    }
+    productInfo.value.origin.forEach( (origin, idx) => {
+      if (idx == 0) {
+        output += origin[lan.value]
+      } else {
+        output += ` / ${origin[lan.value]}`
+      }
+    })
+    return output
   })
 
 
@@ -79,12 +94,12 @@
     <div class="productInsideContent__info">
         <div class="stickyCard">
             <div class="productTitle">
-                <h2>{{ productInfo.name.en?? '--' }}</h2>
+                <h2>{{ showLan(productInfo.name) }}</h2>
                 <span class="model">{{ productInfo.model }}</span>
             </div>
             <div class="description">
                 <p>
-                   {{ productInfo.description.en?? '--' }}
+                   {{ showLan(productInfo.description) }}
                 </p>
             </div>
             <div class="spec">
@@ -94,7 +109,7 @@
                 </div>
                 <div class="spec__item">
                   Origin:&nbsp;&nbsp;
-                  {{ productInfo.origin.en?? '--' }}
+                  {{ showOrigin }}
                 </div>
                 <div class="spec__item">
                   Colour:&nbsp;&nbsp;

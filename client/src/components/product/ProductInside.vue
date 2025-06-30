@@ -108,6 +108,21 @@
     }
   }
 
+  const showOrigin = computed( () => {
+    let output = ''
+    if (productInfo.value.origin.length == undefined) {
+      return
+    }
+    productInfo.value.origin.forEach( (origin, idx) => {
+      if (idx == 0) {
+        output += origin[locale.value]
+      } else {
+        output += ` / ${origin[locale.value]}`
+      }
+    })
+    return output
+  })
+
   watch( area, nVal => {
     if (productInfo.value.unitArea) {
       amount.value = Math.ceil(area.value / productInfo.value.unitArea)
@@ -197,7 +212,7 @@
                 </div>
                 <div class="spec__item">
                   {{ $t('spec.origin') }}:&nbsp;&nbsp;
-                  {{ showLanText(productInfo.origin) }}
+                  {{ showOrigin }}
                 </div>
                 <div class="spec__item">
                   {{ $t('spec.colour') }}:&nbsp;&nbsp;

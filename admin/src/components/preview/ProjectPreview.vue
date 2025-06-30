@@ -4,7 +4,7 @@
   import { ref, onMounted, computed } from 'vue'
 
   const previewDialogStore = usePreviewDialogStore()
-	const { previewData } = storeToRefs(previewDialogStore)
+	const { lan, switchLan, showLan, previewData } = storeToRefs(previewDialogStore)
 
   const projectInfo = ref({
     title: '',
@@ -42,7 +42,7 @@
           <div class="subtitle">{{ projectInfo.artist }}</div>
         </div>
         <div class="description">
-          <p>{{ projectInfo.detail.en }}</p>
+          <p>{{ showLan(projectInfo.detail) }}</p>
         </div>
         <ul class="tagList">
           <li v-for="tag in projectInfo.tags">{{ tag }}</li>

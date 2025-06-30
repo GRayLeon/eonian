@@ -8,7 +8,7 @@
   import BrandPreview from '../preview/BrandPreview.vue'
 
   const previewDialogStore = usePreviewDialogStore()
-	const { previewDialogIsOpen, previewType, closePreviewDialog } = storeToRefs(previewDialogStore)
+	const { lan, switchLan, showCurrentLan, previewDialogIsOpen, previewType, closePreviewDialog } = storeToRefs(previewDialogStore)
 
 </script>
 
@@ -21,6 +21,9 @@
         <NewsPreview v-if="previewType == 'news'"></NewsPreview>
         <BrandPreview v-if="previewType == 'brand'"></BrandPreview>
       </div>
+      <div
+        class="button switch"
+        @click="switchLan()">切換語言: {{ showCurrentLan(lan) }}</div>
       <div
         class="button close"
         @click="closePreviewDialog()">關閉預覽</div>

@@ -1816,6 +1816,12 @@ option {
   position: sticky;
   top: 85px;
 }
+.previewDialog .switch {
+  position: absolute;
+  top: 48px;
+  left: 48px;
+  cursor: pointer;
+}
 .previewDialog .close {
   position: absolute;
   top: 48px;

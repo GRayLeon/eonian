@@ -4,7 +4,7 @@
   import { ref, onMounted, computed } from 'vue'
 
   const previewDialogStore = usePreviewDialogStore()
-	const { previewData } = storeToRefs(previewDialogStore)
+	const { lan, switchLan, showLan, previewData } = storeToRefs(previewDialogStore)
 
   const dateFormate = isoDate => {
     const date = new Date(isoDate)
@@ -59,11 +59,11 @@
       <div class="info">
         <div class="title">
           <div class="dtae">{{ newsInfo.createTime? dateFormate(newsInfo.createTime) : '' }}</div>
-          <h2>{{ newsInfo.topic.en }}</h2>
+          <h2>{{ showLan(newsInfo.topic) }}</h2>
           <div class="category">{{ newsInfo.category.split('_')[0] }} {{ newsInfo.category.split('_')[1] }}</div>
         </div>
         <div class="description">
-          <p>{{ newsInfo.detail.en }}</p>
+          <p>{{ showLan(newsInfo.detail) }}</p>
         </div>
       </div>
       <div class="image">
@@ -81,9 +81,9 @@
           <img :src="article.imageURL">
           <div class="text">
             <h3>
-              {{ article.title.en }}
+              {{ showLan(article.title) }}
             </h3>
-            <p>{{ article.text.en }}</p>
+            <p>{{ showLan(article.text) }}</p>
           </div>
         </div>
       </div>
