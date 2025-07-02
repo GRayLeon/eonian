@@ -52,26 +52,27 @@
   const setPrintData = () => {
     printData.value.application = productInfo.value.application
     printData.value.model = productInfo.value.model
-    printData.value.spec = selectedColorSize.value
-    printData.value.color = selectedColor.value
+    printData.value.spec = selectedColor.value.size
+    printData.value.color = selectedColor.value.title
     printData.value.amount = amount.value
     printData.value.unit = unit.value
     printData.value.area = area.value
     openInquiry.value()
   }
 
-  const selectedColor = ref('--')
-  const selectedColorSize = ref('--')
+  const selectedColor = ref({
+    title: '--',
+    size: '--'
+  })
 
   const selectColor = ref( color => {
-    selectedColor.value = color.title || '--'
-    selectedColorSize.value = color.size || '--'
+    selectedColor.value = color
   })
 
   const selectedShape = ref(null)
 
   const selectShape = ref( shape => {
-    selectedShape.value = shape.title || '--'
+    selectedShape.value = shape
   })
 
   const sumPrice = computed( () => {
@@ -94,14 +95,14 @@
 
   const handleClick = (target, data) => {
     if (target == 'shape') {
-      if (selectedShape.value == data.title) {
-        openGallery.value(data.title, data.imageURL)
+      if (selectedShape.value == data) {
+        openGallery.value(data.title?? '', data.imageURL)
       } else {
         selectShape.value(data)
       }
     } else if (target == 'color') {
-      if (selectedColor.value == data.title) {
-        openGallery.value(data.title, data.imageURL)
+      if (selectedColor.value == data) {
+        openGallery.value(data.title?? '', data.imageURL)
       } else {
         selectColor.value(data)
       }
@@ -123,6 +124,22 @@
     return output
   })
 
+  const showApplication = input => {
+    if (!input) return '--'
+    if (locale.value == 'en') return input
+    switch (input) {
+      case 'exterior':
+        return '室外'
+        break
+      case 'interior':
+        return '室內'
+        break
+      case 'exterior/interior':
+        return '室外/室內'
+        break
+    }
+  }
+
   watch( area, nVal => {
     if (productInfo.value.unitArea) {
       amount.value = Math.ceil(area.value / productInfo.value.unitArea)
@@ -138,11 +155,10 @@
       }
     })
     if (productInfo.value.colors.length > 0) {
-      selectedColor.value = productInfo.value.colors[0].title || '--'
-      selectedColorSize.value = productInfo.value.colors[0].size || '--'
+      selectedColor.value = productInfo.value.colors[0]?? { title: '--', size: '--' }
     }
     if (productInfo.value.shapes.length > 0) {
-      selectedShape.value = productInfo.value.shapes[0].title || '--'
+      selectedShape.value = productInfo.value.shapes[0]?? { title: '--' }
     }
   }
 
@@ -165,7 +181,7 @@
         <div class="head">{{ $t('spec.shapes') }}</div>
         <ul v-if="productInfo.shapes.length > 0">
           <li
-            :class="{ active: selectedShape == shape.title }"
+            :class="{ active: selectedShape.title == shape.title }"
             v-for="shape in productInfo.shapes"
             @click="handleClick('shape', shape)">
             <img :src="shape.imageURL">
@@ -179,7 +195,7 @@
           <div class="head">{{ $t('spec.colors') }}</div>
           <ul v-if="productInfo.colors.length > 0">
           <li
-            :class="{ active: selectedColor == color.title }"
+            :class="{ active: selectedColor.title == color.title }"
             v-for="color in productInfo.colors"
             @click="handleClick('color', color)">
             <img :src="color.imageURL">
@@ -208,7 +224,7 @@
             <div class="spec">
                 <div class="spec__item">
                   {{ $t('spec.dimension') }}:&nbsp;&nbsp;
-                  {{ selectedColorSize }}
+                  {{ selectedColor.size?? "--" }}
                 </div>
                 <div class="spec__item">
                   {{ $t('spec.origin') }}:&nbsp;&nbsp;
@@ -216,7 +232,7 @@
                 </div>
                 <div class="spec__item">
                   {{ $t('spec.colour') }}:&nbsp;&nbsp;
-                  {{ selectedColor }}
+                  {{ selectedColor.title?? "--" }}
                 </div>
                 <div class="spec__item">
                   {{ $t('spec.slipResistance') }}:&nbsp;&nbsp;
@@ -224,7 +240,7 @@
                 </div>
                 <div class="spec__item">
                   {{ $t('spec.application') }}:&nbsp;&nbsp;
-                  {{ checkContent(productInfo.application) }}
+                  {{ showApplication(productInfo.application) }}
                 </div>
             </div>
             <div class="optional">
@@ -247,7 +263,7 @@
                     <div class="head">{{ $t('spec.colors') }}</div>
                     <ul v-if="productInfo.colors.length > 0">
                       <li
-                        :class="{ active: selectedColor == color.title }"
+                        :class="{ active: selectedColor.title == color.title }"
                         v-for="color in productInfo.colors"
                         @click="handleClick('color', color)">
                         <img :src="color.imageURL">

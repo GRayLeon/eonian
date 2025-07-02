@@ -50,9 +50,7 @@ export const useCategoryStore = defineStore('category', () => {
           'Content-Type': 'application/json'
         }
       })
-      if (response) {
-        openDialog.value('success', `${typeWording}成功`, `分類已經${typeWording}成功，按確定返回產品分類管理列表。`, target)
-      }
+      openDialog.value('success', `${typeWording}成功`, `分類已經${typeWording}成功，按確定返回產品分類管理列表。`, target)
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

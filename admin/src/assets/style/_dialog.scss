@@ -290,6 +290,9 @@
         flex-direction: column;
         gap: 24px;
         width: 100%;
+        &.double {
+          flex-direction: row;
+        }
         img {
           flex:  1;
           min-width: 0;
@@ -385,10 +388,10 @@
           &.image-left, &.image-right {
             flex-direction: row;
             .text {
-              width: 360px;
+              flex: 1;
             }
             img {
-              width: calc( 100% - 400px );
+              flex: 1;
             }
           }
         }

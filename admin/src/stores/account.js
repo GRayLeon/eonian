@@ -52,10 +52,8 @@ export const useAccountStore = defineStore('account', () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      if (response) {
-        openDialog.value('success', '新增成功', '帳號已經新增成功，按確定返回帳號管理列表。', 'accountList')
-        getAccounts.value()
-      }
+      openDialog.value('success', '新增成功', '帳號已經新增成功，按確定返回帳號管理列表。', 'accountList')
+      getAccounts.value()
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
@@ -93,10 +91,8 @@ export const useAccountStore = defineStore('account', () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      if (response) {
-        openDialog.value('success', '刪除成功', '帳號已經刪除成功，按確定返回帳號管理列表。', 'accountList')
-        getAccounts.value()
-      }
+      openDialog.value('success', '刪除成功', '帳號已經刪除成功，按確定返回帳號管理列表。', 'accountList')
+      getAccounts.value()
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

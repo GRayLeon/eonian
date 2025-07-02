@@ -163,10 +163,10 @@
                 &.image-left, &.image-right {
                     flex-direction: row;
                     .text {
-                        width: 360px;
+                        flex: 1;
                     }
                     img {
-                        width: calc( 100% - 400px );
+                        flex: 1;
                     }
                 }
             }

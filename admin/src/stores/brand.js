@@ -60,7 +60,7 @@ export const useBrandStore = defineStore('brand', () => {
   })
 
   const sucessInfo = {
-    'creat': {
+    'create': {
       title: '新增草稿',
       message: '已成功新增草稿，按確定返回品牌管理列表。'
     },
@@ -148,10 +148,8 @@ export const useBrandStore = defineStore('brand', () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      if (response) {
-        getBrands.value(status.value, category.value, sort.value, order.value)
-        openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'brandList')
-      }
+      getBrands.value(status.value, category.value, sort.value, order.value)
+      openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'brandList')
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

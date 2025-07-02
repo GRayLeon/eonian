@@ -62,16 +62,6 @@
 
   const basePrice = ref(0)
 
-  // const sumPrice = computed( () => {
-  //   let prices = {}
-  //   selectSizes.value.forEach( selectSize => {
-  //     let scale = sizeDatas.value.find(size => size._id == selectSize.sizeId).scale
-  //     let count = selectSize.count
-  //     prices[selectSize.sizeId] = productInfo.value.basePrice * scale - count
-  //   })
-  //   return prices
-  // })
-
   const isEdit = computed( () => {
     return route.params.id !== undefined
   })
@@ -85,37 +75,6 @@
 
   const isReady = computed( () => {
     let ready = true
-    // if( !productInfo.value.name.en ) { ready = false}
-    // if( !productInfo.value.name.zh ) { ready = false}
-    // if( !productInfo.value.description.en ) { ready = false}
-    // if( !productInfo.value.description.zh ) { ready = false}
-    // if( !productInfo.value.subImages ) { ready = false}
-    // if( !productInfo.value.shapes ) { ready = false}
-    // if( !productInfo.value.colors ) { ready = false}
-    // if( !productInfo.value.tags ) { ready = false}
-    // if( !productInfo.value.origin ) { ready = false}
-    // if( !productInfo.value.appearance ) { ready = false}
-    // if( !productInfo.value.functionality ) { ready = false}
-    // if( !productInfo.value.support ) { ready = false}
-    // if( !productInfo.value.brand ) { ready = false}
-    // if( !productInfo.value.status ) { ready = false}
-    // if( !productInfo.value.imageURL ) { ready = false}
-    
-    // if( productInfo.value.name.en == '' ) { ready = false}
-    // if( productInfo.value.name.zh == '' ) { ready = false}
-    // if( productInfo.value.description.en == '' ) { ready = false}
-    // if( productInfo.value.description.zh == '' ) { ready = false}
-    // if( productInfo.value.subImages == [] ) { ready = false}
-    // if( productInfo.value.shapes == [] ) { ready = false}
-    // if( productInfo.value.colors == [] ) { ready = false}
-    // if( productInfo.value.tags == [] ) { ready = false}
-    // if( productInfo.value.origin == {} ) { ready = false}
-    // if( productInfo.value.appearance == {} ) { ready = false}
-    // if( productInfo.value.functionality == {} ) { ready = false}
-    // if( productInfo.value.support == {} ) { ready = false}
-    // if( productInfo.value.brand == {} ) { ready = false}
-    // if( productInfo.value.status == '' ) { ready = false}
-    // if( productInfo.value.imageURL == '' ) { ready = false}
     return ready
   })
 
@@ -140,38 +99,6 @@
       previewName.value = '請選擇圖片檔案'
     }
   }
-
-  // sizes
-
-  // const hasId = id => {
-  //   let isHas = false
-  //   selectSizes.value.forEach( size => {
-  //     if (size.sizeId == id) { isHas = true }
-  //   })
-  //   return isHas
-  // }
-
-  // const setCount = id => {
-  //   if (selectSizes.value.find( size => size.sizeId == id)) {
-  //     return selectSizes.value.find( size => size.sizeId == id).count
-  //   }
-  // }
-
-  // const selectId = id => {
-  //   if (hasId(id)) {
-  //     selectSizes.value = selectSizes.value.filter( size => size.sizeId !== id)
-  //   } else {
-  //     selectSizes.value.push({ sizeId: id, count: 0 })
-  //   }
-  // }
-
-  // const editCount = (inputCount, id) => {
-  //   selectSizes.value.forEach( item => {
-  //     if (item.sizeId == id) {
-  //       item.count = inputCount
-  //     }
-  //   })
-  // }
 
   // subImages
   const previewSubimageURL = ref([])
@@ -303,6 +230,7 @@
   const addColor = () => {
     productInfo.value.colors.push({
       title: '',
+      size: '',
       imageURL: '',
       imagePublicId: ''
     })
@@ -341,6 +269,11 @@
 
   const initProductInfo = () => {
     if (isEdit.value) {
+      tempOrigin.value = []
+      tempFunctionality.value = []
+      tempAppearance.value = []
+      tempSupport.value = []
+      
       products.value.data.forEach(product => {
         if (product._id == route.params.id) {
           productInfo.value = { 
@@ -416,14 +349,89 @@
   })
 
   const openPreview = () => {
-    let tempProductInfo = {...productInfo.value}
-    tempProductInfo.functionality = [...tempFunctionality.value]
-    tempProductInfo.appearance = [...tempAppearance.value]
-    tempProductInfo.support = [...tempSupport.value]
+    const tempProductInfo = { ...productInfo.value }
+
+    tempProductInfo.name = { ...productInfo.value.name }
+    tempProductInfo.description = { ...productInfo.value.description }
+    tempProductInfo.subImages = [...productInfo.value.subImages]
+    tempProductInfo.shapes = [...productInfo.value.shapes]
+    tempProductInfo.colors = [...productInfo.value.colors]
+    tempProductInfo.tags = [...productInfo.value.tags]
     tempProductInfo.origin = [...tempOrigin.value]
+    tempProductInfo.appearance = [...tempAppearance.value]
+    tempProductInfo.functionality = [...tempFunctionality.value]
+    tempProductInfo.support = [...tempSupport.value]
+    tempProductInfo.brand = [...productInfo.value.brand]
+
+    if (selectFile.value) {
+      tempProductInfo.imageURL = URL.createObjectURL(selectFile.value)
+    }
+
+    if (previewSubimageURL.value?.length && isSubImageChanging.value?.length) {
+      const newSubImages = previewSubimageURL.value
+        .map((url, index) => {
+          if (isSubImageChanging.value[index] && url) {
+            return {
+              imageURL: url
+            }
+          }
+          return null
+        })
+        .filter(Boolean)
+
+      tempProductInfo.subImages = [...productInfo.value.subImages, ...newSubImages]
+    }
+    
+    if (previewShapeimageURL.value?.length && isShapeImageChanging.value?.length) {
+      const newShapeImages = previewShapeimageURL.value
+        .map((url, index) => {
+          if ((isShapeImageChanging.value[index]) && url) {
+            return {
+              imageURL: url
+            }
+          }
+          return null
+        })
+        .filter(Boolean)
+
+      tempProductInfo.shapes = productInfo.value.shapes.map((shape, idx) => {
+        const updated = { ...shape }
+
+        if (isShapeImageChanging.value[idx] && previewShapeimageURL.value[idx]) {
+          updated.imageURL = previewShapeimageURL.value[idx]
+        }
+
+        return updated
+      })
+
+    }
+
+    if (previewColorimageURL.value?.length && isColorImageChanging.value?.length) {
+      const newColorImages = previewColorimageURL.value
+        .map((url, index) => {
+          if (isColorImageChanging.value[index] && url) {
+            return {
+              imageURL: url
+            }
+          }
+          return null
+        })
+        .filter(Boolean)
+
+      tempProductInfo.colors = productInfo.value.colors.map((color, idx) => {
+        const updated = { ...color }
+        if (isColorImageChanging.value[idx] && previewColorimageURL.value[idx]) {
+          updated.imageURL = previewColorimageURL.value[idx]
+        }
+        return updated
+      })
+
+
+    }
+
     openPreviewDialog.value('product', tempProductInfo)
   }
-
+  
 </script>
 
 <template>
@@ -510,18 +518,6 @@
           <label :for="'origin' + idx">{{ origin['zh'] }} / {{ origin['en'] }}</label>
         </li>
       </ul>
-      <!-- <select
-        v-model="productInfo.origin"
-        :disabled="isArchived"
-        multiple>
-        <option value="" disabled>請選擇產地</option>
-        <option
-          :value="origin"
-          v-for="origin in specDatas.origin.list">
-          {{ origin['zh'] }}&emsp;/&emsp;{{ origin['en'] }}
-        </option>
-      </select> -->
-
     </div>
     <div class="inputItem" v-if="isGetSpecs">
       <div class="head">外觀</div>
@@ -531,17 +527,6 @@
           <label :for="'appearance' + idx">{{ appearance['zh'] }} / {{ appearance['en'] }}</label>
         </li>
       </ul>
-      <!-- <select
-        v-model="productInfo.appearance"
-        :disabled="isArchived"
-        multiple>
-        <option value="" disabled>請選擇外觀</option>
-        <option
-          :value="appearance"
-          v-for="appearance in specDatas.appearance.list">
-          {{ appearance['zh'] }}&emsp;/&emsp;{{ appearance['en'] }}
-        </option>
-      </select> -->
     </div>
     <div class="inputItem" v-if="isGetSpecs">
       <div class="head">功能</div>
@@ -551,17 +536,6 @@
           <label :for="'functionality' + idx">{{ functionality['zh'] }} / {{ functionality['en'] }}</label>
         </li>
       </ul>
-      <!-- <select
-        v-model="productInfo.functionality"
-        :disabled="isArchived"
-        multiple>
-        <option value="" disabled>請選擇功能</option>
-        <option
-          :value="functionality"
-          v-for="functionality in specDatas.functionality.list">
-          {{ functionality['zh'] }}&emsp;/&emsp;{{ functionality['en'] }}
-        </option>
-      </select> -->
     </div>
     <div class="inputItem" v-if="isGetSpecs">
       <div class="head">經典系列</div>
@@ -571,17 +545,6 @@
           <label :for="'support' + idx">{{ support['zh'] }} / {{ support['en'] }}</label>
         </li>
       </ul>
-      <!-- <select
-        v-model="productInfo.support"
-        :disabled="isArchived"
-        multiple>
-        <option value="" disabled>請選擇系列</option>
-        <option
-          :value="support"
-          v-for="support in specDatas.support.list">
-          {{ support['zh'] }}&emsp;/&emsp;{{ support['en'] }}
-        </option>
-      </select> -->
     </div>
     <div class="inputItem" v-if="isGetSpecs">
       <div class="head">品牌</div>
@@ -591,17 +554,6 @@
           <label :for="'brand' + idx">{{ brand.name }}</label>
         </li>
       </ul>
-      <!-- <select
-        v-model="productInfo.brand"
-        :disabled="isArchived"
-        multiple>
-        <option value="" disabled>請選擇品牌</option>
-        <option
-          :value="brand.name"
-          v-for="brand in specDatas.brands.list">
-          {{ brand.name }}
-        </option>
-      </select> -->
     </div>
     <div class="inputItem">
       <div class="head">名稱(英)</div>
@@ -627,14 +579,6 @@
         placeholder="請如入型號"
         type="text"/>
     </div>
-    <!-- <div class="inputItem">
-      <div class="head">尺寸</div>
-      <input
-        v-model="productInfo.dimension"
-        :disabled="isArchived"
-        placeholder="請輸入尺寸"
-        type="text"/>
-    </div> -->
     <div class="inputItem">
       <div class="head">防滑度</div>
       <input
@@ -679,39 +623,6 @@
         type="number"/>
       <span>m²</span>
     </div>
-    <!-- <div class="inputItem">
-      <div class="head">尺寸</div>
-      <div class="sizeList">
-        <div
-          class="sizeinputItem"
-          v-for="size in sizeDatas.filter(sizeData => sizeData.active)">
-          <input
-            type="checkbox"
-            :value="size._id"
-            :id="size._id"
-            :checked="hasId(size._id)"
-            :disabled="isArchived"
-            @change="selectId(size._id)">
-          <label :for="size._id">
-            {{ size.size }}
-          </label>
-          <div class="countArea" v-if="hasId(size._id)">
-            <div class="subHead">折價</div>
-            <input
-              @change="editCount($event.target.value, size._id)"
-              :value="setCount(size._id)"
-              :disabled="isArchived"
-              placeholder="請輸入折價"
-              min="0"
-              type="number" />
-            <div class="subHead">單價</div>
-            <div class="sumPrice">
-              {{ sumPrice[size._id] }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="inputItem">
       <div class="head">面狀</div>
       <div class="shapeList">
@@ -750,13 +661,6 @@
               v-model="shape.title"
               placeholder="請輸入面狀規格" />
           </div>
-          <!-- <div class="shapeInputItem">
-            <div class="subHead">倍率</div>
-            <input
-              type="number"
-              v-model="shape.scale"
-              placeholder="請輸入面狀倍率" />
-          </div> -->
           <div class="shapeInputOption">
             <div
               class="shapeButton"
@@ -840,36 +744,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="inputItem">
-      <div class="head">標籤</div>
-      <div class="tagListArea">
-        <div class="tagList" v-if="productInfo.tags.length > 0">
-          <div class="tagItem" v-for="(tag, idx) in productInfo.tags">
-            <span>{{ tag }}</span>
-            <div
-              class="tagButton"
-              @click="removeTag(idx)">
-              <span class="material-icons">close</span>
-            </div>
-          </div>
-        </div>
-        <div class="addButtonArea">
-          <div class="addInput">
-            <input
-              v-if="!isArchived"
-              type="text"
-              placeholder="請輸入標籤內容"
-              v-model="tempTag">
-            <button
-              class="smallButton"
-              :disabled="isArchived"
-              @click="addTag()">
-              新增
-            </button>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
       <button
         @click="openPreview()">預覽</button>

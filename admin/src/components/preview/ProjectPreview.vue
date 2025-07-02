@@ -52,7 +52,8 @@
     <div class="projectInsideContent__images">
       <div
         v-for="list in projectInfo.imageList"
-        class="section">
+        class="section"
+        :class="list.class">
         <img
           v-for="image in list.images"
           :src="`${image.imageURL}`">

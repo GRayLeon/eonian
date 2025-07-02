@@ -60,7 +60,7 @@ export const useProjectStore = defineStore('project', () => {
   })
 
   const sucessInfo = {
-    'creat': {
+    'create': {
       title: '新增草稿',
       message: '已成功新增草稿，按確定返回專案管理列表。'
     },
@@ -143,10 +143,8 @@ export const useProjectStore = defineStore('project', () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      if (response) {
-        getProjects.value(status.value, category.value, sort.value, order.value)
-        openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'projectList')
-      }
+      getProjects.value(status.value, category.value, sort.value, order.value)
+      openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'projectList')
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

@@ -3,6 +3,7 @@
    License: none (public domain)
 */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;400;500;700&family=Open+Sans:wght@300;400;500;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Belleza&family=Noto+Serif+TC:wght@200..900&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -1637,6 +1638,9 @@ option {
   gap: 24px;
   width: 100%;
 }
+.previewDialog .projectInsideContent__images .section.double {
+  flex-direction: row;
+}
 .previewDialog .projectInsideContent__images .section img {
   flex: 1;
   min-width: 0;
@@ -1735,10 +1739,10 @@ option {
   flex-direction: row;
 }
 .previewDialog .newsInsideContent__detail .section .card.image-left .text, .previewDialog .newsInsideContent__detail .section .card.image-right .text {
-  width: 360px;
+  flex: 1;
 }
 .previewDialog .newsInsideContent__detail .section .card.image-left img, .previewDialog .newsInsideContent__detail .section .card.image-right img {
-  width: calc(100% - 400px);
+  flex: 1;
 }
 .previewDialog .brandInsideContent {
   display: flex;

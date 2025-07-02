@@ -68,7 +68,7 @@ export const useProductStore = defineStore('product', () => {
   })
 
   const sucessInfo = {
-    'creat': {
+    'create': {
       title: '新增草稿',
       message: '已成功新增草稿，按確定返回產品管理列表。'
     },
@@ -138,10 +138,21 @@ export const useProductStore = defineStore('product', () => {
     formData.append("tags", JSON.stringify(productInfo.tags))
     formData.append("unitArea", JSON.stringify(productInfo.unitArea))
 
-    formData.append("origin", JSON.stringify(tempOrigin.value))
-    formData.append("appearance", JSON.stringify(tempAppearance.value))
-    formData.append("functionality", JSON.stringify(tempFunctionality.value))
-    formData.append("support", JSON.stringify(tempSupport.value))
+    const uniqueArray = (arr) => {
+    const seen = new Set()
+      return arr.filter(item => {
+        const key = JSON.stringify(item)
+        if (seen.has(key)) return false
+        seen.add(key)
+        return true
+      })
+    }
+
+    formData.append("origin", JSON.stringify(uniqueArray(tempOrigin.value)))
+    formData.append("appearance", JSON.stringify(uniqueArray(tempAppearance.value)))
+    formData.append("functionality", JSON.stringify(uniqueArray(tempFunctionality.value)))
+    formData.append("support", JSON.stringify(uniqueArray(tempSupport.value)))
+    
     formData.append("brand", JSON.stringify(productInfo.brand))
     
     if (productInfo.imagePublicId) {
@@ -178,10 +189,9 @@ export const useProductStore = defineStore('product', () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      if (response) {
-        getProducts.value(status.value, category.value, sort.value, order.value)
-        openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'productList')
-      }
+      console.log(editType)
+      getProducts.value(status.value, category.value, sort.value, order.value)
+      openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'productList')
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

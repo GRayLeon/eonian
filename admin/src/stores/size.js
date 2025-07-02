@@ -50,9 +50,7 @@ export const useSizeStore = defineStore('size', () => {
           'Content-Type': 'application/json'
         }
       })
-      if (response) {
-        openDialog.value('success', `${typeWording}成功`, `規格已經${typeWording}成功，按確定返回產品規格管理列表。`, target)
-      }
+      openDialog.value('success', `${typeWording}成功`, `規格已經${typeWording}成功，按確定返回產品規格管理列表。`, target)
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

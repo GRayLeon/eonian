@@ -58,25 +58,6 @@
 
   const isReady = computed( () => {
     let ready = true
-    // if( !projectInfo.value.imageURL && !previewimageURL.value ) { ready = false}
-    // if( !projectInfo.value.title ) { ready = false}
-    // if( !projectInfo.value.category ) { ready = false}
-    // if( !projectInfo.value.artist ) { ready = false}
-    // if( !projectInfo.value.description.en ) { ready = false}
-    // if( !projectInfo.value.description.zh ) { ready = false}
-    // if( !projectInfo.value.detail.en ) { ready = false}
-    // if( !projectInfo.value.detail.zh ) { ready = false}
-    // if( !projectInfo.value.tags ) { ready = false}
-    
-    // if( projectInfo.value.title == '' ) { ready = false}
-    // if( projectInfo.value.category == '' ) { ready = false}
-    // if( projectInfo.value.artist == '' ) { ready = false}
-    // if( projectInfo.value.description.en == '' ) { ready = false}
-    // if( projectInfo.value.description.zh == '' ) { ready = false}
-    // if( projectInfo.value.detail.en == '' ) { ready = false}
-    // if( projectInfo.value.detail.zh == '' ) { ready = false}
-    // if( projectInfo.value.tags == [] ) { ready = false}
-
     return ready
   })
 
@@ -403,6 +384,39 @@
     });
   };
 
+  const openPreview = () => {
+    const tempProjectInfo = { ...projectInfo.value }
+
+    tempProjectInfo.description = { ...projectInfo.value.description }
+    tempProjectInfo.detail = { ...projectInfo.value.detail }
+    tempProjectInfo.tags = [...projectInfo.value.tags]
+
+    tempProjectInfo.imageList = projectInfo.value.imageList.map((list, listIdx) => {
+      const newList = {
+        class: list.class,
+        images: list.images.map((image, idx) => {
+          const isChanged = isImageChanging.value.find(item =>
+            item.index[0] === listIdx && item.index[1] === idx
+          )?.isChange
+
+          const newUrl = previewimageURL.value.find(item =>
+            item.index[0] === listIdx && item.index[1] === idx
+          )?.url
+
+          return {
+            ...image,
+            imageURL: isChanged && newUrl ? newUrl : image.imageURL
+          }
+        })
+      }
+      console.log(newList)
+      return newList
+    })
+
+    openPreviewDialog.value('project', tempProjectInfo)
+  }
+
+
 </script>
 
 <template>
@@ -536,39 +550,9 @@
         placeholder="請輸入中文敘述"
         type="text"></textarea>
     </div>
-    <!-- <div class="inputItem">
-      <div class="head">標籤</div>
-      <div class="tagListArea">
-        <div class="tagList" v-if="projectInfo.tags.length > 0">
-          <div class="tagItem" v-for="(tag, idx) in projectInfo.tags">
-            <span>{{ tag }}</span>
-            <div
-              class="tagButton"
-              @click="removeTag(idx)">
-              <span class="material-icons">close</span>
-            </div>
-          </div>
-        </div>
-        <div class="addButtonArea">
-          <div class="addInput">
-            <input
-              v-if="!isArchived"
-              type="text"
-              placeholder="請輸入標籤內容"
-              v-model="tempTag">
-            <button
-              class="smallButton"
-              :disabled="isArchived"
-              @click="addTag()">
-              新增
-            </button>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
       <button
-        @click="openPreviewDialog('project', projectInfo)">預覽</button>
+        @click="openPreview()">預覽</button>
       <button 
         :disabled="!isReady"
         @click="editProject(projectInfo, 'edit')">儲存編輯</button>
@@ -579,7 +563,7 @@
     </div>
     <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
       <button
-        @click="openPreviewDialog('project', projectInfo)">預覽</button>
+        @click="openPreview()">預覽</button>
       <button  
         :disabled="!isReady"
         v-if="!isEdit"

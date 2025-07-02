@@ -61,9 +61,7 @@ export const useRegionStore = defineStore('region', () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      if (response) {
-        openDialog.value('success', `${typeWording}成功`, `地區已經${typeWording}成功，按確定返回地區地區管理列表。`, target)
-      }
+      openDialog.value('success', `${typeWording}成功`, `地區已經${typeWording}成功，按確定返回地區地區管理列表。`, target)
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

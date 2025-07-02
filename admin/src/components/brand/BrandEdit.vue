@@ -435,6 +435,40 @@
     });
   };
 
+  const openPreview = () => {
+    const tempBrandInfo = { ...brandInfo.value }
+
+    tempBrandInfo.description = { ...brandInfo.value.description }
+
+    tempBrandInfo.imageURL = isChanging.value && previewUrl.value
+      ? previewUrl.value
+      : brandInfo.value.imageURL
+
+    tempBrandInfo.content = brandInfo.value.content.map((item, listIdx) => {
+      const newItem = {
+        layout: { ...item.layout },
+        article: item.article.map((articleItem, idx) => {
+          const isChanged = isImageChanging.value.find(el =>
+            el.index[0] === listIdx && el.index[1] === idx
+          )?.isChange
+
+          const newUrl = previewimageURL.value.find(el =>
+            el.index[0] === listIdx && el.index[1] === idx
+          )?.url
+
+          return {
+            ...articleItem,
+            imageURL: isChanged && newUrl ? newUrl : articleItem.imageURL
+          }
+        })
+      }
+      return newItem
+    })
+
+    openPreviewDialog.value('brand', tempBrandInfo)
+}
+
+
 </script>
 
 <template>
@@ -600,7 +634,7 @@
     </div>
     <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
       <button
-        @click="openPreviewDialog('brand', brandInfo)">預覽</button>
+        @click="openPreview()">預覽</button>
       <button 
         :disabled="!isReady"
         @click="editBrand(brandInfo, 'edit')">儲存編輯</button>
@@ -611,7 +645,7 @@
     </div>
     <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
       <button
-        @click="openPreviewDialog('brand', brandInfo)">預覽</button>
+        @click="openPreview()">預覽</button>
       <button  
         :disabled="!isReady"
         v-if="!isEdit"

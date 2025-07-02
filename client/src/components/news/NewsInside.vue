@@ -103,7 +103,7 @@
           :class="section.layout.position"
           class="card">
           <img :src="article.imageURL">
-          <div class="text">
+          <div class="text" v-if="!article.title && !article.text">
             <h3>
               {{ showLanText(article.title) }}
             </h3>

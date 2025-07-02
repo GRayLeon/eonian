@@ -46,15 +46,31 @@
     return output
   })
 
+  const showApplication = input => {
+    if (!input) return '--'
+    if (lan.value == 'en') return input
+    switch (input) {
+      case 'exterior':
+        return '室外'
+        break
+      case 'interior':
+        return '室內'
+        break
+      case 'exterior/interior':
+        return '室外/室內'
+        break
+    }
+  }
+
 
   const showColor = computed( () => {
     if (productInfo.value.colors.length == 0) return '--'
     return productInfo.value.colors[0].title
   })
 
-  const showShape = computed( () => {
-    if (productInfo.value.shapes.length == 0) return '--'
-    return productInfo.value.shapes[0].title
+  const showSize = computed( () => {
+    if (productInfo.value.colors.length == 0) return '--'
+    return productInfo.value.colors[0].size
   })
 
   onMounted( () => {
@@ -65,7 +81,7 @@
   <div class="productInsideContent">
     <div class="productInsideContent__option">
       <div class="optionSection">
-        <div class="head">Shapes</div>
+        <div class="head">{{ lan == 'en' ? 'Shapes' : '面狀' }}</div>
         <ul v-if="productInfo.shapes.length > 0">
           <li v-for="shape in productInfo.shapes">
             <img :src="shape.imageURL">
@@ -76,7 +92,7 @@
         </div>
       </div>
       <div class="optionSection">
-          <div class="head">Colors</div>
+          <div class="head">{{ lan == 'en' ? 'Colors' : '顏色' }}</div>
           <ul v-if="productInfo.colors.length > 0">
           <li v-for="color in productInfo.colors">
             <img :src="color.imageURL">
@@ -104,24 +120,29 @@
             </div>
             <div class="spec">
                 <div class="spec__item">
-                  Dimension:&nbsp;&nbsp;
-                  {{ showColor }}
+                  {{ lan == 'en' ? 'Dimension' : '尺寸' }}
+                  : &ensp;&ensp;
+                  {{ showSize }}
                 </div>
                 <div class="spec__item">
-                  Origin:&nbsp;&nbsp;
+                  {{ lan == 'en' ? 'Oringin' : '產地' }}
+                  :&nbsp;&nbsp;
                   {{ showOrigin }}
                 </div>
                 <div class="spec__item">
-                  Colour:&nbsp;&nbsp;
-                  {{ showShape }}
+                  {{ lan == 'en' ? 'Colour' : '顏色' }}
+                  :&nbsp;&nbsp;
+                  {{ showColor }}
                 </div>
                 <div class="spec__item">
-                  SlipResistance:&nbsp;&nbsp;
+                  {{ lan == 'en' ? 'SlipResistance' : '防滑係數' }}
+                  :&nbsp;&nbsp;
                   {{ productInfo.slipResistance?? '--'}}
                 </div>
                 <div class="spec__item">
-                  Application:&nbsp;&nbsp;
-                  {{ productInfo.application?? '--' }}
+                  {{ lan == 'en' ? 'Application' : '應用' }}
+                  :&nbsp;&nbsp;
+                  {{ showApplication(productInfo.application) }}
                 </div>
             </div>
             <div class="optional">
@@ -152,7 +173,7 @@
             </div>
             <div class="inquiry">
                 <div class="inquirySection">
-                    <div class="head">Area</div>
+                    <div class="head">{{ lan == 'en' ? 'Area' : '面積' }}</div>
                     <div class="option">
                         <input
                           type="number">
@@ -160,17 +181,21 @@
                     </div>
                 </div>
                 <div class="inquirySection">
-                    <div class="head">Amount</div>
+                    <div class="head">{{ lan == 'en' ? 'Amonunt' : '數量' }}</div>
                     <div class="option">
                         1
-                        <span>Box</span>
+                        <span>{{ lan == 'en' ? 'Box' : '箱' }}</span>
                     </div>
                 </div>
                 <div class="inquirySection">
-                    <div class="linkButton">Download Inquiry PDF</div>
+                    <div class="linkButton">
+                      {{ lan == 'en' ? 'Download Inquiry PDF' : '下載諮詢PDF' }}
+                    </div>
                 </div>
                 <div class="inquirySection">
-                    <div class="linkButton">Send Inquiry to Eonian Sales TeamTotal</div>
+                    <div class="linkButton">
+                      {{ lan == 'en' ? 'Send Inquiry to Eonian Sales TeamTotal' : '傳送諮詢內容給業務' }}
+                    </div>
                 </div>
             </div>
         </div>
