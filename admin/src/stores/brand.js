@@ -148,8 +148,8 @@ export const useBrandStore = defineStore('brand', () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      getBrands.value(status.value, category.value, sort.value, order.value)
       openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'brandList')
+      getBrands.value(status.value, category.value, sort.value, order.value)
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
@@ -167,8 +167,8 @@ export const useBrandStore = defineStore('brand', () => {
         }
       })
       if (response) {
-        console.log('done')
-        getBrands.value()
+        openDialog.value('success', '刪除成功', '品牌已經刪除成功，按確定返回品牌管理列表。', 'brandList')
+        getBrands.value(status.value, category.value, sort.value, order.value)
       }
     } catch(e) {
       errorHandle.value(e)

@@ -8,9 +8,6 @@
   const accountStore = useAccountStore()
 	const { getAccounts } = storeToRefs(accountStore)
 
-  const loadStore = useLoadStore()
-	const { isLoading } = storeToRefs(loadStore)
-
   onMounted( () => {
     getAccounts.value()
   })

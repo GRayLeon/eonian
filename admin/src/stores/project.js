@@ -161,10 +161,8 @@ export const useProjectStore = defineStore('project', () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      if (response) {
-        console.log('done')
-        getProjects.value()
-      }
+      openDialog.value('success', '刪除成功', '專案已經刪除成功，按確定返回專案管理列表。', 'projectList')
+      getProjects.value(status.value, category.value, sort.value, order.value)
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

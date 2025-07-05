@@ -1,5 +1,6 @@
 <script setup>
   import { useNewsStore } from '@/stores/news'
+  import { useDialogStore } from '@/stores/dialog'
   import { useLoadStore } from '@/stores/load'
   import { usePreviewDialogStore } from '@/stores/previewDialog'
 	import { storeToRefs } from 'pinia'
@@ -15,6 +16,9 @@
 
   const loadStore = useLoadStore()
 	const { isLoading } = storeToRefs(loadStore)
+
+  const dialogStore = useDialogStore()
+	const { openDialog } = storeToRefs(dialogStore)
 
   const previewDialogStore = usePreviewDialogStore()
 	const { openPreviewDialog } = storeToRefs(previewDialogStore)
@@ -633,7 +637,7 @@
       <input
         v-model="newsInfo.topic.en"
         :disabled="isArchived"
-        placeholder="請如入英文標題"
+        placeholder="請輸入英文標題"
         type="text"/>
     </div>
     <div class="inputItem">
@@ -641,7 +645,7 @@
       <input
         v-model="newsInfo.topic.zh"
         :disabled="isArchived"
-        placeholder="請如入中文標題"
+        placeholder="請輸入中文標題"
         type="text"/>
     </div>
     <div class="inputItem">
@@ -673,7 +677,7 @@
       <textarea
         v-model="newsInfo.detail.en"
         :disabled="isArchived"
-        placeholder="請輸入英文敘述"
+        placeholder="請輸入英文詳細內容"
         type="text"></textarea>
     </div>
     <div class="inputItem">
@@ -681,39 +685,47 @@
       <textarea
         v-model="newsInfo.detail.zh"
         :disabled="isArchived"
-        placeholder="請輸入中文敘述"
+        placeholder="請輸入中文詳細內容"
         type="text"></textarea>
     </div>
-    <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
-      <button
-        @click="openPreview()">預覽</button>
-      <button  
-        :disabled="!isReady"
-        @click="editNews(newsInfo, 'edit')">儲存編輯</button>
-      <button  
-        :disabled="!isReady"
-        v-if="!isDraft"
-        @click="editNews(newsInfo, 'archive')">封存商品</button>
-    </div>
-    <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
-      <button
-        @click="openPreview()">預覽</button>
-      <button  
-        :disabled="!isReady"
-        v-if="!isEdit"
-        @click="editNews(newsInfo, 'create')">創建草稿</button>
-      <button  
-        :disabled="!isReady"
-        v-else
-        @click="editNews(newsInfo, 'save')">儲存草稿</button>
-      <button  
-        :disabled="!isReady"
-        v-if="!isEdit"
-        @click="editNews(newsInfo, 'add')">上架貼文</button>
-      <button  
-        :disabled="!isReady"
-        v-else
-        @click="editNews(newsInfo, 'active')">上架貼文</button>
+    <div class="buttonArea">
+      <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
+        <button
+          @click="openPreview()">預覽</button>
+        <button  
+          :disabled="!isReady"
+          @click="editNews(newsInfo, 'edit')">儲存編輯</button>
+        <button  
+          :disabled="!isReady"
+          v-if="!isDraft"
+          @click="openDialog('archive', '確定封存', '封存後將無法編輯，是否要將此貼文編輯？', 'newsList', newsInfo)">封存貼文</button>
+      </div>
+      <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
+        <button
+          @click="openPreview()">預覽</button>
+        <button  
+          :disabled="!isReady"
+          v-if="!isEdit"
+          @click="editNews(newsInfo, 'create')">創建草稿</button>
+        <button  
+          :disabled="!isReady"
+          v-else
+          @click="editNews(newsInfo, 'save')">儲存草稿</button>
+        <button  
+          :disabled="!isReady"
+          v-if="!isEdit"
+          @click="editNews(newsInfo, 'add')">上架貼文</button>
+        <button  
+          :disabled="!isReady"
+          v-else
+          @click="editNews(newsInfo, 'active')">上架貼文</button>
+      </div>
+      <div class="buttonArea">
+        <button  
+          :disabled="!isReady"
+          v-if="isEdit"
+          @click="openDialog('delete', '確定刪除', '刪除後將無法復原，是否要將此貼文刪除？', 'newsList', newsInfo._id)">刪除貼文</button>
+      </div>
     </div>
   </div>
 </template>

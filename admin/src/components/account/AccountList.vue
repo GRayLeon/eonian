@@ -1,10 +1,16 @@
 <script setup>
   import { useAccountStore } from '@/stores/account'
+  import { useDialogStore } from '@/stores/dialog'
   import { storeToRefs } from 'pinia'
   import { useRouter } from 'vue-router'
+  import { onMounted } from 'vue'
 
   const accountStore = useAccountStore()
-	const { accounts, goToAddAccount } = storeToRefs(accountStore)
+	const { accounts, getAccounts, goToAddAccount } = storeToRefs(accountStore)
+
+  const dialogStore = useDialogStore()
+	const { openDialog } = storeToRefs(dialogStore)
+
 
   const router = useRouter()
 
@@ -20,6 +26,10 @@
   const goToEditAccount = (id, type) => {
     router.push({ path: `/account/${type}/${id}`})
   }
+
+  onMounted( () => {
+    getAccounts.value()
+  })
 </script>
 
 <template>
@@ -46,7 +56,7 @@
         <td class="lastLogin">{{ showDate(account.lastLogin) }}</td>
         <td>
           <div class="buttonArea buttonArea--flex-start">
-            <!-- <button @click="openDialog('delete', '確定刪除', '刪除後將無法復原，是否要將此帳號刪除？', 'accountList', account._id)">刪除帳號</button> -->
+            <button @click="openDialog('delete', '確定刪除', '刪除後將無法復原，是否要將此帳號刪除？', 'accountList', account._id)">刪除帳號</button>
             <button @click="goToEditAccount(account._id, 'edit')">編輯帳號</button>
             <button @click="goToEditAccount(account._id, 'change-password')">修改密碼</button>
           </div>

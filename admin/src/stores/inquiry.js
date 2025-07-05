@@ -82,8 +82,13 @@ export const useInquiryStore = defineStore('inquiry', () => {
     window.open(apiURL, '_blank')
   })
 
+  const downloadInquiryByPDF = ref( id => {
+    const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/inquiry/handleInquiryByPdf/${id}?download=true&format=pdf`
+    window.open(apiURL, '_blank')
+  })
+
   return { 
     categoryList, statusList, category, status, sort, order,
-    statusList, inquirys, getInquiryDatas, editInquiry, downloadInquiry
+    statusList, inquirys, getInquiryDatas, editInquiry, downloadInquiry, downloadInquiryByPDF
   }
 })

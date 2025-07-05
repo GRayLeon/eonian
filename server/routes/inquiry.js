@@ -149,6 +149,44 @@ router.get("/handleInquiry/:id", async (req, res) => {
   }
 })
 
+const generateFilledPdf = require('../utils/generateFilledPdf');
+
+router.get("/handleInquiryByPdf/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { download, format = 'pdf' } = req.query;
+
+    const inquiry = await Inquiry.findById(id);
+    if (!inquiry) {
+      return res.status(404).json({ message: "找不到資料" });
+    }
+
+    if (download === 'true' && format === 'pdf') {
+      const pdfBuffer = await generateFilledPdf({
+        serialNumber: inquiry.printData?.serialNumber || 'N/A',
+        date: inquiry.printData?.date || 'N/A',
+        application: inquiry.printData?.application || '',
+        model: inquiry.printData?.model || '',
+        spec: inquiry.printData?.spec || '',
+        color: inquiry.printData?.color || '',
+        amount: inquiry.printData?.amount || '',
+      });
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=quotation.pdf');
+      res.setHeader('Content-Length', pdfBuffer.length);
+      return res.status(200).end(pdfBuffer);
+    }
+
+    return res.status(200).json({ message: '報告處理完成（未下載）' });
+
+  } catch (err) {
+    console.error('PDF 產出失敗:', err);
+    res.status(500).send('處理報告失敗');
+  }
+});
+
+
 
 //// 依 ID 取得詢問表單
 

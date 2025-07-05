@@ -1,5 +1,6 @@
 <script setup>
   import { useProductStore } from '@/stores/product'
+  import { useDialogStore } from '@/stores/dialog'
   import { useSpecStore } from '@/stores/spec'
   import { useLoadStore } from '@/stores/load'
   import { usePreviewDialogStore } from '@/stores/previewDialog'
@@ -24,6 +25,9 @@
 
   const loadStore = useLoadStore()
 	const { isLoading } = storeToRefs(loadStore)
+
+  const dialogStore = useDialogStore()
+	const { openDialog } = storeToRefs(dialogStore)
 
   const previewDialogStore = usePreviewDialogStore()
 	const { openPreviewDialog } = storeToRefs(previewDialogStore)
@@ -560,7 +564,7 @@
       <input
         v-model="productInfo.name.en"
         :disabled="isArchived"
-        placeholder="請如入英文名稱"
+        placeholder="請輸入英文名稱"
         type="text"/>
     </div>
     <div class="inputItem">
@@ -576,7 +580,7 @@
       <input
         v-model="productInfo.model"
         :disabled="isArchived"
-        placeholder="請如入型號"
+        placeholder="請輸入型號"
         type="text"/>
     </div>
     <div class="inputItem">
@@ -744,36 +748,44 @@
         </div>
       </div>
     </div>
-    <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
-      <button
-        @click="openPreview()">預覽</button>
-      <button 
-        :disabled="!isReady"
-        @click="editProduct(productInfo, 'edit', selecteFile)">儲存編輯</button>
-      <button 
-        :disabled="!isReady"
-        v-if="!isDraft"
-        @click="editProduct(productInfo, 'archive', selecteFile)">封存商品</button>
-    </div>
-    <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
-      <button
-        @click="openPreview()">預覽</button>
-      <button  
-        :disabled="!isReady"
-        v-if="!isEdit"
-        @click="editProduct(productInfo, 'create')">創建草稿</button>
-      <button  
-        :disabled="!isReady"
-        v-else
-        @click="editProduct(productInfo, 'save')">儲存草稿</button>
-      <button  
-        :disabled="!isReady"
-        v-if="!isEdit"
-        @click="editProduct(productInfo, 'add')">上架產品</button>
-      <button  
-        :disabled="!isReady"
-        v-else
-        @click="editProduct(productInfo, 'active')">上架產品</button>
+    <div class="buttonArea">
+      <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
+        <button
+          @click="openPreview()">預覽</button>
+        <button 
+          :disabled="!isReady"
+          @click="editProduct(productInfo, 'edit')">儲存編輯</button>
+        <button 
+          :disabled="!isReady"
+          v-if="!isDraft"
+          @click="openDialog('archive', '確定封存', '封存後將無法編輯，是否要將此產品編輯？', 'productList', productInfo)">封存產品</button>
+      </div>
+      <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
+        <button
+          @click="openPreview()">預覽</button>
+        <button  
+          :disabled="!isReady"
+          v-if="!isEdit"
+          @click="editProduct(productInfo, 'create')">創建草稿</button>
+        <button  
+          :disabled="!isReady"
+          v-else
+          @click="editProduct(productInfo, 'save')">儲存草稿</button>
+        <button  
+          :disabled="!isReady"
+          v-if="!isEdit"
+          @click="editProduct(productInfo, 'add')">上架產品</button>
+        <button  
+          :disabled="!isReady"
+          v-else
+          @click="editProduct(productInfo, 'active')">上架產品</button>
+      </div>
+      <div class="buttonArea">
+        <button
+          :disabled="!isReady"
+          v-if="isEdit"
+          @click="openDialog('delete', '確定刪除', '刪除後將無法復原，是否要將此產品刪除？', 'productList', productInfo._id)">刪除產品</button>
+      </div>
     </div>
   </div>
 </template>

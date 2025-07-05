@@ -76,9 +76,8 @@
       <div class="inputItem">
         <div class="head">帳號</div>
         <input
-          :value="account.account"
+          v-model="account.account"
           placeholder="請輸入帳號"
-          readonly
           type="text"/>
       </div>
       <div class="inputItem">

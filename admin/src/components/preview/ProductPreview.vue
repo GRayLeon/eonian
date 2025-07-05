@@ -1,7 +1,7 @@
 <script setup>
   import { usePreviewDialogStore } from '@/stores/previewDialog'
 	import { storeToRefs } from 'pinia'
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, onMounted, watch, computed } from 'vue'
 
   const previewDialogStore = usePreviewDialogStore()
 	const { lan, switchLan, showLan, previewData } = storeToRefs(previewDialogStore)
@@ -62,7 +62,6 @@
     }
   }
 
-
   const showColor = computed( () => {
     if (productInfo.value.colors.length == 0) return '--'
     return productInfo.value.colors[0].title
@@ -73,8 +72,20 @@
     return productInfo.value.colors[0].size
   })
 
+  const tempUnitArea = ref(0)
+  const tempAmount = ref(1)
+
+  watch( tempUnitArea, nVal => {
+    if (productInfo.value.unitArea) {
+      tempAmount.value = Math.ceil(tempUnitArea.value / productInfo.value.unitArea)
+    } else {
+      tempAmount.value = 0
+    }
+  })
+
   onMounted( () => {
     productInfo.value = { ...previewData.value }
+    tempUnitArea.value = productInfo.value.unitArea
   })
 </script>
 <template>
@@ -176,6 +187,7 @@
                     <div class="head">{{ lan == 'en' ? 'Area' : '面積' }}</div>
                     <div class="option">
                         <input
+                          v-model="tempUnitArea"
                           type="number">
                         <span>m²</span>
                     </div>
@@ -183,7 +195,7 @@
                 <div class="inquirySection">
                     <div class="head">{{ lan == 'en' ? 'Amonunt' : '數量' }}</div>
                     <div class="option">
-                        1
+                        {{ tempAmount }}
                         <span>{{ lan == 'en' ? 'Box' : '箱' }}</span>
                     </div>
                 </div>

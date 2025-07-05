@@ -151,8 +151,8 @@ export const useNewsStore = defineStore('news', () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      getNews.value(status.value, category.value, sort.value, order.value)
       openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'newsList')
+      getNews.value(status.value, category.value, sort.value, order.value)
     } catch(e) {
       console.log(e)
       errorHandle.value(e)
@@ -170,8 +170,8 @@ export const useNewsStore = defineStore('news', () => {
         }
       })
       if (response) {
-        console.log('done')
-        getNews.value()
+        openDialog.value('success', '刪除成功', '貼文已經刪除成功，按確定返回貼文管理列表。', 'newsList')
+        getNews.value(status.value, category.value, sort.value, order.value)
       }
     } catch(e) {
       errorHandle.value(e)

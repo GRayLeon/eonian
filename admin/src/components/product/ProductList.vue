@@ -67,7 +67,6 @@
       <select v-model="sort">
         <option value="_id">上架時間</option>
         <option value="name">名稱</option>
-        <option value="basePrice">價錢</option>
       </select>
     </div>
   </div>
@@ -78,7 +77,7 @@
       <div class="status">狀態</div>
       <!-- <div class="category">分類</div> -->
       <div class="description">描述</div>
-      <div class="price">價錢</div>
+      <div class="price">平米/箱</div>
     </li>
     <li v-for="product in products.data" @click="router.push(`product/${product._id}`)">
       <div class="img"><img :src="product.imageURL"></div>
@@ -90,7 +89,7 @@
         {{ categoryWording(product.parentCategory) }}
       </div> -->
       <div class="description">{{  product.description['zh'] }}</div>
-      <div class="price">{{  product.basePrice }}<span>NTD</span></div>
+      <div class="price">{{  product.unitArea?? '--' }}<span>m²</span></div>
     </li>
   </ul>
   <div v-else class="empty">

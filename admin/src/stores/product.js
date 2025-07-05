@@ -131,7 +131,6 @@ export const useProductStore = defineStore('product', () => {
 
     formData.append("description", JSON.stringify(productInfo.description))
     formData.append("name", JSON.stringify(productInfo.name))
-    // formData.append("sizes", JSON.stringify(selectSizes.value))
     formData.append("subImages", JSON.stringify(productInfo.subImages))
     formData.append("shapes", JSON.stringify(productInfo.shapes))
     formData.append("colors", JSON.stringify(productInfo.colors))
@@ -189,7 +188,6 @@ export const useProductStore = defineStore('product', () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      console.log(editType)
       getProducts.value(status.value, category.value, sort.value, order.value)
       openDialog.value('success', sucessInfo[editType].title, sucessInfo[editType].message, 'productList')
     } catch(e) {
@@ -203,18 +201,15 @@ export const useProductStore = defineStore('product', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/product/${id}`
     const token = getToken.value()
     try {
-      let response = await axios.delete(apiURL, {
+      const response = await axios.delete(apiURL, {
         headers: { 
           'Authorization': `Bearer ${token}`
         }
       })
-      if (response) {
-        console.log('done')
-        getProducts.value()
-      }
+      openDialog.value('success', '刪除成功', '產品已經刪除成功，按確定返回產品管理列表。', 'productList')
+      getProducts.value(status.value, category.value, sort.value, order.value)
     } catch(e) {
       errorHandle.value(e)
-      console.log(e)
     }
   })
 

@@ -7,7 +7,7 @@
   import { ref, computed, onMounted } from 'vue'
 
   const inquiryStore = useInquiryStore()
-	const { categoryList, inquirys, getInquiryDatas, editInquiry, downloadInquiry } = storeToRefs(inquiryStore)
+	const { categoryList, inquirys, getInquiryDatas, editInquiry, downloadInquiry, downloadInquiryByPDF } = storeToRefs(inquiryStore)
 
   const authStore = useAuthStore()
 	const { profile } = storeToRefs(authStore)
@@ -165,7 +165,7 @@
     <div class="buttonArea">
       <button
         v-if="inquiryInfo.printData"
-        @click="downloadInquiry(inquiryInfo._id)">
+        @click="downloadInquiryByPDF(inquiryInfo._id)">
         下載表單
       </button>
       <button

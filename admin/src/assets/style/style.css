@@ -902,6 +902,10 @@ option {
   flex-direction: row;
   justify-content: flex-end;
   gap: 8px;
+  width: 100%;
+}
+.buttonArea > .buttonArea {
+  width: auto;
 }
 .buttonArea--flex-start {
   justify-content: flex-start;

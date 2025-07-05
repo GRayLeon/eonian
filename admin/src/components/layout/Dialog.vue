@@ -1,5 +1,9 @@
 <script setup>
   import { useAccountStore } from '@/stores/account'
+  import { useProductStore } from '@/stores/product'
+  import { useProjectStore } from '@/stores/project'
+  import { useBrandStore } from '@/stores/brand'
+  import { useNewsStore } from '@/stores/news'
   import { useLoadStore } from '@/stores/load'
   import { useDialogStore } from '@/stores/dialog'
 	import { storeToRefs } from 'pinia'
@@ -7,6 +11,18 @@
 
   const accountStore = useAccountStore()
 	const { deleteAccount } = storeToRefs(accountStore)
+
+  const productStore = useProductStore()
+	const { deleteProduct, editProduct } = storeToRefs(productStore)
+
+  const projectStore = useProjectStore()
+	const { deleteProject, editProject } = storeToRefs(projectStore)
+
+  const brandStore = useBrandStore()
+	const { deleteBrand, editBrand } = storeToRefs(brandStore)
+
+  const newsStore = useNewsStore()
+	const { deleteNews, editNews } = storeToRefs(newsStore)
 
   const loadStore = useLoadStore()
 	const { isLoading } = storeToRefs(loadStore)
@@ -28,8 +44,27 @@
     if (dialogStatus.value == 'delete') {
       if (dialogTarget.value == 'accountList') {
         deleteAccount.value(dialogData.value)
+      } else if (dialogTarget.value == 'productList') {
+        deleteProduct.value(dialogData.value)
+      } else if (dialogTarget.value == 'projectList') {
+        deleteProject.value(dialogData.value)
+      } else if (dialogTarget.value == 'brandList') {
+        deleteBrand.value(dialogData.value)
+      } else if (dialogTarget.value == 'newsList') {
+        deleteNews.value(dialogData.value)
+      }
+    } else if (dialogStatus.value == 'archive') {
+      if (dialogTarget.value == 'productList') {
+        editProduct.value(dialogData.value, 'archive')
+      } else if (dialogTarget.value == 'projectList') {
+        editProject.value(dialogData.value, 'archive')
+      } else if (dialogTarget.value == 'brandList') {
+        editBrand.value(dialogData.value, 'archive')
+      } else if (dialogTarget.value == 'newsList') {
+        editNews.value(dialogData.value, 'archive')
       }
     }
+
   }
 
   const redirectTo = () => {
@@ -49,12 +84,15 @@
   <div class="adminDialog" v-if="dialogIsOpen">
     <div class="adminDialog__box">
       <div class="adminDialog__icon" :class="dialogStatus">
-        <span class="material-icons">{{ dialogStatus == 'success' ? 'check' : 'close' }}</span>
+        <span class="material-icons">{{ dialogStatus == 'success' ? 'check' : (dialogStatus == 'delete' || dialogStatus == 'archive')? 'priority_high' : 'close' }}</span>
       </div>
       <div class="adminDialog__title">{{ dialogTitle }}</div>
       <div class="adminDialog__info">{{ dialogInfo }}</div>
-      <button v-if="dialogStatus !== 'delete'" @click="redirectTo()">確定</button>
-      <button v-else @click="action()">確定刪除</button>
+      <div class="buttonArea">
+        <button v-if="dialogStatus == 'delete' || dialogStatus == 'archive'" @click="resetDialog()">取消</button>
+        <button v-if="dialogStatus !== 'delete' && dialogStatus !== 'archive'" @click="redirectTo()">確定</button>
+        <button v-else @click="action()">確定{{ dialogStatus == 'delete'? '刪除' : '封存'}}</button>
+      </div>
     </div>
   </div>
 </template>

@@ -77,7 +77,7 @@
     ]">
     <div class="inquiryArea__box">
       <div class="inquiryTitle">
-        <h2>Send Inquiry to Eonian Sales TeamTotal</h2>
+        <h2>Send Inquiry to Eonian Sales Team</h2>
         <div
           @click="closeInquiry()"
           class="closeButton">close</div>

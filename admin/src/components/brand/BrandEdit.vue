@@ -1,5 +1,6 @@
 <script setup>
   import { useBrandStore } from '@/stores/brand'
+  import { useDialogStore } from '@/stores/dialog'
   import { useLoadStore } from '@/stores/load'
   import { usePreviewDialogStore } from '@/stores/previewDialog'
 	import { storeToRefs } from 'pinia'
@@ -15,6 +16,9 @@
 
   const loadStore = useLoadStore()
 	const { isLoading } = storeToRefs(loadStore)
+
+  const dialogStore = useDialogStore()
+	const { openDialog } = storeToRefs(dialogStore)
   
   const previewDialogStore = usePreviewDialogStore()
 	const { openPreviewDialog } = storeToRefs(previewDialogStore)
@@ -613,7 +617,7 @@
       <input
         v-model="brandInfo.name"
         :disabled="isArchived"
-        placeholder="請如入名稱"
+        placeholder="請輸入名稱"
         type="text"/>
     </div>
     <div class="inputItem">
@@ -632,36 +636,44 @@
         placeholder="請輸入中文敘述"
         type="text"></textarea>
     </div>
-    <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
+    <div class="buttonArea">
+      <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
+        <button
+          @click="openPreview()">預覽</button>
+        <button 
+          :disabled="!isReady"
+          @click="editBrand(brandInfo, 'edit')">儲存編輯</button>
+        <button 
+          :disabled="!isReady"
+          v-if="!isDraft"
+          @click="openDialog('archive', '確定封存', '封存後將無法編輯，是否要將此品牌編輯？', 'brandList', brandInfo)">封存品牌</button>
+      </div>
+      <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
+        <button
+          @click="openPreview()">預覽</button>
+        <button  
+          :disabled="!isReady"
+          v-if="!isEdit"
+          @click="editBrand(brandInfo, 'create')">創建草稿</button>
+        <button  
+          :disabled="!isReady"
+          v-else
+          @click="editBrand(brandInfo, 'save')">儲存草稿</button>
+        <button  
+          :disabled="!isReady"
+          v-if="!isEdit"
+          @click="editBrand(brandInfo, 'add')">上架品牌</button>
+        <button  
+          :disabled="!isReady"
+          v-else
+          @click="editBrand(brandInfo, 'active')">上架品牌</button>
+      </div>
+      <div class="buttonArea">
       <button
-        @click="openPreview()">預覽</button>
-      <button 
         :disabled="!isReady"
-        @click="editBrand(brandInfo, 'edit')">儲存編輯</button>
-      <button 
-        :disabled="!isReady"
-        v-if="!isDraft"
-        @click="editBrand(brandInfo, 'archive')">封存商品</button>
-    </div>
-    <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
-      <button
-        @click="openPreview()">預覽</button>
-      <button  
-        :disabled="!isReady"
-        v-if="!isEdit"
-        @click="editBrand(brandInfo, 'create')">創建草稿</button>
-      <button  
-        :disabled="!isReady"
-        v-else
-        @click="editBrand(brandInfo, 'save')">儲存草稿</button>
-      <button  
-        :disabled="!isReady"
-        v-if="!isEdit"
-        @click="editBrand(brandInfo, 'add')">上架貼文</button>
-      <button  
-        :disabled="!isReady"
-        v-else
-        @click="editBrand(brandInfo, 'active')">上架貼文</button>
+        v-if="isEdit"
+        @click="openDialog('delete', '確定刪除', '刪除後將無法復原，是否要將此品牌刪除？', 'brandList', brandInfo._id)">刪除品牌</button>
+      </div>
     </div>
   </div>
 </template>

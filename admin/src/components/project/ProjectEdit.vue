@@ -1,5 +1,6 @@
 <script setup>
   import { useProjectStore } from '@/stores/project'
+  import { useDialogStore } from '@/stores/dialog'
   import { useLoadStore } from '@/stores/load'
   import { usePreviewDialogStore } from '@/stores/previewDialog'
 	import { storeToRefs } from 'pinia'
@@ -15,6 +16,9 @@
 
   const loadStore = useLoadStore()
 	const { isLoading } = storeToRefs(loadStore)
+
+  const dialogStore = useDialogStore()
+	const { openDialog } = storeToRefs(dialogStore)
 
   const previewDialogStore = usePreviewDialogStore()
 	const { openPreviewDialog } = storeToRefs(previewDialogStore)
@@ -497,7 +501,7 @@
       <input
         v-model="projectInfo.title"
         :disabled="isArchived"
-        placeholder="請如入專案名稱"
+        placeholder="請輸入專案名稱"
         type="text"/>
     </div>
     <div class="inputItem">
@@ -539,7 +543,7 @@
       <textarea
         v-model="projectInfo.detail.en"
         :disabled="isArchived"
-        placeholder="請輸入英文敘述"
+        placeholder="請輸入英文詳細內容"
         type="text"></textarea>
     </div>
     <div class="inputItem">
@@ -547,39 +551,47 @@
       <textarea
         v-model="projectInfo.detail.zh"
         :disabled="isArchived"
-        placeholder="請輸入中文敘述"
+        placeholder="請輸入中文詳細內容"
         type="text"></textarea>
     </div>
-    <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
-      <button
-        @click="openPreview()">預覽</button>
-      <button 
-        :disabled="!isReady"
-        @click="editProject(projectInfo, 'edit')">儲存編輯</button>
-      <button 
-        :disabled="!isReady"
-        v-if="!isDraft"
-        @click="editProject(projectInfo, 'archive')">封存商品</button>
-    </div>
-    <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
-      <button
-        @click="openPreview()">預覽</button>
-      <button  
-        :disabled="!isReady"
-        v-if="!isEdit"
-        @click="editProject(projectInfo, 'create')">創建草稿</button>
-      <button  
-        :disabled="!isReady"
-        v-else
-        @click="editProject(projectInfo, 'save')">儲存草稿</button>
-      <button  
-        :disabled="!isReady"
-        v-if="!isEdit"
-        @click="editProject(projectInfo, 'add')">上架產品</button>
-      <button  
-        :disabled="!isReady"
-        v-else
-        @click="editProject(projectInfo, 'active')">上架產品</button>
+    <div class="buttonArea">
+      <div class="buttonArea" v-if="isEdit && !isArchived && !isDraft">
+        <button
+          @click="openPreview()">預覽</button>
+        <button 
+          :disabled="!isReady"
+          @click="editProject(projectInfo, 'edit')">儲存編輯</button>
+        <button 
+          :disabled="!isReady"
+          v-if="!isDraft"
+          @click="openDialog('archive', '確定封存', '封存後將無法編輯，是否要將此專案編輯？', 'projectList', projectInfo)">封存專案</button>
+      </div>
+      <div class="buttonArea" v-else-if="(!isEdit || isDraft) && !isArchived">
+        <button
+          @click="openPreview()">預覽</button>
+        <button  
+          :disabled="!isReady"
+          v-if="!isEdit"
+          @click="editProject(projectInfo, 'create')">創建草稿</button>
+        <button  
+          :disabled="!isReady"
+          v-else
+          @click="editProject(projectInfo, 'save')">儲存草稿</button>
+        <button  
+          :disabled="!isReady"
+          v-if="!isEdit"
+          @click="editProject(projectInfo, 'add')">上架專案</button>
+        <button  
+          :disabled="!isReady"
+          v-else
+          @click="editProject(projectInfo, 'active')">上架專案</button>
+      </div>
+      <div class="buttonArea">
+        <button
+          :disabled="!isReady"
+          v-if="isEdit"
+          @click="openDialog('delete', '確定刪除', '刪除後將無法復原，是否要將此產品刪除？', 'projectList', projectInfo._id)">刪除專案</button>
+      </div>
     </div>
   </div>
 </template>
