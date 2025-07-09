@@ -157,6 +157,10 @@ img {
   display: block;
 }
 
+p {
+  white-space: pre-wrap;
+}
+
 .material-icons {
   font-size: inherit;
   vertical-align: middle;

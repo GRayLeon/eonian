@@ -54,25 +54,13 @@ const storage = new CloudinaryStorage({
 
 
 // 限制檔案類型以及大小
-const upload = multer({ 
+const upload = multer({
   storage,
   fileFilter: (req, file, callback) => {
     const allowedMimeTypes = ["image/jpeg", "image/png"]
-    const maxSizeLargeImage = 2 * 1024 * 1024
-    const maxSizeSmallImage = 500 * 1024
-    
     if (!allowedMimeTypes.includes(file.mimetype)) {
-      callback(new Error("僅接受 JPG 或 PNG 格式的圖片"))
+      return callback(new Error("僅接受 JPG 或 PNG 格式的圖片"))
     }
-
-    if ((file.fieldname === "mainImage" || file.fieldname === "subImages") && file.size > maxSizeLargeImage) {
-      callback(new Error("商品圖片大小不得超過 1MB"))
-    }
-
-    if ((file.fieldname === "shapeImages" || file.fieldname === "colorImages") && file.size > maxSizeSmallImage) {
-      callback(new Error("規格圖片大小不得超過 300KB"))
-    }
-
     callback(null, true)
   }
 })
@@ -80,10 +68,10 @@ const upload = multer({
 
 // 限制上傳的圖片數量
 const uploadFields = upload.fields([
-  { name: "mainImage", maxCount: 1 },
-  { name: "subImages", maxCount: 5 },
-  { name: "shapeImages", maxCount: 10 },
-  { name: "colorImages", maxCount: 10 }
+  { name: "mainImage" },
+  { name: "subImages" },
+  { name: "shapeImages" },
+  { name: "colorImages" }
 ])
 
 

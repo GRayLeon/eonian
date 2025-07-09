@@ -93,15 +93,34 @@
 
   const onFileChange = event => {
     const file = event.target.files[0]
-    if (file) {
-      const newFile = new File([file], `${Date.now()}_productImage`, { type: file.type })
-      selectFile.value = newFile
-      previewUrl.value = URL.createObjectURL(file)
-      previewName.value = file.name
-    } else {
+
+    if (!file) {
       previewUrl.value = null
       previewName.value = '請選擇圖片檔案'
+      return
     }
+
+    // 格式驗證
+    const allowedTypes = ['image/jpeg', 'image/png']
+    if (!allowedTypes.includes(file.type)) {
+      alert('只能上傳 JPG 或 PNG 格式的圖片')
+      event.target.value = ''
+      return
+    }
+
+    // 大小驗證（10MB）
+    const maxSize = 10 * 1024 * 1024
+    if (file.size > maxSize) {
+      alert('圖片大小不能超過 10MB')
+      event.target.value = ''
+      return
+    }
+
+    // 通過驗證
+    const newFile = new File([file], `${Date.now()}_productImage`, { type: file.type })
+    selectFile.value = newFile
+    previewUrl.value = URL.createObjectURL(file)
+    previewName.value = file.name
   }
 
   // subImages
@@ -114,26 +133,46 @@
   }
 
   const onSubImageFileChange = (event, idx) => {
-    const file = event.target.files[0]
-    if (file) {
-      const newFile = new File([file], `${Date.now() + idx}_subImage`, { type: file.type })
-      selectSubImageFiles.value[idx] = newFile
-      previewSubimageURL.value[idx] = URL.createObjectURL(file)
-      previewSubImageName.value[idx] = file.name
-      updateSubImageFile.value.push( {
-        idx: idx,
-        name: newFile.name.split(".")[0]
-      })
-    } else {
+  const file = event.target.files[0]
+
+    if (!file) {
+      // 沒選檔案時，清除該 index 的資料
       previewSubimageURL.value[idx] = null
       previewSubImageName.value[idx] = '請選擇圖片檔案'
-      updateSubImageFile.value.forEach( (file, findx) => {
-        if (file.idx == idx) {
-          updateSubImageFile.value.splice(findx, 1)
-        }
-      })
+      updateSubImageFile.value = updateSubImageFile.value.filter(f => f.idx !== idx)
+      return
     }
+
+    // 驗證圖片格式
+    const allowedTypes = ['image/jpeg', 'image/png']
+    if (!allowedTypes.includes(file.type)) {
+      alert('只能上傳 JPG 或 PNG 格式的圖片')
+      event.target.value = ''
+      return
+    }
+
+    // 驗證圖片大小（限制 2MB）
+    const maxSize = 10 * 1024 * 1024
+    if (file.size > maxSize) {
+      alert('圖片大小不能超過 10MB')
+      event.target.value = ''
+      return
+    }
+
+    // 通過驗證，處理預覽與更新資訊
+    const newFile = new File([file], `${Date.now() + idx}_subImage`, { type: file.type })
+    selectSubImageFiles.value[idx] = newFile
+    previewSubimageURL.value[idx] = URL.createObjectURL(file)
+    previewSubImageName.value[idx] = file.name
+
+    // 移除舊的再加新的
+    updateSubImageFile.value = updateSubImageFile.value.filter(f => f.idx !== idx)
+    updateSubImageFile.value.push({
+      idx: idx,
+      name: newFile.name.split('.')[0]
+    })
   }
+
   
   const addSubImage = () => {
     productInfo.value.subImages.push({
@@ -162,26 +201,41 @@
 
   const onShapeImageFileChange = (event, idx) => {
     const file = event.target.files[0]
-    if (file) {
-      const newFile = new File([file], `${Date.now() + idx}_shpaeImage`, { type: file.type })
-      selectShapeImageFiles.value[idx] = newFile
-      previewShapeimageURL.value[idx] = URL.createObjectURL(file)
-      previewShapeImageName.value[idx] = file.name
-      updateShapeImageFile.value.push( {
-        idx: idx,
-        name: newFile.name.split(".")[0]
-      })
-    } else {
+
+    if (!file) {
       previewShapeimageURL.value[idx] = null
       previewShapeImageName.value[idx] = '請選擇圖片檔案'
-      updateShapeImageFile.value.forEach( (file, findx) => {
-        if (file.idx == idx) {
-          updateShapeImageFile.value.splice(findx, 1)
-        }
-      })
+      updateShapeImageFile.value = updateShapeImageFile.value.filter(f => f.idx !== idx)
+      return
     }
-  }
 
+    const allowedTypes = ['image/jpeg', 'image/png']
+    if (!allowedTypes.includes(file.type)) {
+      alert('只能上傳 JPG 或 PNG 格式的圖片')
+      event.target.value = ''
+      return
+    }
+
+    const maxSize = 10 * 1024 * 1024 // 10MB
+    if (file.size > maxSize) {
+      alert('圖片大小不能超過 10MB')
+      event.target.value = ''
+      return
+    }
+
+    const newFile = new File([file], `${Date.now() + idx}_shapeImage`, { type: file.type })
+    selectShapeImageFiles.value[idx] = newFile
+    previewShapeimageURL.value[idx] = URL.createObjectURL(file)
+    previewShapeImageName.value[idx] = file.name
+
+    // 移除舊的再加新的
+    updateShapeImageFile.value = updateShapeImageFile.value.filter(f => f.idx !== idx)
+    updateShapeImageFile.value.push({
+      idx: idx,
+      name: newFile.name.split(".")[0]
+    })
+  }
+  
   const addShape = () => {
     productInfo.value.shapes.push({
       title: '',
@@ -211,24 +265,39 @@
 
   const onColorImageFileChange = (event, idx) => {
     const file = event.target.files[0]
-    if (file) {
-      const newFile = new File([file], `${Date.now() + idx}_colorImage`, { type: file.type })
-      selectColorImageFiles.value[idx] = newFile
-      previewColorimageURL.value[idx] = URL.createObjectURL(file)
-      previewColorImageName.value[idx] = file.name
-      updateColorImageFile.value.push( {
-        idx: idx,
-        name: newFile.name.split(".")[0]
-      })
-    } else {
+
+    if (!file) {
       previewColorimageURL.value[idx] = null
       previewColorImageName.value[idx] = '請選擇圖片檔案'
-      updateColorImageFile.value.forEach( (file, findx) => {
-        if (file.idx == idx) {
-          updateColorImageFile.value.splice(findx, 1)
-        }
-      })
+      updateColorImageFile.value = updateColorImageFile.value.filter(f => f.idx !== idx)
+      return
     }
+
+    const allowedTypes = ['image/jpeg', 'image/png']
+    if (!allowedTypes.includes(file.type)) {
+      alert('只能上傳 JPG 或 PNG 格式的圖片')
+      event.target.value = ''
+      return
+    }
+
+    const maxSize = 10 * 1024 * 1024 // 10MB
+    if (file.size > maxSize) {
+      alert('圖片大小不能超過 10MB')
+      event.target.value = ''
+      return
+    }
+
+    const newFile = new File([file], `${Date.now() + idx}_colorImage`, { type: file.type })
+    selectColorImageFiles.value[idx] = newFile
+    previewColorimageURL.value[idx] = URL.createObjectURL(file)
+    previewColorImageName.value[idx] = file.name
+
+    // 移除舊的再加新的
+    updateColorImageFile.value = updateColorImageFile.value.filter(f => f.idx !== idx)
+    updateColorImageFile.value.push({
+      idx: idx,
+      name: newFile.name.split(".")[0]
+    })
   }
   
   const addColor = () => {

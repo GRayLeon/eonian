@@ -86,15 +86,34 @@
 
   const onFileChange = event => {
     const file = event.target.files[0]
-    if (file) {
-      const newFile = new File([file], `${Date.now()}_newsImage`, { type: file.type })
-      selectFile.value = newFile
-      previewUrl.value = URL.createObjectURL(file)
-      previewName.value = file.name
-    } else {
+
+    if (!file) {
       previewUrl.value = null
       previewName.value = '請選擇圖片檔案'
+      return
     }
+
+    // 格式驗證
+    const allowedTypes = ['image/jpeg', 'image/png']
+    if (!allowedTypes.includes(file.type)) {
+      alert('只能上傳 JPG 或 PNG 格式的圖片')
+      event.target.value = ''
+      return
+    }
+
+    // 大小驗證（10MB）
+    const maxSize = 10 * 1024 * 1024
+    if (file.size > maxSize) {
+      alert('圖片大小不能超過 10MB')
+      event.target.value = ''
+      return
+    }
+
+    // 通過驗證
+    const newFile = new File([file], `${Date.now()}_newsImage`, { type: file.type })
+    selectFile.value = newFile
+    previewUrl.value = URL.createObjectURL(file)
+    previewName.value = file.name
   }
 
   const isReady = computed( () => {
@@ -140,70 +159,84 @@
   }
   const onImageFileChange = (event, listIdx, idx) => {
     const file = event.target.files[0]
-    if (file) {
-      const newFile = new File([file], `${Date.now() + listIdx + idx}_newsImage`, { type: file.type })
 
-      let fileTarget = findTarget(selectImageFiles.value, listIdx, idx)
-      if (fileTarget) {
-        fileTarget.file = newFile
-      } else {
-        fileTarget = {
-          index: [listIdx, idx],
-          file: newFile
-        }
-        selectImageFiles.value.push(fileTarget)
-      }
-
-      const urlTarget = findTarget(previewimageURL.value, listIdx, idx) || {
-        index: [listIdx, idx],
-        url: ''
-      }
-      if (urlTarget) {
-        urlTarget.url = URL.createObjectURL(file)
-      }
-
-      const nameTarget = findTarget(previewImageName.value, listIdx, idx) || {
-        index: [listIdx, idx],
-        name: ''
-      }
-      if (nameTarget) {
-        nameTarget.name = file.name
-      }
-
-      let updateTarget = findTarget(updateImageFile.value, listIdx, idx)
-      if (updateTarget) {
-        updateTarget.name = newFile.name.split(".")[0]
-      } else {
-        updateTarget = {
-          index: [listIdx, idx],
-          name: newFile.name.split(".")[0]
-        }
-        updateImageFile.value.push(updateTarget)
-      }
-
-    } else {
+    if (!file) {
       const fileTarget = findTarget(selectImageFiles.value, listIdx, idx)
-      if (fileTarget) {
-        fileTarget.file = null
-      }
-      
+      if (fileTarget) fileTarget.file = null
+
       const urlTarget = findTarget(previewimageURL.value, listIdx, idx)
-      if (urlTarget) {
-        urlTarget.url = null
-      }
+      if (urlTarget) urlTarget.url = null
 
       const nameTarget = findTarget(previewImageName.value, listIdx, idx)
-      if (nameTarget) {
-        nameTarget.name = '請選擇圖片檔案'
-      }
+      if (nameTarget) nameTarget.name = '請選擇圖片檔案'
 
       const updateTarget = findTarget(updateImageFile.value, listIdx, idx)
       if (updateTarget) {
         updateImageFile.value.splice(updateImageFile.value.indexOf(updateTarget), 1)
       }
+      return
+    }
+
+    // 格式驗證
+    const allowedTypes = ['image/jpeg', 'image/png']
+    if (!allowedTypes.includes(file.type)) {
+      alert('只能上傳 JPG 或 PNG 格式的圖片')
+      event.target.value = ''
+      return
+    }
+
+    // 大小驗證（10MB）
+    const maxSize = 10 * 1024 * 1024
+    if (file.size > maxSize) {
+      alert('圖片大小不能超過 10MB')
+      event.target.value = ''
+      return
+    }
+
+    // 通過驗證
+    const newFile = new File([file], `${Date.now() + listIdx + idx}_newsImage`, { type: file.type })
+
+    let fileTarget = findTarget(selectImageFiles.value, listIdx, idx)
+    if (fileTarget) {
+      fileTarget.file = newFile
+    } else {
+      fileTarget = {
+        index: [listIdx, idx],
+        file: newFile
+      }
+      selectImageFiles.value.push(fileTarget)
+    }
+
+    const urlTarget = findTarget(previewimageURL.value, listIdx, idx) || {
+      index: [listIdx, idx],
+      url: ''
+    }
+    urlTarget.url = URL.createObjectURL(file)
+    if (!previewimageURL.value.includes(urlTarget)) {
+      previewimageURL.value.push(urlTarget)
+    }
+
+    const nameTarget = findTarget(previewImageName.value, listIdx, idx) || {
+      index: [listIdx, idx],
+      name: ''
+    }
+    nameTarget.name = file.name
+    if (!previewImageName.value.includes(nameTarget)) {
+      previewImageName.value.push(nameTarget)
+    }
+
+    let updateTarget = findTarget(updateImageFile.value, listIdx, idx)
+    if (updateTarget) {
+      updateTarget.name = newFile.name.split('.')[0]
+    } else {
+      updateTarget = {
+        index: [listIdx, idx],
+        name: newFile.name.split('.')[0]
+      }
+      updateImageFile.value.push(updateTarget)
     }
   }
-  
+
   const addImage = () => {
     newsInfo.value.content.push({
       layout: {
@@ -554,7 +587,7 @@
                   value="image-bottom">置底</option>
               </select>
             </div>
-            <div class="buttonArea">
+            <div class="buttonArea buttonArea--flex-start">
               <button class="smallButton" @click="orderEdit('up', listIdx)">順序上移</button>
               <button class="smallButton" @click="orderEdit('down', listIdx)">順序下移</button>
             </div>
