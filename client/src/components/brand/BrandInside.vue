@@ -78,7 +78,7 @@
             v-if="article.imageURL"
             :src="article.imageURL">
           <div
-            v-if="article.text.en"
+            v-if="article.title.en !== '' || article.title.zh !== '' || article.text.en !== '' ||  article.text.zh !== ''"
             class="article">
             <div class="title">{{ showLanText(article.title) }}</div>
             <p>{{ showLanText(article.text) }}</p>
