@@ -314,4 +314,20 @@ router.beforeEach( async (to, from, next) => {
     }
 })
 
+// 通用錯誤處理：針對 chunk 動態載入錯誤時自動重整
+router.onError((error) => {
+  const errorMessage = error.message || ''
+
+  const isChunkError = /Loading chunk [\d\w]+ failed/i.test(errorMessage)
+    || /Failed to fetch dynamically imported module/i.test(errorMessage)
+    || /Unexpected token '<'/i.test(errorMessage) // HTML 被當作 JS 載入
+    || errorMessage.includes('is not a function') // 模組解析錯誤
+    || error instanceof TypeError
+
+  if (isChunkError) {
+    console.warn('[App] Detected chunk/module load failure. Reloading page...')
+    window.location.reload()
+  }
+})
+
 export default router
