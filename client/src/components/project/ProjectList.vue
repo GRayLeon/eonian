@@ -112,7 +112,7 @@
           placeholder="Search"
           v-model="searchText"
           @keyup.enter="searchProject()">
-        <img class="searchIcon" src="@/assets/images/searchIcon.svg">
+        <img @click="searchProject()" class="searchIcon" src="@/assets/images/searchIcon.svg">
       </div>
     </div>
     <ul

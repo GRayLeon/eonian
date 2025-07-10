@@ -34,6 +34,15 @@
     tags: []
   })
 
+  const zhCategoryMap = {
+    'Residence': '住宅',
+    'Commercial Space': '商業空間'
+  }
+
+  const showCategoryText = (text) => {
+    return locale.value === 'zh' ? zhCategoryMap[text] || text : text
+  }
+
   const showLanText = input => {
     return input[locale.value]
   }
@@ -62,7 +71,7 @@
         <div class="stickyCard">
           <div class="title">
             <h2>{{ projectInfo.title }}</h2>
-            <span class="category">{{ projectInfo.category }}</span>
+            <span class="category">{{ showCategoryText(projectInfo.category) }}</span>
             <div class="subtitle">{{ projectInfo.artist }}</div>
           </div>
           <div class="description">
