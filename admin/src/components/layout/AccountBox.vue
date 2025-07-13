@@ -10,7 +10,7 @@
 <template>
   <div class="accountBox">
     <div class="webTitle">
-      <span>Enoion Manage System</span>
+      <span>Enoian Manage System</span>
     </div>
     <nav>
       <p>登入帳號 - {{ profile.account }}</p>

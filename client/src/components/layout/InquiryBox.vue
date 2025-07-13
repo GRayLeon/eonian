@@ -43,10 +43,6 @@
     status: 'pending'
   })
 
-  const showLanText = input => {
-    return input[locale.value]
-  }
-
   function generateDate() {
     const now = new Date();
     const year = now.getFullYear();
@@ -77,7 +73,7 @@
     ]">
     <div class="inquiryArea__box">
       <div class="inquiryTitle">
-        <h2>Send Inquiry to Eonian Sales Team</h2>
+        <h2>{{ $t('button.send')}}</h2>
         <div
           @click="closeInquiry()"
           class="closeButton">close</div>

@@ -19,147 +19,100 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+const batchUpload = async (files, batchSize = 5, transformType = 'large') => {
+  const results = []
+
+  for (let i = 0; i < files.length; i += batchSize) {
+    const batch = files.slice(i, i + batchSize)
+
+    const uploadPromises = batch.map(file => cloudinary.uploader.upload(file.path, {
+      folder: 'products',
+      format: 'jpg',
+      public_id: Date.now() + '-' + file.originalname.split('.')[0],
+      transformation: transformType === 'large' ? [
+        { width: 1920, height: 1080, crop: 'limit', quality: 'auto', fetch_format: 'auto' }
+      ] : [
+        { width: 1024, height: 768, crop: 'limit', quality: 'auto', fetch_format: 'auto' }
+      ]
+    }).then(result => ({
+      imageURL: result.secure_url,
+      imagePublicId: result.public_id
+    })).catch(err => null))
+
+    const settled = await Promise.allSettled(uploadPromises)
+    results.push(...settled.filter(r => r.status === 'fulfilled').map(r => r.value))
+    await delay(500) // 避免 cloudinary 被打爆
+  }
+  return results
+}
+
 // 多張圖片依規格上傳
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
-    let transformation
-
-    if (file.fieldname === "mainImage" || file.filename === "subImages") {
-      transformation = [{ 
-        width: 1920,
-        height: 1080,
-        crop: "limit",
-        quality: "auto",
-        fetch_format: "auto"
-      }]
-    } else if (file.fieldname === "shapeImages" || file.fieldname === "colorImages") {
-      transformation = [{
-        width: 1024,
-        height: 768,
-        crop: "limit",
-        quality: "auto",
-        fetch_format: "auto"
-      }]
-    }
-    
     return {
-      folder: "products",
-      format: "jpg",
-      public_id: Date.now() + "-" + file.originalname.split(".")[0],
-      transformation
+      folder: 'products',
+      format: 'jpg'
+      // transformation 在 batchUpload 中設定
     }
   }
 })
-
 
 // 限制檔案類型以及大小
 const upload = multer({
   storage,
   fileFilter: (req, file, callback) => {
-    const allowedMimeTypes = ["image/jpeg", "image/png"]
+    const allowedMimeTypes = ['image/jpeg', 'image/png']
     if (!allowedMimeTypes.includes(file.mimetype)) {
-      return callback(new Error("僅接受 JPG 或 PNG 格式的圖片"))
+      return callback(new Error('僅接受 JPG 或 PNG 格式的圖片'))
     }
     callback(null, true)
   }
 })
 
-
 // 限制上傳的圖片數量
 const uploadFields = upload.fields([
-  { name: "mainImage" },
-  { name: "subImages" },
-  { name: "shapeImages" },
-  { name: "colorImages" }
+  { name: 'mainImage' },
+  { name: 'subImages' },
+  { name: 'shapeImages' },
+  { name: 'colorImages' }
 ])
-
-
-// api
-//// 取得產品列表
-
-router.get("/", getProducts, (req, res) => {
-  res.json(res.products)
-})
-
-
-//// 依 ID 取得產品
-
-router.get("/:id", async(req, res) => {
-  try {
-    const product = await Product.findById(req.params.id)
-    if (product) {
-      res.json(product)
-    } else {
-      return res
-              .status(404)
-              .json({
-                message: "Can't find product."
-              })
-    }
-  } catch (err) {
-    res
-      .status(400)
-      .json({ message: err.message })
-  }
-})
-
-
-//// 依 ID 刪除產品
-
-router.delete("/:id", authenticateToken, async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id)
-    if (product.imagePublicId) {
-      await cloudinary.uploader.destroy(product.imagePublicId)
-    }
-    
-    await product.deleteOne()
-    res.json(`已成功刪除產品： ${product.name}`)
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Remove product faild." })
-  }
-})
-
 
 // 新增/編輯商品資訊
 
 router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
   // 透過 upload 上傳圖片至 cloudinary 並取得相關資訊
 
-  let subImagesData = null
-  let shapeImagesData = null
-  let colorImagesData = null
-
-  const mainImage = req.files["mainImage"] ? req.files["mainImage"][0] : null
-  const imageURL = mainImage?.path || null
-  const imagePublicId = mainImage?.filename || null
-
-  const subImages = req.files["subImages"] || []
-  if (subImages) {
-    subImagesData = subImages.map( file => ({
-      'imageURL': file.path,
-      'imagePublicId': file.filename
-    }))
+  const subImages = req.files['subImages'] || []
+  let subImagesData = []
+  if (subImages.length > 0) {
+    subImagesData = await batchUpload(subImages, 5, 'large')
   }
 
-  const shapeImages = req.files["shapeImages"] || []
-  if (shapeImages) {
-    shapeImagesData = shapeImages.map( file => ({
-      'imageURL': file.path,
-      'imagePublicId': file.filename
-    }))
+  const shapeImages = req.files['shapeImages'] || []
+  let shapeImagesData = []
+  if (shapeImages.length > 0) {
+    shapeImagesData = await batchUpload(shapeImages, 5, 'medium')
   }
 
-  const colorImages = req.files["colorImages"] || []
-  if (colorImages) {
-    colorImagesData = colorImages.map( file => ({
-      'imageURL': file.path,
-      'imagePublicId': file.filename
-    }))
+  const colorImages = req.files['colorImages'] || []
+  let colorImagesData = []
+  if (colorImages.length > 0) {
+    colorImagesData = await batchUpload(colorImages, 5, 'medium')
   }
+
+  // mainImage 可單獨處理（非分批）
+  const mainImage = req.files['mainImage'] ? req.files['mainImage'][0] : null
+  let imageURL = null
+  let imagePublicId = null
+  if (mainImage) {
+    const [result] = await batchUpload([mainImage], 1, 'large')
+    imageURL = result?.imageURL || null
+    imagePublicId = result?.imagePublicId || null
+  }
+
 
   req.body.name = JSON.parse(req.body.name)
   req.body.description = JSON.parse(req.body.description)
@@ -367,6 +320,55 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
     res
       .status(400)
       .json({ message: err.message })
+  }
+})
+
+
+// api
+//// 取得產品列表
+
+router.get("/", getProducts, (req, res) => {
+  res.json(res.products)
+})
+
+
+//// 依 ID 取得產品
+
+router.get("/:id", async(req, res) => {
+  try {
+    const product = await Product.findById(req.params.id)
+    if (product) {
+      res.json(product)
+    } else {
+      return res
+              .status(404)
+              .json({
+                message: "Can't find product."
+              })
+    }
+  } catch (err) {
+    res
+      .status(400)
+      .json({ message: err.message })
+  }
+})
+
+
+//// 依 ID 刪除產品
+
+router.delete("/:id", authenticateToken, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id)
+    if (product.imagePublicId) {
+      await cloudinary.uploader.destroy(product.imagePublicId)
+    }
+    
+    await product.deleteOne()
+    res.json(`已成功刪除產品： ${product.name}`)
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Remove product faild." })
   }
 })
 

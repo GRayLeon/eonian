@@ -1299,6 +1299,26 @@ p {
      object-position: center;
 }
 
+@media screen and (min-width: 1366px) {
+  .projectContent__list li a .images {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 280px);
+    height: 285px;
+  }
+  .projectContent__list li a .images img {
+    width: 22.5%;
+    height: 215px;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: center;
+       object-position: center;
+  }
+  .projectContent__list li a .images img.focus {
+    width: 32.5%;
+    height: 285px;
+  }
+}
 @media screen and (max-width: 1024px) {
   .projectContent {
     gap: 16px;

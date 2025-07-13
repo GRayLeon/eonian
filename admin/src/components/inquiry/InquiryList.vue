@@ -47,12 +47,14 @@
   <ul v-if="inquirys.data.length" class="cardList">
     <li class="head">
       <div class="name">身份</div>
+      <div class="name">姓名</div>
       <div class="status">狀態</div>
       <div class="category">分類</div>
       <div class="description">問題</div>
     </li>
     <li v-for="inquiry in inquirys.data" @click="router.push(`inquiry/${inquiry._id}`)">
       <div class="name">{{ inquiry.data.userType }}</div>
+      <div class="name">{{ inquiry.data.firstName }} {{ inquiry.data.lastName }}</div>
       <div class="status">
         <span :class="inquiry.status">{{ statusWording(inquiry.status) }}</span>
       </div>

@@ -56,7 +56,6 @@ const storage = new CloudinaryStorage({
 const upload = multer({ 
   storage,
   fileFilter: (req, file, callback) => {
-    const allowedMimeTypes = ["image/jpeg", "image/png"]
     const maxSizeLargeImage = 2 * 1024 * 1024
     const maxSizeSmallImage = 500 * 1024
     
@@ -100,10 +99,6 @@ router.get("/", async (req, res) => {
 
 router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
   // 透過 upload 上傳圖片至 cloudinary 並取得相關資訊
-
-  // const indexImage = req.files["indexImage"] ? req.files["indexImage"][0] : null
-  // const indeximageURL = indexImage?.path || null
-  // const indexImagePublicId = indexImage?.filename || null
 
   let indexImagesData = null
 

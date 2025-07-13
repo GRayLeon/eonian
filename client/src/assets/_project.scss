@@ -162,6 +162,31 @@
     }
 }
 
+@media screen and (min-width: 1366px) {
+    .projectContent {
+        &__list {
+            li a {
+                .images {
+                    display: flex;
+                    flex-direction: row;
+                    width: calc( 100% - 280px );
+                    height: 285px;
+                    img {
+                        width: 22.5%;
+                        height: 215px;
+                        object-fit: cover;
+                        object-position: center;
+                        &.focus {
+                            width: 32.5%;
+                            height: 285px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 1024px) {
     .projectContent {
         gap: 16px;

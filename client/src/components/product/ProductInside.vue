@@ -301,14 +301,6 @@
                         <span>{{ $t('spec.unit') }}</span>
                     </div>
                 </div>
-                <!-- <div class="inquirySection">
-                    <div class="head">{{ $t('spec.total') }}</div>
-                    <div class="option">
-                        <div class="sum">
-                            $ <span>{{ sumPrice }}</span>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="inquirySection">
                     <div
                       class="linkButton"

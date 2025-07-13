@@ -19,44 +19,52 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+const batchUpload = async (files, batchSize = 5, transformType = 'large') => {
+  const results = []
+
+  for (let i = 0; i < files.length; i += batchSize) {
+    const batch = files.slice(i, i + batchSize)
+
+    const uploadPromises = batch.map(file => cloudinary.uploader.upload(file.path, {
+      folder: 'news',
+      format: 'jpg',
+      public_id: Date.now() + '-' + file.originalname.split('.')[0],
+      transformation: transformType === 'large' ? [
+        { width: 1920, height: 1080, crop: 'limit', quality: 'auto', fetch_format: 'auto' }
+      ] : []
+    }).then(result => ({
+      imageURL: result.secure_url,
+      imagePublicId: result.public_id
+    })).catch(err => null))
+
+    const settled = await Promise.allSettled(uploadPromises)
+    results.push(...settled.filter(r => r.status === 'fulfilled').map(r => r.value))
+    await delay(500)
+  }
+  return results
+}
+
 // 多張圖片依規格上傳
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
-    let transformation
-    transformation = [{ 
-      width: 1920,
-      height: 1080,
-      crop: "limit",
-      quality: "auto",
-      fetch_format: "auto"
-    }]
-    
     return {
-      folder: "brand",
-      format: "jpg",
-      public_id: Date.now() + "-" + file.originalname.split(".")[0],
-      transformation
+      folder: 'brand',
+      format: 'jpg'
     }
   }
 })
-
 
 // 限制檔案類型以及大小
 const upload = multer({ 
   storage,
   fileFilter: (req, file, callback) => {
     const allowedMimeTypes = ["image/jpeg", "image/png"]
-    const maxSize = 2 * 1024 * 1024
-    
     if (!allowedMimeTypes.includes(file.mimetype)) {
-      callback(new Error("僅接受 JPG 或 PNG 格式的圖片"))
+      return callback(new Error("僅接受 JPG 或 PNG 格式的圖片"))
     }
-
-    if (file.size > maxSize) {
-      callback(new Error("商品圖片大小不得超過 1MB"))
-    }
-
     callback(null, true)
   }
 })
@@ -64,76 +72,28 @@ const upload = multer({
 
 // 限制上傳的圖片數量
 const uploadFields = upload.fields([
-  { name: "mainImage", maxCount: 1 },
-  { name: "brandImages", maxCount: 10 }
+  { name: "mainImage" },
+  { name: "brandImages" }
 ])
-
-
-// api
-//// 取得產品列表
-
-router.get("/", getBrands, (req, res) => {
-  res.json(res.brand)
-})
-
-
-//// 依 ID 取得產品
-
-router.get("/:id", async(req, res) => {
-  try {
-    const brand = await Brand.findById(req.params.id)
-    if (brand) {
-      res.json(brand)
-    } else {
-      return res
-              .status(404)
-              .json({
-                message: "Can't find brand."
-              })
-    }
-  } catch (err) {
-    res
-      .status(400)
-      .json({ message: err.message })
-  }
-})
-
-
-//// 依 ID 刪除產品
-
-router.delete("/:id", authenticateToken, async (req, res) => {
-  try {
-    const brand = await Brand.findById(req.params.id)
-    if (brand.imagePublicId) {
-      await cloudinary.uploader.destroy(brand.imagePublicId)
-    }
-    
-    await brand.deleteOne()
-    res.json(`已成功刪除產品： ${brand.name}`)
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Remove brand faild." })
-  }
-})
 
 // 新增/編輯商品資訊
 
 router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
   // 透過 upload 上傳圖片至 cloudinary 並取得相關資訊
-
   const mainImage = req.files["mainImage"] ? req.files["mainImage"][0] : null
-  const imageURL = mainImage?.path || null
-  const imagePublicId = mainImage?.filename || null
+  let imageURL = null
+  let imagePublicId = null
+  if (mainImage) {
+    const [result] = await batchUpload([mainImage], 1, 'large')
+    imageURL = result?.imageURL || null
+    imagePublicId = result?.imagePublicId || null
+  }
 
-  let brandImagesData = null
-
-  const brandImages = req.files ? req.files["brandImages"] : []
-  if (brandImages) {
-    brandImagesData = brandImages.map( file => ({
-      'imageURL': file.path,
-      'imagePublicId': file.filename
-    }))
+  // 多圖 newsImages 分批處理
+  const brandImages = req.files["brandImages"] || []
+  let brandImagesData = []
+  if (brandImages.length > 0) {
+    brandImagesData = await batchUpload(brandImages, 5, 'large')
   }
 
   req.body.name = req.body.name
@@ -240,6 +200,55 @@ router.post("/:type", authenticateToken, uploadFields, async (req, res) => {
     res
       .status(400)
       .json({ message: err.message })
+  }
+})
+
+
+// api
+//// 取得產品列表
+
+router.get("/", getBrands, (req, res) => {
+  res.json(res.brand)
+})
+
+
+//// 依 ID 取得產品
+
+router.get("/:id", async(req, res) => {
+  try {
+    const brand = await Brand.findById(req.params.id)
+    if (brand) {
+      res.json(brand)
+    } else {
+      return res
+              .status(404)
+              .json({
+                message: "Can't find brand."
+              })
+    }
+  } catch (err) {
+    res
+      .status(400)
+      .json({ message: err.message })
+  }
+})
+
+
+//// 依 ID 刪除產品
+
+router.delete("/:id", authenticateToken, async (req, res) => {
+  try {
+    const brand = await Brand.findById(req.params.id)
+    if (brand.imagePublicId) {
+      await cloudinary.uploader.destroy(brand.imagePublicId)
+    }
+    
+    await brand.deleteOne()
+    res.json(`已成功刪除產品： ${brand.name}`)
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Remove brand faild." })
   }
 })
 
