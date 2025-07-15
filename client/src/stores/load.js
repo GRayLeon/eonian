@@ -41,6 +41,26 @@ export const useLoadStore = defineStore('load', () => {
     }, 250)
   })
 
+  const isInfoOpen = ref(false)
+  const isInfoShow = ref(false)
+
+  const infoPage = ref('')
+
+  const openInfo = ref( target => {
+    infoPage.value = target
+    isInfoOpen.value = true
+    setTimeout(function() {
+      isInfoShow.value = true
+    }, 250)
+  })
+
+  const closeInfo = ref( () => {
+    isInfoShow.value = false
+    setTimeout(function() {
+      isInfoOpen.value = false
+    }, 250)
+  })
+
   const isMenuOpen = ref(false)
 
   const toggleMenu = ref( () => {
@@ -53,6 +73,8 @@ export const useLoadStore = defineStore('load', () => {
     openLoading, closeLoading,
     isInquiryOpen, isInquiryShow,
     openInquiry, closeInquiry,
+    isInfoOpen, isInfoShow, infoPage,
+    openInfo, closeInfo,
     isMenuOpen, toggleMenu
   }
 })

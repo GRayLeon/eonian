@@ -1,7 +1,7 @@
 <script setup>
   import { usePagesStore } from '@/stores/pages'
+  import { useLoadStore } from '@/stores/load'
   import { storeToRefs } from 'pinia'
-  import { RouterLink } from 'vue-router'
   import { onMounted } from 'vue'
   import { useI18n } from 'vue-i18n'
 
@@ -9,6 +9,9 @@
 
   const pagesStore = usePagesStore()
   const { pagesInfo, getPages } = storeToRefs(pagesStore)
+
+  const loadStore = useLoadStore()
+	const { openInfo } = storeToRefs(loadStore)
 
   const showLanText = input => {
     return input[locale.value]
@@ -65,13 +68,13 @@
         </ul>
         <ul class="subPages">
           <li>
-            <a href="">{{ $t('link.policy') }}</a>
+            <a @click="openInfo('policy')">{{ $t('link.policy') }}</a>
           </li>
           <li>
-            <a href="">{{ $t('link.notice') }}</a>
+            <a @click="openInfo('notice')">{{ $t('link.notice') }}</a>
           </li>
           <li>
-            <a href="">{{ $t('link.terms') }}</a>
+            <a @click="openInfo('terms')">{{ $t('link.terms') }}</a>
           </li>
         </ul>
       </div>
