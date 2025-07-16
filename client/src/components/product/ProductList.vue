@@ -33,6 +33,12 @@
     isActive.value = isActiveName
   }
 
+  const clearFilter = () => {
+    getProducts.value(page.value)
+    isActive.value = null
+    isOpen.value = null
+  }
+
   const changePageTo = idx => {
     if (idx <= products.value.pagination.totalPages && idx >= 1) {
       page.value = idx
@@ -52,7 +58,12 @@
 <template>
   <div class="productContent">
     <div class="productContent__nav">
-      <div class="contentTitle">{{ $t('title.product')}}</div>
+      <div class="contentTitle">
+          {{ $t('title.product')}}
+          <span
+            @click="clearFilter"
+          >View All</span>
+      </div>
       <ul class="productContent__filter">
         <li
           :class="{ active: isOpen == specDatas.origin.name.en }">
