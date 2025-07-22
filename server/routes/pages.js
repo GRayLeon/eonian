@@ -34,8 +34,8 @@ const storage = new CloudinaryStorage({
       }]
     } else if (file.fieldname === "partnerImages") {
       transformation = [{
-        width: 300,
-        height: 300,
+        width: 1920,
+        height: 1080,
         crop: "limit",
         quality: "auto",
         fetch_format: "auto"

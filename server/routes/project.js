@@ -31,11 +31,7 @@ const batchUpload = async (files, batchSize = 5, transformType = 'large') => {
       folder: 'products',
       format: 'jpg',
       public_id: Date.now() + '-' + file.originalname.split('.')[0],
-      transformation: transformType === 'large' ? [
-        { width: 1920, height: 1080, crop: 'limit', quality: 'auto', fetch_format: 'auto' }
-      ] : [
-        { width: 1024, height: 768, crop: 'limit', quality: 'auto', fetch_format: 'auto' }
-      ]
+      transformation: [{ width: 1920, height: 1080, crop: 'limit', quality: 'auto', fetch_format: 'auto' }]
     }).then(result => ({
       imageURL: result.secure_url,
       imagePublicId: result.public_id
@@ -55,7 +51,6 @@ const storage = new CloudinaryStorage({
     return {
       folder: 'projects',
       format: 'jpg'
-      // transformation 在 batchUpload 中設定
     }
   }
 })
