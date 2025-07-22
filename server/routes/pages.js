@@ -27,7 +27,7 @@ const storage = new CloudinaryStorage({
     if (file.fieldname === "indexImages" || file.fieldname === "visionImage") {
       transformation = [{ 
         width: 1920,
-        height: 1080,
+        height: 1920,
         crop: "limit",
         quality: "auto",
         fetch_format: "auto"
@@ -35,7 +35,7 @@ const storage = new CloudinaryStorage({
     } else if (file.fieldname === "partnerImages") {
       transformation = [{
         width: 1920,
-        height: 1080,
+        height: 1920,
         crop: "limit",
         quality: "auto",
         fetch_format: "auto"
