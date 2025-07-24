@@ -39,10 +39,14 @@
     isOpen.value = null
   }
 
-  const changePageTo = idx => {
+  const changePageTo = async idx => {
     if (idx <= products.value.pagination.totalPages && idx >= 1) {
       page.value = idx
-      getProducts.value(page.value)
+      await getProducts.value(page.value)
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
   }
 

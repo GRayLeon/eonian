@@ -137,10 +137,13 @@ p {
     justify-content: center;
     gap: 16px;
     width: 100%;
-    li a {
-      color: #1a1311;
+    li {
+      color: #999a98;
       text-decoration: none;
       cursor: pointer;
+      &.active {
+        color: #1a1311;
+      }
     }
   }
 }

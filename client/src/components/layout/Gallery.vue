@@ -17,7 +17,7 @@
     <div class="dialog__box dialog__box--gallery">
       <div class="dialog__title">{{ galleryTitle }}</div>
       <img class="dialog__image" :src="galleryData" />
-      <span @click="closeGallery()">關閉</span>
+      <span @click="closeGallery()">{{ $t('button.close') }}</span>
     </div>
   </div>
 </template>

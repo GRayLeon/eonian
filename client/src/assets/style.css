@@ -255,10 +255,13 @@ p {
   gap: 16px;
   width: 100%;
 }
-.content .pagesList li a {
-  color: #1a1311;
+.content .pagesList li {
+  color: #999a98;
   text-decoration: none;
   cursor: pointer;
+}
+.content .pagesList li.active {
+  color: #1a1311;
 }
 
 .footer {

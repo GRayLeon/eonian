@@ -15,10 +15,14 @@
     return date.toISOString().split('T')[0].replace(/-/g, '.')
   }
 
-  const changePageTo = idx => {
+  const changePageTo = async idx => {
     if (idx <= news.value.pagination.totalPages && idx >= 1) {
       page.value = idx
-      getNews.value(page.value)
+      await getNews.value(page.value)
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
   }
 

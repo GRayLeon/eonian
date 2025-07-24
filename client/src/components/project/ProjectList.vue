@@ -12,10 +12,14 @@
     page, projects, getProjects
   } = storeToRefs(projectStore)
 
-  const changePageTo = idx => {
+  const changePageTo = async idx => {
     if (idx <= projects.value.pagination.totalPages && idx >= 1) {
       page.value = idx
-      getProjects.value(page.value)
+      await getProjects.value(page.value)
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
   }
 
