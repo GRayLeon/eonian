@@ -16,7 +16,7 @@
   }
 
   const changePageTo = idx => {
-    if (idx < news.value.pagination.totalPages && idx > 1) {
+    if (idx <= news.value.pagination.totalPages && idx >= 1) {
       page.value = idx
       getNews.value(page.value)
     }

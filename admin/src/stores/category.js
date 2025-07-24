@@ -24,10 +24,8 @@ export const useCategoryStore = defineStore('category', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/category`
     try {
       let response = await axios.get(apiURL)
-      if (response) {
-        categorys.value = [...response.data]
-        isLoading.value = false
-      }
+      categorys.value = [...response.data]
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

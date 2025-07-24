@@ -81,6 +81,9 @@
   &__image {
     width: calc( 100% - 48px );
     max-width: 1024px;
+    max-height: 768px;
+    object-fit: contain;
+    object-position: center;
   }
   button {
     width: 100%;

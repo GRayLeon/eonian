@@ -69,10 +69,14 @@ router.post("/login", async (req, res) => {
     loginAccount.lastLogin = new Date()
     await loginAccount.save()
 
-    const expiresIn = 3600
-    const token = jwt.sign({ id: loginAccount._id }, JWT_SECRET, { expiresIn })
+    // const expiresIn = 3600
+    // const token = jwt.sign({ id: loginAccount._id }, JWT_SECRET, { expiresIn })
 
-    res.json({ token, expiresIn })
+    // res.json({ token, expiresIn })
+    
+    const token = jwt.sign({ id: loginAccount._id }, JWT_SECRET)
+
+    res.json({ token })
   } catch (err) {
     res
       .status(400)

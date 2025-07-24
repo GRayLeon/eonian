@@ -24,10 +24,8 @@ export const useRegionStore = defineStore('region', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/region`
     try {
       let response = await axios.get(apiURL)
-      if (response) {
-        regions.value = [...response.data]
-        isLoading.value = false
-      }
+      regions.value = [...response.data]
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
@@ -78,10 +76,8 @@ export const useRegionStore = defineStore('region', () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      if (response) {
-        console.log('done')
-        getRegions.value()
-      }
+      console.log('done')
+      getRegions.value()
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

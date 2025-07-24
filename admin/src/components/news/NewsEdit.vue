@@ -596,13 +596,13 @@
             <div class="imageList__image" v-for="(article, idx) in item.article">
               <img
                 :src="article.imageURL"
-                v-if="article.imageURL && !findTarget(isImageChanging, listIdx, idx).isChange">
+                v-if="article.imageURL && !findTarget(isImageChanging, listIdx, idx)?.isChange">
               <img
                 :src="findTarget(previewimageURL, listIdx, idx) && findTarget(previewimageURL, listIdx, idx).url"
-                v-else-if="findTarget(previewimageURL, listIdx, idx) && findTarget(previewimageURL, listIdx, idx).url && findTarget(isImageChanging, listIdx, idx).isChange">
+                v-else-if="findTarget(previewimageURL, listIdx, idx) && findTarget(previewimageURL, listIdx, idx).url && findTarget(isImageChanging, listIdx, idx)?.isChange">
               <div class="noImage" v-else><span>沒有圖片</span></div>
               <button
-                v-if="findTarget(isImageChanging, listIdx, idx) && !findTarget(isImageChanging, listIdx, idx).isChange && !isArchived"
+                v-if="findTarget(isImageChanging, listIdx, idx) && !findTarget(isImageChanging, listIdx, idx)?.isChange && !isArchived"
                 @click="changeImages(listIdx, idx)">
                 更改圖片
               </button>

@@ -22,14 +22,14 @@ async function sendHtmlReportEmail(data) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'maxgray1986@gmail.com',
-      pass: 'wqdk jjkg pabd mzmo',
+      user: 'contact@eonian.space',
+      pass: 'mrhe zmew umzt kard',
     },
   })
 
   await transporter.sendMail({
-    from: 'maxgray1986@gmail.com',
-    to: 'maxgray1986@gmail.com',
+    from: 'contact@eonian.space',
+    to: 'contact@eonian.space',
     subject: '自動產生的報告',
     html: htmlContent, // ✅ 使用 HTML 內容
   })

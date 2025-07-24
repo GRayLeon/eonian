@@ -48,11 +48,9 @@ export const useProjectStore = defineStore('project', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/project?${status}${category}${sort}${order}`
     try {
       let response = await axios.get(apiURL)
-      if (response) {
-        projects.value = {...response.data}
-        isGetProjects.value = true
-        isLoading.value = false
-      }
+      projects.value = {...response.data}
+      isGetProjects.value = true
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

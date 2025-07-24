@@ -16,7 +16,8 @@ export const useAuthStore = defineStore('auth', () => {
   const isLogin = ref(false)
 
   const setToken = (token, expiresIn) => {
-    document.cookie = `accessToken=${token}; max-age=${expiresIn}; path=/`
+    // document.cookie = `accessToken=${token}; max-age=${expiresIn}; path=/`
+    document.cookie = `accessToken=${token}; path=/`
   }
 
   const clearToken = () => {

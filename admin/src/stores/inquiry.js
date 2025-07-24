@@ -46,10 +46,8 @@ export const useInquiryStore = defineStore('inquiry', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/inquiry`
     try {
       let response = await axios.get(apiURL)
-      if (response) {
-        inquirys.value = {...response.data}
-        isLoading.value = false
-      }
+      inquirys.value = {...response.data}
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
@@ -67,10 +65,8 @@ export const useInquiryStore = defineStore('inquiry', () => {
           'Content-Type': 'application/json'
         }
       })
-      if (response) {
-        getInquiryDatas.value(status.value, category.value, sort.value, order.value)
-        openDialog.value('success', '編輯成功', '諮詢表單已經編輯成功，按確定返回諮詢管理列表。', 'inquiryList')
-      }
+      getInquiryDatas.value(status.value, category.value, sort.value, order.value)
+      openDialog.value('success', '編輯成功', '諮詢表單已經編輯成功，按確定返回諮詢管理列表。', 'inquiryList')
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

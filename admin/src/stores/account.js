@@ -31,11 +31,9 @@ export const useAccountStore = defineStore('account', () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      if (response) {
-        accounts.value = [...response.data]
-        isGetAccounts.value = true
-        isLoading.value = false
-      }
+      accounts.value = [...response.data]
+      isGetAccounts.value = true
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
@@ -72,9 +70,7 @@ export const useAccountStore = defineStore('account', () => {
           'Content-Type': 'application/json'
         }
       })
-      if (response) {
-        openDialog.value('success', `編輯成功`, `帳號已經編輯成功，按確定返回產品帳號管理列表。`, target)
-      }
+      openDialog.value('success', `編輯成功`, `帳號已經編輯成功，按確定返回產品帳號管理列表。`, target)
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

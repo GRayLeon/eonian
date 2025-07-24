@@ -13,7 +13,7 @@
   } = storeToRefs(projectStore)
 
   const changePageTo = idx => {
-    if (idx < projects.value.pagination.totalPages && idx > 1) {
+    if (idx <= projects.value.pagination.totalPages && idx >= 1) {
       page.value = idx
       getProjects.value(page.value)
     }

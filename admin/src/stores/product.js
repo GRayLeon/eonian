@@ -56,11 +56,9 @@ export const useProductStore = defineStore('product', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/product?${status}${category}${sort}${order}`
     try {
       let response = await axios.get(apiURL)
-      if (response) {
-        products.value = {...response.data}
-        isGetProducts.value = true
-        isLoading.value = false
-      }
+      products.value = {...response.data}
+      isGetProducts.value = true
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

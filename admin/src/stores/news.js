@@ -48,11 +48,9 @@ export const useNewsStore = defineStore('news', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/news?${status}${category}${sort}${order}`
     try {
       let response = await axios.get(apiURL)
-      if (response) {
-        news.value = {...response.data}
-        isGetNews.value = true
-        isLoading.value = false
-      }
+      news.value = {...response.data}
+      isGetNews.value = true
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
@@ -169,10 +167,8 @@ export const useNewsStore = defineStore('news', () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      if (response) {
-        openDialog.value('success', '刪除成功', '貼文已經刪除成功，按確定返回貼文管理列表。', 'newsList')
-        getNews.value(status.value, category.value, sort.value, order.value)
-      }
+      openDialog.value('success', '刪除成功', '貼文已經刪除成功，按確定返回貼文管理列表。', 'newsList')
+      getNews.value(status.value, category.value, sort.value, order.value)
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

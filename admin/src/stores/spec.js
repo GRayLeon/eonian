@@ -74,11 +74,9 @@ export const useSpecStore = defineStore('spec', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/spec`
     try {
       let response = await axios.get(apiURL)
-      if (response) {
-        specDatas.value = {...response.data}
-        isGetSpecs.value = true
-        isLoading.value = false
-      }
+      specDatas.value = {...response.data}
+      isGetSpecs.value = true
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
@@ -109,10 +107,8 @@ export const useSpecStore = defineStore('spec', () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      if (response) {
-        isLoading.value = false
-        openDialog.value('success', `編輯成功`, `規格已經編輯成功，按確定返回產品規格管理列表。`, 'reload')
-      }
+      isLoading.value = false
+      openDialog.value('success', `編輯成功`, `規格已經編輯成功，按確定返回產品規格管理列表。`, 'reload')
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

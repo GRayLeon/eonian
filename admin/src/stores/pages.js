@@ -66,11 +66,9 @@ export const usePagesStore = defineStore('pages', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/pages`
     try {
       let response = await axios.get(apiURL)
-      if (response) {
-        pages.value = {...response.data}
-        isGetPages.value = true
-        isLoading.value = false
-      }
+      pages.value = {...response.data}
+      isGetPages.value = true
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
@@ -125,9 +123,7 @@ export const usePagesStore = defineStore('pages', () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      if (response) {
-        openDialog.value('success', sucessInfo['edit'].title, sucessInfo['edit'].message, 'reload')
-      }
+      openDialog.value('success', sucessInfo['edit'].title, sucessInfo['edit'].message, 'reload')
     } catch(e) {
       errorHandle.value(e)
       console.log(e)

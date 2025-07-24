@@ -48,11 +48,9 @@ export const useBrandStore = defineStore('brand', () => {
     const apiURL = `${import.meta.env.VITE_ADMIN_API_URL}/brand?${status}${category}${sort}${order}`
     try {
       let response = await axios.get(apiURL)
-      if (response) {
-        brands.value = {...response.data}
-        isGetBrands.value = true
-        isLoading.value = false
-      }
+      brands.value = {...response.data}
+      isGetBrands.value = true
+      isLoading.value = false
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
@@ -166,10 +164,8 @@ export const useBrandStore = defineStore('brand', () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      if (response) {
-        openDialog.value('success', '刪除成功', '品牌已經刪除成功，按確定返回品牌管理列表。', 'brandList')
-        getBrands.value(status.value, category.value, sort.value, order.value)
-      }
+      openDialog.value('success', '刪除成功', '品牌已經刪除成功，按確定返回品牌管理列表。', 'brandList')
+      getBrands.value(status.value, category.value, sort.value, order.value)
     } catch(e) {
       errorHandle.value(e)
       console.log(e)
