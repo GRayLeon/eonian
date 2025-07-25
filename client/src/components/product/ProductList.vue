@@ -66,7 +66,7 @@
           {{ $t('title.product')}}
           <span
             @click="clearFilter"
-          >View All</span>
+          >{{ $t('button.viewAll') }}</span>
       </div>
       <ul class="productContent__filter">
         <li

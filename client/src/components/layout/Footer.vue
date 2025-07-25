@@ -31,7 +31,7 @@
       <div class="topArea__info">
         <div class="company">
           <div class="title">
-            Eonian Acumen Co., LTD.
+            {{ $t('title.company') }}
           </div>
           <ul>
             <li>{{ showLanText(pagesInfo.contact.address) }}</li>

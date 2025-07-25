@@ -7,7 +7,8 @@
     "about": "About",
     "vision": "Vision",
     "partners": "Partners",
-    "contact": "Contact"
+    "contact": "Contact",
+    "company": "Eonian Acumen Co., LTD."
   },
   "spec": {
     "shapes": "Shapes",
@@ -57,6 +58,7 @@
     "clear": "clear",
     "download": "Download Inquiry",
     "send": "Send Inquiry to Eonian Sales Team",
-    "close": "close"
+    "close": "close",
+    "viewAll": "View All"
   }
 }

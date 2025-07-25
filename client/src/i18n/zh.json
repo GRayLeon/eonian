@@ -7,7 +7,8 @@
     "about": "關於 Eonian",
     "vision": "關於我們",
     "partners": "合作夥伴",
-    "contact": "聯絡我們"
+    "contact": "聯絡我們",
+    "company": "豪敏有限公司"
   },
   "spec": {
     "shapes": "面狀",
@@ -57,6 +58,7 @@
     "more": "閱讀更多",
     "download": "下載諮詢",
     "send": "傳送諮詢內容給業務",
-    "close": "關閉"
+    "close": "關閉",
+    "viewAll": "觀看全部"
   }
 }
